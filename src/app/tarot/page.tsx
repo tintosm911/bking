@@ -141,69 +141,183 @@ function generateReading(spreadIdx: number) {
   return selected;
 }
 
-// 翻牌动画组件
+// 炫光特效组件 - 翻牌时的光效
+function FlipGlow({ delay }: { delay: number }) {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setVisible(true), delay + 200);
+    return () => clearTimeout(timer);
+  }, [delay]);
+
+  useEffect(() => {
+    if (visible) {
+      const timer = setTimeout(() => setVisible(false), 1200);
+      return () => clearTimeout(timer);
+    }
+  }, [visible]);
+
+  if (!visible) return null;
+
+  return (
+    <div className="absolute inset-0 rounded-xl pointer-events-none overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold/30 to-transparent animate-shimmer-fast" />
+      <div className="absolute -inset-2 bg-gold/10 blur-xl animate-pulse-slow" />
+    </div>
+  );
+}
+
+// 翻牌动画组件 - 3D翻牌 + 光效 + 粒子
 function FlippingCard({
   card,
   flipped,
   delay,
+  index,
 }: {
   card: any;
   flipped: boolean;
   delay: number;
+  index: number;
 }) {
   const [showFront, setShowFront] = useState(false);
+  const [floatY, setFloatY] = useState(0);
 
   useEffect(() => {
     if (flipped) {
-      const timer = setTimeout(() => setShowFront(true), delay + 400);
+      const timer = setTimeout(() => setShowFront(true), delay + 500);
       return () => clearTimeout(timer);
     }
   }, [flipped, delay]);
 
+  // 翻牌后的微浮动效果
+  useEffect(() => {
+    if (showFront) {
+      const interval = setInterval(() => {
+        setFloatY(Math.sin(Date.now() / 2000 + index) * 4);
+      }, 50);
+      return () => clearInterval(interval);
+    }
+  }, [showFront, index]);
+
   return (
     <div
-      className={`relative w-32 h-48 sm:w-36 sm:h-52 md:w-40 md:h-56 cursor-pointer perspective-1000 transition-all duration-700 ease-out ${
-        flipped ? "" : "hover:-translate-y-2"
-      }`}
-      style={{ transitionDelay: `${delay}ms` }}
+      className="relative"
+      style={{ transform: `translateY(${floatY}px)` }}
     >
+      {/* 粒子背景 */}
+      {flipped && (
+        <div className="absolute -inset-4 pointer-events-none">
+          {[...Array(6)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 rounded-full bg-gold/40 animate-particle"
+              style={{
+                left: `${20 + i * 15}%`,
+                top: `${10 + (i % 3) * 30}%`,
+                animationDelay: `${delay + i * 150}ms`,
+                animationDuration: `${1.5 + Math.random()}s`,
+              }}
+            />
+          ))}
+        </div>
+      )}
+
       <div
-        className={`relative w-full h-full transition-transform duration-700 ease-out preserve-3d ${
-          flipped ? "rotate-y-180" : ""
+        className={`relative w-32 h-48 sm:w-36 sm:h-52 md:w-40 md:h-56 cursor-pointer perspective-1000 transition-all duration-700 ease-out ${
+          flipped ? "" : "hover:-translate-y-3"
         }`}
+        style={{ transitionDelay: `${delay}ms` }}
       >
-        {/* Card back */}
-        <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-gold-dark/60 via-dark-700 to-gold-dark/40 border border-gold/20 flex items-center justify-center backface-hidden shadow-lg shadow-gold/10">
-          <div className="text-center">
-            <div className="text-3xl mb-2 opacity-60">🔮</div>
-            <div className="text-xs text-gold/40 tracking-widest">BKing</div>
+        <div
+          className={`relative w-full h-full transition-transform duration-[800ms] ease-in-out preserve-3d ${
+            flipped ? "rotate-y-180" : ""
+          }`}
+          style={{ transitionDelay: `${delay}ms` }}
+        >
+          {/* Card back - 华丽背面 */}
+          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-dark-900 via-gold-dark/30 to-dark-900 border border-gold/25 flex items-center justify-center backface-hidden shadow-xl shadow-gold/15 overflow-hidden">
+            {/* 装饰底纹 */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute top-3 left-3 w-8 h-8 border-t border-l border-gold/40 rounded-tl-lg" />
+              <div className="absolute top-3 right-3 w-8 h-8 border-t border-r border-gold/40 rounded-tr-lg" />
+              <div className="absolute bottom-3 left-3 w-8 h-8 border-b border-l border-gold/40 rounded-bl-lg" />
+              <div className="absolute bottom-3 right-3 w-8 h-8 border-b border-r border-gold/40 rounded-br-lg" />
+            </div>
+            {/* 中央纹章 */}
+            <div className="text-center relative z-10">
+              <div className="w-14 h-14 mx-auto mb-2 rounded-full border-2 border-gold/30 flex items-center justify-center">
+                <span className="text-3xl opacity-70">🔮</span>
+              </div>
+              <div className="text-sm text-gold/50 tracking-[0.3em] font-serif">BKing</div>
+              <div className="text-[8px] text-gold/20 mt-1 tracking-[0.2em]">TAROT</div>
+            </div>
+            {/* 中心装饰线 */}
+            <div className="absolute inset-x-4 top-1/2 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
           </div>
-          <div className="absolute inset-2 rounded-lg border border-gold/5" />
+
+          {/* Card front - 华丽正面 */}
+          <div
+            className={`absolute inset-0 rounded-xl bg-gradient-to-br from-dark-800 via-dark-900 to-dark-950 border border-gold/20 flex flex-col items-center justify-center p-3 rotate-y-180 backface-hidden transition-all duration-500 shadow-xl shadow-black/30 ${
+              showFront ? "opacity-100 scale-100" : "opacity-0 scale-95"
+            }`}
+            style={{ transitionDelay: showFront ? `${delay + 500}ms` : "0ms" }}
+          >
+            {/* 背景装饰 */}
+            <div className="absolute inset-0 opacity-[0.03]">
+              <div className="absolute inset-3 rounded-lg border border-gold/20" />
+            </div>
+
+            {/* 元素环 */}
+            <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-1 border border-current ${
+              card.element === "火" ? "text-orange-400/40" :
+              card.element === "水" ? "text-blue-400/40" :
+              card.element === "风" ? "text-cyan-300/40" :
+              "text-green-400/40"
+            }`}>
+              <span className="text-xl">
+                {card.type === "major" ? "🃏" : card.suitIcon}
+              </span>
+            </div>
+
+            {/* 牌名 */}
+            <div className="text-center">
+              <div className={`text-xs font-bold leading-tight mb-0.5 ${
+                card.reversed ? "text-red-400" : "text-gold-light"
+              }`}>
+                {card.reversed && <span className="inline-block mr-0.5">⬇</span>}
+                {card.name}
+              </div>
+              <div className="text-[8px] text-white/25 leading-tight">
+                {card.nameEn}
+              </div>
+            </div>
+
+            {/* 元素标签 */}
+            <div className="text-[7px] text-white/15 mt-0.5 px-2 py-0.5 rounded-full border border-white/5">
+              {card.element}
+            </div>
+
+            {/* 分隔线 */}
+            <div className="w-8 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent my-1.5" />
+
+            {/* 释义 */}
+            <div className="text-[8px] text-white/35 text-center leading-tight px-1">
+              {card.reversed ? `⚠ ${card.meaningEn}` : card.meaning}
+            </div>
+
+            {card.reversed && (
+              <div className="text-[7px] text-red-400/50 mt-1 tracking-wider uppercase">
+                Reversed
+              </div>
+            )}
+
+            {/* 底部装饰 */}
+            <div className="absolute bottom-1.5 inset-x-4 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+          </div>
         </div>
 
-        {/* Card front */}
-        <div
-          className={`absolute inset-0 rounded-xl bg-gradient-to-br from-dark-700 via-dark-800 to-dark-900 border border-gold/20 flex flex-col items-center justify-center p-3 rotate-y-180 backface-hidden transition-opacity duration-500 ${
-            showFront ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <div className="text-2xl mb-1">
-            {card.type === "major" ? "🃏" : card.suitIcon}
-          </div>
-          <div className="text-xs font-bold text-gold-light text-center leading-tight mb-1">
-            {card.reversed ? "⬇" : "⬆"} {card.name}
-          </div>
-          <div className="text-[9px] text-white/30 text-center mb-1">
-            {card.nameEn}
-          </div>
-          <div className="text-[8px] text-white/20">{card.element}</div>
-          <div className="mt-auto text-[9px] text-white/40 text-center leading-tight">
-            {card.reversed ? `逆位: ${card.meaningEn}` : card.meaning}
-          </div>
-          {card.reversed && (
-            <div className="text-[9px] text-red-400/60 mt-0.5">Reversed</div>
-          )}
-        </div>
+        {/* 翻牌光效 */}
+        {flipped && <FlipGlow delay={delay} />}
       </div>
     </div>
   );
@@ -369,7 +483,7 @@ export default function TarotPage() {
               {cards.map((card, i) => (
                 <div key={i} className="flex flex-col items-center">
                   <SpreadPosition spreadIdx={spreadIdx} cardIdx={i} />
-                  <FlippingCard card={card} flipped={flipped} delay={i * 300} />
+                  <FlippingCard card={card} flipped={flipped} delay={i * 300} index={i} />
                 </div>
               ))}
             </div>
