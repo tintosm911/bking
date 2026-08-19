@@ -185,14 +185,14 @@ export default function Home() {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-4">
               <span className="text-gold text-2xl font-serif font-bold tracking-wider">BKing</span>
-              <span className="hidden md:inline text-xs text-white/30 uppercase tracking-[0.2em]">东方玄学 · AI 命理</span>
+              <span className="hidden md:inline text-xs text-white/30 uppercase tracking-[0.2em]">Oriental Wisdom · AI Divination</span>
             </div>
             <div className="flex items-center gap-3">
-              <button className="px-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition-colors">
-                登录
+              <button className="px-5 py-2.5 rounded-lg text-base text-white/60 hover:text-white transition-colors">
+                登录 / Login
               </button>
-              <button className="btn-gold px-5 py-2 rounded-lg text-sm font-semibold">
-                注册
+              <button className="btn-gold px-5 py-2.5 rounded-lg text-base font-semibold">
+                注册 / Register
               </button>
             </div>
           </div>
