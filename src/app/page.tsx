@@ -310,7 +310,7 @@ export default function Home() {
           <div className="rounded-3xl p-8 md:p-12 bg-gradient-to-b from-white/[0.03] to-transparent border border-white/[0.06]">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
               {/* Wallet Connect */}
-              <div>
+              <div className="flex flex-col items-center text-center">
                 <h3 className="text-2xl md:text-3xl font-serif font-bold mb-3">
                   <span className="text-gold-400">连接钱包</span>
                 </h3>
@@ -322,7 +322,7 @@ export default function Home() {
                   <span>🔗</span>
                   连接 OKX 钱包
                 </button>
-                <div className="mt-6 flex gap-3">
+                <div className="mt-6 flex gap-3 justify-center">
                   <span className="px-3 py-1 bg-white/5 rounded-lg text-xs text-white/40 border border-white/5">USDT</span>
                   <span className="px-3 py-1 bg-white/5 rounded-lg text-xs text-white/40 border border-white/5">USDC</span>
                   <span className="px-3 py-1 bg-white/5 rounded-lg text-xs text-white/40 border border-white/5">USDG</span>
@@ -330,7 +330,7 @@ export default function Home() {
               </div>
 
               {/* Community */}
-              <div>
+              <div className="flex flex-col items-center text-center">
                 <h3 className="text-2xl md:text-3xl font-serif font-bold mb-3">
                   <span className="text-gold-400">加入社区</span>
                 </h3>
@@ -338,7 +338,7 @@ export default function Home() {
                 <p className="text-sm text-white/30 mb-6">
                   与 10,000+ 玄学爱好者一起探索命运
                 </p>
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-3 justify-center">
                   {socialLinks.map((link) => (
                     <a
                       key={link.name}
