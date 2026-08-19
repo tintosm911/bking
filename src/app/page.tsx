@@ -272,7 +272,7 @@ export default function Home() {
       {/* Skills Section */}
       <section id="skills" className="relative z-10 flex flex-col items-center px-6 py-20">
         <AnimatedSection className="flex flex-col items-center text-center mb-14 max-w-2xl mx-auto gap-2">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold bg-gradient-to-r from-gold to-gold-light bg-clip-text text-transparent">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold bg-gradient-to-r from-gold-500 via-gold-300 to-gold-500 bg-clip-text text-transparent">
             五大玄学体系
           </h2>
           <p className="text-sm text-white/30">
@@ -312,7 +312,7 @@ export default function Home() {
               {/* Wallet Connect */}
               <div>
                 <h3 className="text-2xl md:text-3xl font-serif font-bold mb-3">
-                  <span className="bg-gradient-to-r from-gold to-gold-light bg-clip-text text-transparent">连接钱包</span>
+                  <span className="bg-gradient-to-r from-gold-500 via-gold-300 to-gold-500 bg-clip-text text-transparent">连接钱包</span>
                 </h3>
                 <p className="text-sm text-white/40 mb-1">Connect Wallet</p>
                 <p className="text-sm text-white/30 mb-6">
@@ -332,7 +332,7 @@ export default function Home() {
               {/* Community */}
               <div>
                 <h3 className="text-2xl md:text-3xl font-serif font-bold mb-3">
-                  <span className="bg-gradient-to-r from-gold to-gold-light bg-clip-text text-transparent">加入社区</span>
+                  <span className="bg-gradient-to-r from-gold-500 via-gold-300 to-gold-500 bg-clip-text text-transparent">加入社区</span>
                 </h3>
                 <p className="text-sm text-white/40 mb-1">Join Community</p>
                 <p className="text-sm text-white/30 mb-6">
@@ -369,7 +369,7 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {stats.map((stat) => (
               <div key={stat.label} className="text-center p-4 rounded-2xl bg-white/[0.02] border border-white/[0.04]">
-                <div className="text-2xl md:text-3xl lg:text-4xl font-serif font-bold bg-gradient-to-r from-gold to-gold-light bg-clip-text text-transparent">
+                <div className="text-2xl md:text-3xl lg:text-4xl font-serif font-bold bg-gradient-to-r from-gold-500 via-gold-300 to-gold-500 bg-clip-text text-transparent">
                   {stat.num}
                 </div>
                 <div className="text-sm text-white/50 mt-1">{stat.label}</div>
