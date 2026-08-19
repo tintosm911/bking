@@ -214,11 +214,11 @@ export default function Home() {
           <div className="space-y-1">
             <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
               <span className="whitespace-nowrap">
-                <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold tracking-tight text-white/90">东方智慧</span>
+                <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold tracking-tight bg-gradient-to-r from-gold-500 via-gold-300 to-gold-500 bg-clip-text text-transparent">东方智慧</span>
               </span>
-              <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold tracking-tight text-gold/30">·</span>
+              <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold tracking-tight text-gold-400/80">·</span>
               <span className="whitespace-nowrap">
-                <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold tracking-tight bg-gradient-to-r from-gold via-gold-light to-gold bg-clip-text text-transparent">AI 解码</span>
+                <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold tracking-tight bg-gradient-to-r from-gold-500 via-gold-300 to-gold-500 bg-clip-text text-transparent">AI 解码</span>
               </span>
             </div>
             <p className="text-base sm:text-lg md:text-xl font-serif text-white/20 tracking-wide">
