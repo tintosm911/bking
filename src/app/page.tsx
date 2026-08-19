@@ -1,35 +1,40 @@
 import Link from "next/link";
 
-const skills = [
+const skills: { name: string; icon: string; desc: string; color: string; href: string }[] = [
   {
     name: "八字",
     icon: "🌙",
     desc: "四柱八字 · 十神格局 · 大运流年",
     color: "from-amber-900/40 to-yellow-900/20",
+    href: "/bazi",
   },
   {
     name: "紫微斗数",
     icon: "⭐",
     desc: "十二宫位 · 星曜分布 · 四化飞星",
     color: "from-purple-900/40 to-indigo-900/20",
+    href: "/zwei",
   },
   {
     name: "奇门遁甲",
     icon: "🏯",
     desc: "时空盘局 · 三奇八门 · 择时决策",
     color: "from-red-900/40 to-orange-900/20",
+    href: "/qimen",
   },
   {
     name: "星座运势",
     icon: "🌍",
     desc: "行星相位 · 宫位系统 · 每日运势",
     color: "from-blue-900/40 to-cyan-900/20",
+    href: "#",
   },
   {
     name: "塔罗占卜",
     icon: "🔮",
     desc: "大阿卡纳 · 小阿卡纳 · 牌阵解读",
     color: "from-violet-900/40 to-pink-900/20",
+    href: "#",
   },
 ];
 
@@ -96,16 +101,8 @@ export default function Home() {
             五大玄学系统，AI 交叉验证你的命运轨迹
           </p>
           <div className="mt-10 flex flex-wrap gap-4 justify-center">
-            <Link
-              href="#skills"
-              className="btn-gold px-8 py-3 rounded-xl text-base font-semibold inline-flex items-center gap-2"
-            >
-              <Link href="/bazi" className="btn-gold px-8 py-3 rounded-xl text-base font-semibold inline-flex items-center gap-2">
+            <Link href="/bazi" className="btn-gold px-8 py-3 rounded-xl text-base font-semibold inline-flex items-center gap-2">
               🔮 开始测算
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </Link>
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
@@ -138,9 +135,10 @@ export default function Home() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
           {skills.map((skill) => (
-            <button
+            <Link
+              href={skill.href}
               key={skill.name}
-              className={`card-hover relative group rounded-2xl p-6 bg-gradient-to-b ${skill.color} border border-gold/10 mystical-glow overflow-hidden text-left`}
+              className={`card-hover relative group rounded-2xl p-6 bg-gradient-to-b ${skill.color} border border-gold/10 mystical-glow overflow-hidden text-left block`}
             >
               <div className="relative z-10">
                 <div className="text-4xl mb-4">{skill.icon}</div>
@@ -150,7 +148,7 @@ export default function Home() {
               <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                 <span className="text-gold text-xs">测算 →</span>
               </div>
-            </button>
+            </Link>
           ))}
         </div>
       </section>
@@ -229,7 +227,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-gold/10 mt-16">
+      <footer className="relative z-10 border-b border-gold/10 mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
