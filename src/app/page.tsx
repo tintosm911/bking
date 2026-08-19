@@ -214,11 +214,11 @@ export default function Home() {
           <div className="space-y-1">
             <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
               <span className="whitespace-nowrap">
-                <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold tracking-tight bg-gradient-to-r from-gold-500 via-gold-300 to-gold-500 bg-clip-text text-transparent">东方智慧</span>
+                <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold tracking-tight text-gold-400">东方智慧</span>
               </span>
               <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold tracking-tight text-gold-400/80">·</span>
               <span className="whitespace-nowrap">
-                <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold tracking-tight bg-gradient-to-r from-gold-500 via-gold-300 to-gold-500 bg-clip-text text-transparent">AI 解码</span>
+                <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold tracking-tight text-gold-400">AI 解码</span>
               </span>
             </div>
             <p className="text-base sm:text-lg md:text-xl font-serif text-white/20 tracking-wide">
@@ -272,7 +272,7 @@ export default function Home() {
       {/* Skills Section */}
       <section id="skills" className="relative z-10 flex flex-col items-center px-6 py-20">
         <AnimatedSection className="flex flex-col items-center text-center mb-14 max-w-2xl mx-auto gap-2">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold bg-gradient-to-r from-gold-500 via-gold-300 to-gold-500 bg-clip-text text-transparent">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-gold-400">
             五大玄学体系
           </h2>
           <p className="text-sm text-white/30">
@@ -312,7 +312,7 @@ export default function Home() {
               {/* Wallet Connect */}
               <div>
                 <h3 className="text-2xl md:text-3xl font-serif font-bold mb-3">
-                  <span className="bg-gradient-to-r from-gold-500 via-gold-300 to-gold-500 bg-clip-text text-transparent">连接钱包</span>
+                  <span className="text-gold-400">连接钱包</span>
                 </h3>
                 <p className="text-sm text-white/40 mb-1">Connect Wallet</p>
                 <p className="text-sm text-white/30 mb-6">
@@ -332,7 +332,7 @@ export default function Home() {
               {/* Community */}
               <div>
                 <h3 className="text-2xl md:text-3xl font-serif font-bold mb-3">
-                  <span className="bg-gradient-to-r from-gold-500 via-gold-300 to-gold-500 bg-clip-text text-transparent">加入社区</span>
+                  <span className="text-gold-400">加入社区</span>
                 </h3>
                 <p className="text-sm text-white/40 mb-1">Join Community</p>
                 <p className="text-sm text-white/30 mb-6">
