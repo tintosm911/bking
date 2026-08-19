@@ -34,7 +34,7 @@ const skills: { name: string; icon: string; desc: string; descEn: string; color:
     desc: "行星相位 · 宫位系统 · 每日运势",
     descEn: "Western Astrology · Signs · Horoscope",
     color: "from-blue-900/40 to-cyan-900/20",
-    href: "#",
+    href: "/astrology",
   },
   {
     name: "塔罗占卜",
@@ -42,7 +42,7 @@ const skills: { name: string; icon: string; desc: string; descEn: string; color:
     desc: "大阿卡纳 · 小阿卡纳 · 牌阵解读",
     descEn: "Tarot · Major Arcana · Card Spreads",
     color: "from-violet-900/40 to-pink-900/20",
-    href: "#",
+    href: "/tarot",
   },
 ];
 
