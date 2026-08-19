@@ -200,32 +200,47 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative z-10 flex flex-col items-center px-6 pt-20 lg:pt-28 pb-16">
-        <AnimatedSection className="text-center max-w-4xl mx-auto">
-          <div className="inline-block mb-6">
+      <section className="relative z-10 flex flex-col items-center justify-center px-6 pt-24 lg:pt-32 pb-16 min-h-[80vh]">
+        <AnimatedSection className="flex flex-col items-center text-center max-w-4xl mx-auto gap-6">
+          {/* Tag */}
+          <div>
             <span className="px-4 py-1.5 text-xs text-gold bg-gold/8 rounded-full border border-gold/15 tracking-wider">
               ✦ 许愿池 RWA · 玄学赛道
             </span>
+            <p className="text-[10px] text-white/15 mt-1 tracking-wider">Wish Pool · On-Chain Mysticism</p>
           </div>
 
-          <h1 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-serif font-bold tracking-tight leading-none">
-            <span className="text-white/90">东方智慧 · </span>
-            <span className="bg-gradient-to-r from-gold via-gold-light to-gold bg-clip-text text-transparent">
-              AI 解码
-            </span>
-          </h1>
+          {/* Main Title - 东方智慧 · AI 解码 */}
+          <div className="space-y-1">
+            <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+              <span className="whitespace-nowrap">
+                <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold tracking-tight text-white/90">东方智慧</span>
+              </span>
+              <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold tracking-tight text-gold/30">·</span>
+              <span className="whitespace-nowrap">
+                <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold tracking-tight bg-gradient-to-r from-gold via-gold-light to-gold bg-clip-text text-transparent">AI 解码</span>
+              </span>
+            </div>
+            <p className="text-base sm:text-lg md:text-xl font-serif text-white/20 tracking-wide">
+              Eastern Wisdom · AI Decoded
+            </p>
+          </div>
 
-          <p className="mt-6 max-w-2xl mx-auto text-base md:text-lg text-white/40 leading-relaxed">
-            八字 · 紫微斗数 · 奇门遁甲 · 西方星座 · 塔罗
-          </p>
-          <p className="text-sm md:text-base text-white/20 leading-relaxed">
-            Ba Zi · Zi Wei · Qi Men · Western Astrology · Tarot
-          </p>
-          <p className="mt-4 max-w-xl mx-auto text-sm text-white/25">
-            Five ancient wisdom systems, cross-validated by AI for your destiny
-          </p>
+          {/* Subtitle - Systems */}
+          <div className="space-y-1.5">
+            <p className="text-sm sm:text-base md:text-lg text-white/40 leading-relaxed max-w-xl">
+              八字 · 紫微斗数 · 奇门遁甲 · 西方星座 · 塔罗
+            </p>
+            <p className="text-xs sm:text-sm text-white/20 leading-relaxed max-w-xl">
+              Ba Zi · Zi Wei · Qi Men · Astrology · Tarot
+            </p>
+            <p className="text-xs text-white/15 italic max-w-md">
+              Five ancient wisdom systems, cross-validated by AI
+            </p>
+          </div>
 
-          <div className="mt-10 flex flex-wrap gap-4 justify-center">
+          {/* Buttons */}
+          <div className="flex flex-wrap gap-4 justify-center pt-2">
             <Link href="/bazi" className="btn-gold px-8 py-3.5 rounded-xl text-base font-semibold inline-flex items-center gap-2 shadow-lg shadow-gold/15">
               🔮 开始测算
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -240,7 +255,7 @@ export default function Home() {
             </button>
           </div>
 
-          <p className="mt-4 text-xs text-white/15">
+          <p className="text-xs text-white/15">
             Start your reading →
           </p>
         </AnimatedSection>
@@ -255,16 +270,16 @@ export default function Home() {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="relative z-10 flex flex-col items-center px-6 py-16">
-        <AnimatedSection className="text-center mb-12 max-w-2xl mx-auto">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold">
-            <span className="bg-gradient-to-r from-gold to-gold-light bg-clip-text text-transparent">五大玄学体系</span>
+      <section id="skills" className="relative z-10 flex flex-col items-center px-6 py-20">
+        <AnimatedSection className="flex flex-col items-center text-center mb-14 max-w-2xl mx-auto gap-2">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold bg-gradient-to-r from-gold to-gold-light bg-clip-text text-transparent">
+            五大玄学体系
           </h2>
-          <p className="mt-3 text-sm text-white/30">
+          <p className="text-sm text-white/30">
             Five Systems of Wisdom
           </p>
-          <p className="mt-2 text-sm text-white/20 max-w-md mx-auto">
-            Single system may deviate — two reveal truth, five cross-validate your destiny
+          <p className="text-xs text-white/20 max-w-md">
+            Cross-validate your destiny across all traditions
           </p>
         </AnimatedSection>
 
