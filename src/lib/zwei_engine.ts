@@ -3,6 +3,8 @@
  * 完整安星：十四主星 + 辅星 + 四化 + 格局 + 交易风格
  */
 
+import { solarToLunar } from "./lunar";
+
 // ========= 基础常数 =========
 
 const TIANGAN = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"];
@@ -89,33 +91,12 @@ export interface ZweiResult {
 }
 
 // ========= 核心函数 =========
-
 /**
- * 公历转农历（近似算法，用于紫微排盘）
+ * 公历转农历（标准算法，用于紫微排盘）
  */
 function lunarDate(year: number, month: number, day: number): [number, number, number] {
-  const base = new Date(2026, 1, 17); // 2026年春节
-  const target = new Date(year, month - 1, day);
-  const delta = Math.round((target.getTime() - base.getTime()) / 86400000);
-
-  if (delta < 0) {
-    const lunarYear = 2025;
-    const lunarMonth = 12;
-    const lunarDay = 30 + delta;
-    return [lunarYear, lunarMonth, Math.max(1, lunarDay)];
-  }
-
-  const lunarYear = 2026;
-  let lunarDay = delta + 1;
-  const monthDays = [29, 30, 29, 30, 29, 29, 30, 29, 30, 30, 29, 30];
-  let lunarMonth = 1;
-  for (const days of monthDays) {
-    if (lunarDay <= days) break;
-    lunarDay -= days;
-    lunarMonth++;
-  }
-
-  return [lunarYear, lunarMonth, Math.min(lunarDay, 30)];
+  const l = solarToLunar(year, month, day);
+  return [l.year, l.month, l.day];
 }
 
 /**
@@ -368,7 +349,8 @@ export function buildChart(year: number, month: number, day: number, hour: numbe
     性别: gender === 1 ? "男" : "女",
     公历: `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')} ${hour}:00`,
     农历: `${yearTg}${yearDz}年 ${lmo}月 ${lday}日 ${DIZHI[shichenIdx]}时`,
-    命宫: GONG_NAMES[mingPos],
+    命宫: "命宫",
+    命宫在地支盘位置: GONG_NAMES[mingPos], // 命宫地支对应十二宫盘的位置
     命宫天干: mingTg,
     命宫地支: mingDz,
     五行局: wuxingJuName,
