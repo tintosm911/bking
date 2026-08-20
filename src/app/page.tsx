@@ -247,12 +247,12 @@ export default function Home() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </Link>
-            <button className="px-8 py-3.5 rounded-xl text-base inline-flex items-center gap-2 border border-white/10 text-white/70 hover:border-gold/30 hover:text-gold transition-all">
+            <Link href="/wishing-well" className="px-8 py-3.5 rounded-xl text-base inline-flex items-center gap-2 border border-white/10 text-white/70 hover:border-gold/30 hover:text-gold transition-all">
               💎 许愿池
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
-            </button>
+            </Link>
           </div>
 
           <p className="text-xs text-white/15">

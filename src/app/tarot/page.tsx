@@ -1,9 +1,12 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
+import FlippingCard from "./components/FlippingCard";
+import CrystalBall from "./components/CrystalBall";
+import InterpretationCard from "./components/InterpretationCard";
 
-// 78张塔罗牌 - 大阿卡纳22张 + 小阿卡纳56张
+// ─── 塔罗牌数据 ───
 type Card = {
   id: number;
   name: string;
@@ -47,8 +50,8 @@ const MAJOR_ARCANA = [
 
 const SUITS = ["权杖", "圣杯", "宝剑", "星币"];
 const SUITS_EN = ["Wands", "Cups", "Swords", "Pentacles"];
-const SUIT_COLORS = ["from-orange-500/30", "from-blue-500/30", "from-cyan-400/30", "from-yellow-500/30"];
 const SUIT_ICONS = ["🔥", "💧", "⚔️", "💰"];
+const SUIT_COLORS = ["from-orange-500/20", "from-blue-500/20", "from-cyan-400/20", "from-yellow-500/20"];
 const COURT_RANKS = ["侍卫", "骑士", "女王", "国王"];
 const COURT_RANKS_EN = ["Page", "Knight", "Queen", "King"];
 const NUMBER_RANKS = ["Ace", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
@@ -97,34 +100,29 @@ function getAllCards(): Card[] {
       return result;
     })
   );
-
   return cards;
 }
 
 const ALL_CARDS = getAllCards();
 
-// 牌阵定义
 const SPREADS = [
   {
-    name: "单张牌",
-    nameEn: "Single Card",
     nameZh: "单张牌",
+    nameEn: "Single Card",
     cards: 1,
     desc: "快速指引，今日运势",
     descEn: "Quick guidance, daily reading",
   },
   {
-    name: "三牌阵",
-    nameEn: "Three Card Spread",
     nameZh: "三牌阵",
+    nameEn: "Three Card Spread",
     cards: 3,
     desc: "过去·现在·未来",
     descEn: "Past · Present · Future",
   },
   {
-    name: "凯尔特十字",
-    nameEn: "Celtic Cross",
     nameZh: "凯尔特十字",
+    nameEn: "Celtic Cross",
     cards: 5,
     desc: "深度综合解读",
     descEn: "Deep comprehensive reading",
@@ -141,211 +139,6 @@ function generateReading(spreadIdx: number) {
   return selected;
 }
 
-// 炫光特效组件 - 翻牌时的光效
-function FlipGlow({ delay }: { delay: number }) {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setVisible(true), delay + 200);
-    return () => clearTimeout(timer);
-  }, [delay]);
-
-  useEffect(() => {
-    if (visible) {
-      const timer = setTimeout(() => setVisible(false), 1200);
-      return () => clearTimeout(timer);
-    }
-  }, [visible]);
-
-  if (!visible) return null;
-
-  return (
-    <div className="absolute inset-0 rounded-xl pointer-events-none overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold/30 to-transparent animate-shimmer-fast" />
-      <div className="absolute -inset-2 bg-gold/10 blur-xl animate-pulse-slow" />
-    </div>
-  );
-}
-
-// 翻牌动画组件 - 3D翻牌 + 光效 + 粒子
-function FlippingCard({
-  card,
-  flipped,
-  delay,
-  index,
-}: {
-  card: any;
-  flipped: boolean;
-  delay: number;
-  index: number;
-}) {
-  const [showFront, setShowFront] = useState(false);
-  const [floatY, setFloatY] = useState(0);
-
-  useEffect(() => {
-    if (flipped) {
-      const timer = setTimeout(() => setShowFront(true), delay + 500);
-      return () => clearTimeout(timer);
-    }
-  }, [flipped, delay]);
-
-  // 翻牌后的微浮动效果
-  useEffect(() => {
-    if (showFront) {
-      const interval = setInterval(() => {
-        setFloatY(Math.sin(Date.now() / 2000 + index) * 4);
-      }, 50);
-      return () => clearInterval(interval);
-    }
-  }, [showFront, index]);
-
-  return (
-    <div
-      className="relative"
-      style={{ transform: `translateY(${floatY}px)` }}
-    >
-      {/* 粒子背景 */}
-      {flipped && (
-        <div className="absolute -inset-4 pointer-events-none">
-          {[...Array(6)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 rounded-full bg-gold/40 animate-particle"
-              style={{
-                left: `${20 + i * 15}%`,
-                top: `${10 + (i % 3) * 30}%`,
-                animationDelay: `${delay + i * 150}ms`,
-                animationDuration: `${1.5 + Math.random()}s`,
-              }}
-            />
-          ))}
-        </div>
-      )}
-
-      <div
-        className={`relative w-32 h-48 sm:w-36 sm:h-52 md:w-40 md:h-56 cursor-pointer perspective-1000 transition-all duration-700 ease-out ${
-          flipped ? "" : "hover:-translate-y-3"
-        }`}
-        style={{ transitionDelay: `${delay}ms` }}
-      >
-        <div
-          className={`relative w-full h-full transition-transform duration-[800ms] ease-in-out preserve-3d ${
-            flipped ? "rotate-y-180" : ""
-          }`}
-          style={{ transitionDelay: `${delay}ms` }}
-        >
-          {/* Card back - 华丽背面 */}
-          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-dark-900 via-gold-dark/30 to-dark-900 border border-gold/25 flex items-center justify-center backface-hidden shadow-xl shadow-gold/15 overflow-hidden">
-            {/* 装饰底纹 */}
-            <div className="absolute inset-0 opacity-10">
-              <div className="absolute top-3 left-3 w-8 h-8 border-t border-l border-gold/40 rounded-tl-lg" />
-              <div className="absolute top-3 right-3 w-8 h-8 border-t border-r border-gold/40 rounded-tr-lg" />
-              <div className="absolute bottom-3 left-3 w-8 h-8 border-b border-l border-gold/40 rounded-bl-lg" />
-              <div className="absolute bottom-3 right-3 w-8 h-8 border-b border-r border-gold/40 rounded-br-lg" />
-            </div>
-            {/* 中央纹章 */}
-            <div className="text-center relative z-10">
-              <div className="w-14 h-14 mx-auto mb-2 rounded-full border-2 border-gold/30 flex items-center justify-center">
-                <span className="text-3xl opacity-70">🔮</span>
-              </div>
-              <div className="text-sm text-gold/50 tracking-[0.3em] font-serif">BKing</div>
-              <div className="text-[8px] text-gold/20 mt-1 tracking-[0.2em]">TAROT</div>
-            </div>
-            {/* 中心装饰线 */}
-            <div className="absolute inset-x-4 top-1/2 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
-          </div>
-
-          {/* Card front - 华丽正面 */}
-          <div
-            className={`absolute inset-0 rounded-xl bg-gradient-to-br from-dark-800 via-dark-900 to-dark-950 border border-gold/20 flex flex-col items-center justify-center p-3 rotate-y-180 backface-hidden transition-all duration-500 shadow-xl shadow-black/30 ${
-              showFront ? "opacity-100 scale-100" : "opacity-0 scale-95"
-            }`}
-            style={{ transitionDelay: showFront ? `${delay + 500}ms` : "0ms" }}
-          >
-            {/* 背景装饰 */}
-            <div className="absolute inset-0 opacity-[0.03]">
-              <div className="absolute inset-3 rounded-lg border border-gold/20" />
-            </div>
-
-            {/* 元素环 */}
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-1 border border-current ${
-              card.element === "火" ? "text-orange-400/40" :
-              card.element === "水" ? "text-blue-400/40" :
-              card.element === "风" ? "text-cyan-300/40" :
-              "text-green-400/40"
-            }`}>
-              <span className="text-xl">
-                {card.type === "major" ? "🃏" : card.suitIcon}
-              </span>
-            </div>
-
-            {/* 牌名 */}
-            <div className="text-center">
-              <div className={`text-xs font-bold leading-tight mb-0.5 ${
-                card.reversed ? "text-red-400" : "text-gold-light"
-              }`}>
-                {card.reversed && <span className="inline-block mr-0.5">⬇</span>}
-                {card.name}
-              </div>
-              <div className="text-[8px] text-white/25 leading-tight">
-                {card.nameEn}
-              </div>
-            </div>
-
-            {/* 元素标签 */}
-            <div className="text-[7px] text-white/15 mt-0.5 px-2 py-0.5 rounded-full border border-white/5">
-              {card.element}
-            </div>
-
-            {/* 分隔线 */}
-            <div className="w-8 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent my-1.5" />
-
-            {/* 释义 */}
-            <div className="text-[8px] text-white/35 text-center leading-tight px-1">
-              {card.reversed ? `⚠ ${card.meaningEn}` : card.meaning}
-            </div>
-
-            {card.reversed && (
-              <div className="text-[7px] text-red-400/50 mt-1 tracking-wider uppercase">
-                Reversed
-              </div>
-            )}
-
-            {/* 底部装饰 */}
-            <div className="absolute bottom-1.5 inset-x-4 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
-          </div>
-        </div>
-
-        {/* 翻牌光效 */}
-        {flipped && <FlipGlow delay={delay} />}
-      </div>
-    </div>
-  );
-}
-
-// 牌阵位置说明
-function SpreadPosition({ spreadIdx, cardIdx }: { spreadIdx: number; cardIdx: number }) {
-  const positions: Record<number, string[]> = {
-    0: ["今日指引"],
-    1: ["过去", "现在", "未来"],
-    2: ["当前状态", "挑战", "资源", "目标", "结果"],
-  };
-  const positionsEn: Record<number, string[]> = {
-    0: ["Today's Guidance"],
-    1: ["Past", "Present", "Future"],
-    2: ["Current", "Challenge", "Resources", "Goal", "Outcome"],
-  };
-  const pos = positions[spreadIdx] || [""];
-  const posEn = positionsEn[spreadIdx] || [""];
-  return (
-    <div className="text-center mb-1">
-      <div className="text-[10px] text-gold font-medium">{pos[cardIdx]}</div>
-      <div className="text-[8px] text-white/20">{posEn[cardIdx]}</div>
-    </div>
-  );
-}
-
-// 解读生成
 function generateInterpretation(cards: any[], spreadIdx: number) {
   const majorCount = cards.filter((c) => c.type === "major").length;
   const reversalCount = cards.filter((c) => c.reversed).length;
@@ -357,18 +150,16 @@ function generateInterpretation(cards: any[], spreadIdx: number) {
   const lines: string[] = [];
   lines.push(`本次占卜抽取了 ${cards.length} 张牌：`);
   cards.forEach((c, i) => {
-    const pos = SPREADS[spreadIdx].nameZh;
+    const pos = ["今日指引", "过去", "现在", "未来", "当前状态", "挑战", "资源", "目标", "结果"][i * 3] || `位置 ${i + 1}`;
     lines.push(`${i + 1}. ${c.name} (${c.nameEn})${c.reversed ? " 逆位" : ""}`);
   });
 
   if (majorCount >= 2) {
     lines.push(`\n大阿卡纳出现 ${majorCount} 张，本次占卜能量较强，涉及重大人生课题。`);
   }
-
   if (reversalCount >= 2) {
     lines.push(`${reversalCount} 张逆位牌，建议审视当前阻碍，调整方向。`);
   }
-
   lines.push(`\n主导元素: ${dominantElements.join("、")}`);
   const elementMeanings: Record<string, string> = {
     "火": "行动力强，需要果断决策",
@@ -384,17 +175,23 @@ function generateInterpretation(cards: any[], spreadIdx: number) {
   return lines.join("\n");
 }
 
+const SpreadPositions: Record<number, { zh: string; en: string }[]> = {
+  0: [{ zh: "今日指引", en: "Today's Guidance" }],
+  1: [{ zh: "过去", en: "Past" }, { zh: "现在", en: "Present" }, { zh: "未来", en: "Future" }],
+  2: [{ zh: "当前状态", en: "Current" }, { zh: "挑战", en: "Challenge" }, { zh: "资源", en: "Resources" }, { zh: "目标", en: "Goal" }, { zh: "结果", en: "Outcome" }],
+};
+
 export default function TarotPage() {
   const [spreadIdx, setSpreadIdx] = useState(0);
   const [cards, setCards] = useState<any[]>([]);
   const [flipped, setFlipped] = useState(false);
   const [interpretation, setInterpretation] = useState("");
   const [animating, setAnimating] = useState(false);
-  const cardsRef = useRef<HTMLDivElement>(null);
-
   const [showAllCards, setShowAllCards] = useState(false);
   const [filterSuit, setFilterSuit] = useState<string>("all");
   const [filterType, setFilterType] = useState<string>("all");
+  const [hoveredSpread, setHoveredSpread] = useState<number | null>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
 
   const handleDraw = () => {
     setAnimating(true);
@@ -409,146 +206,244 @@ export default function TarotPage() {
         setTimeout(() => {
           setAnimating(false);
           setInterpretation(generateInterpretation(drawn, spreadIdx));
-        }, 1200 + drawn.length * 300);
-      }, 300);
+        }, 1200 + drawn.length * 500);
+      }, 400);
     }, 400);
   };
 
-  // 牌库过滤
+  const handleReset = () => {
+    setCards([]);
+    setInterpretation("");
+    setFlipped(false);
+  };
+
   const filteredCards = ALL_CARDS.filter((c) => {
     if (filterType === "major" && c.type !== "major") return false;
-    if (filterType === "minor" && c.type !== "minor" && c.type !== "court") return false;
-    if (filterSuit !== "all" && c.suit !== filterSuit && c.type !== "major") return false;
-    if (filterSuit !== "all" && c.type === "major") return false; // major only shows when suit=all
+    if (filterSuit !== "all" && c.suit !== filterSuit) return false;
+    if (filterSuit !== "all" && filterType === "all" && c.type === "major") return false;
     return true;
   });
 
   return (
-    <div className="min-h-screen bg-dark-900 text-white">
+    <div className="min-h-screen bg-dark-900 text-white overflow-x-hidden">
+      {/* 背景光晕 */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 rounded-full opacity-10"
+          style={{
+            background: 'radial-gradient(circle, rgba(136,221,255,0.12) 0%, transparent 60%)',
+            animation: 'aurora-drift 15s ease-in-out infinite',
+          }}
+        />
+        <div className="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 rounded-full opacity-10"
+          style={{
+            background: 'radial-gradient(circle, rgba(212,154,26,0.08) 0%, transparent 60%)',
+            animation: 'aurora-drift 18s ease-in-out infinite reverse',
+          }}
+        />
+      </div>
+
       {/* Nav */}
-      <nav className="relative z-10 border-b border-gold/10">
+      <nav className="relative z-10 border-b border-gold/10 backdrop-blur-sm">
         <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
-          <Link href="/" className="text-gold text-xl font-serif font-bold">BKing</Link>
-          <span className="text-gold/60 text-sm">塔罗占卜</span>
+          <Link href="/" className="text-gold text-xl font-serif font-bold tracking-wide">
+            BKing
+          </Link>
+          <span className="text-gold/50 text-sm tracking-wider">塔罗占卜</span>
         </div>
       </nav>
 
-      <div className="max-w-5xl mx-auto px-4 py-10">
-        {/* Header */}
-        <div className="text-center mb-10">
-          <div className="text-5xl mb-4">🔮</div>
-          <h1 className="text-3xl font-serif font-bold text-gold">塔罗占卜</h1>
-          <p className="text-gray-400 mt-2">78 张塔罗牌 · 三大牌阵 · AI 解读</p>
-          <p className="text-xs text-white/15 mt-1">Tarot · 78 Cards · 3 Spreads · AI Interpretation</p>
+      <div className="relative z-10 max-w-5xl mx-auto px-4 py-8">
+        {/* ─── Header ─── */}
+        <div className="text-center mb-8">
+          <div className="mb-4 animate-float-soft">
+            <CrystalBall size="xl" />
+          </div>
+          <h1 className="text-3xl md:text-4xl font-serif font-bold"
+            style={{
+              background: 'linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark))',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
+            塔罗占卜
+          </h1>
+          <p className="text-gray-400 mt-2 text-sm">78 张塔罗牌 · 三大牌阵 · AI 解读</p>
+          <p className="text-[10px] text-white/15 mt-1 tracking-wider">Tarot · 78 Cards · 3 Spreads · AI Interpretation</p>
         </div>
 
-        {/* Spread Selector */}
-        <div className="max-w-lg mx-auto mb-8">
+        {/* ─── 牌阵选择 ─── */}
+        <div className="max-w-lg mx-auto mb-6">
           <div className="flex justify-center gap-2">
             {SPREADS.map((s, i) => (
               <button
                 key={i}
-                onClick={() => { setSpreadIdx(i); setCards([]); setInterpretation(""); }}
-                className={`px-4 py-2.5 rounded-xl text-sm transition-all ${
+                onClick={() => { setSpreadIdx(i); handleReset(); }}
+                onMouseEnter={() => setHoveredSpread(i)}
+                onMouseLeave={() => setHoveredSpread(null)}
+                className={`relative px-4 py-2.5 rounded-xl text-sm transition-all duration-300 overflow-hidden ${
                   spreadIdx === i
-                    ? "btn-gold text-dark-900 font-semibold"
-                    : "bg-dark-700 border border-white/10 text-white/60 hover:border-gold/30"
+                    ? 'text-dark-900 font-semibold shadow-lg shadow-gold/20'
+                    : 'bg-dark-700/50 border border-white/10 text-white/60 hover:border-gold/30 hover:text-gold/80'
                 }`}
               >
-                {s.nameZh}
+                {spreadIdx === i && (
+                  <div className="absolute inset-0"
+                    style={{
+                      background: 'linear-gradient(135deg, var(--gold), var(--gold-light), var(--gold))',
+                    }}
+                  />
+                )}
+                <span className="relative z-10">{s.nameZh}</span>
+                {hoveredSpread === i && spreadIdx !== i && (
+                  <div className="absolute inset-0 bg-gold/5" />
+                )}
               </button>
             ))}
           </div>
           <p className="text-center text-xs text-white/30 mt-2">{SPREADS[spreadIdx].desc}</p>
         </div>
 
-        {/* Draw Button */}
-        <div className="text-center mb-10">
+        {/* ─── 抽牌按钮 ─── */}
+        <div className="text-center mb-8">
           <button
             onClick={handleDraw}
             disabled={animating}
-            className="btn-gold px-8 py-3.5 rounded-xl text-base font-semibold disabled:opacity-50 inline-flex items-center gap-2 shadow-lg shadow-gold/15"
+            className="relative group px-10 py-4 rounded-xl text-base font-semibold disabled:opacity-50 inline-flex items-center gap-3 overflow-hidden transition-all duration-300"
+            style={{
+              background: 'linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 40%, var(--gold) 70%, var(--gold-dark) 100%)',
+              boxShadow: '0 4px 25px rgba(212,154,26,0.25)',
+              backgroundSize: '200% 100%',
+              animation: 'border-flow 3s linear infinite',
+            }}
           >
-            {animating ? "🔮 占卜中..." : "🎴 开始抽牌"}
+            {/* 按钮光晕 */}
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              style={{
+                background: 'linear-gradient(135deg, transparent, rgba(255,255,255,0.15), transparent)',
+              }}
+            />
+            <span className="relative z-10 text-dark-900">
+              {animating ? "🔮 星盘转动中..." : "🎴 开始抽牌"}
+            </span>
+            {!animating && (
+              <span className="relative z-10 text-dark-900/60 group-hover:translate-x-1 transition-transform">
+                →
+              </span>
+            )}
           </button>
+          {!cards.length && !animating && (
+            <p className="text-xs text-white/20 mt-3">选择牌阵后，点击开始</p>
+          )}
         </div>
 
-        {/* Cards Display */}
+        {/* ─── 卡牌展示 ─── */}
         {cards.length > 0 && (
           <div className="mb-10">
-            <div
-              ref={cardsRef}
-              className="flex flex-wrap justify-center gap-4 md:gap-6"
-            >
-              {cards.map((card, i) => (
-                <div key={i} className="flex flex-col items-center">
-                  <SpreadPosition spreadIdx={spreadIdx} cardIdx={i} />
-                  <FlippingCard card={card} flipped={flipped} delay={i * 300} index={i} />
-                </div>
-              ))}
+            <div ref={cardsRef} className="flex flex-wrap justify-center gap-5 md:gap-7">
+              {cards.map((card, i) => {
+                const positions = SpreadPositions[spreadIdx] || [];
+                const pos = positions[i] || { zh: `位置 ${i + 1}`, en: `Position ${i + 1}` };
+                return (
+                  <div key={i} className="flex flex-col items-center">
+                    {/* 位置名 */}
+                    <div className="text-center mb-2">
+                      <div className="text-[11px] text-gold font-medium tracking-wide">{pos.zh}</div>
+                      <div className="text-[8px] text-white/20 tracking-wider">{pos.en}</div>
+                    </div>
+                    <FlippingCard
+                      card={card}
+                      flipped={flipped}
+                      delay={i * 350}
+                      index={i}
+                      totalCards={cards.length}
+                    />
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}
 
-        {/* Interpretation */}
+        {/* ─── 解读区 ─── */}
         {interpretation && (
-          <div className="max-w-2xl mx-auto">
-            <div className="glass rounded-2xl p-6 border border-gold/20">
-              <h2 className="text-lg font-serif font-bold text-gold mb-4 text-center">【塔罗解读】</h2>
-              <pre className="text-xs sm:text-sm text-gray-300 leading-relaxed whitespace-pre-wrap font-sans">
-                {interpretation}
-              </pre>
-            </div>
-
-            <div className="text-center mt-6">
-              <button onClick={() => { setCards([]); setInterpretation(""); }}
-                className="px-6 py-3 rounded-xl text-sm border border-white/10 text-white/60 hover:border-gold/30 hover:text-gold transition-all">
-                重新占卜
-              </button>
-            </div>
-          </div>
+          <InterpretationCard interpretation={interpretation} onReset={handleReset} />
         )}
 
-        {/* Full Card Library - Toggle */}
+        {/* ─── 完整牌库 ─── */}
         <div className="mt-16">
           <button
             onClick={() => setShowAllCards(!showAllCards)}
-            className="w-full text-center py-3 text-sm text-white/40 hover:text-gold transition-colors border-t border-white/5"
+            className="w-full text-center py-3 text-sm text-white/40 hover:text-gold transition-colors border-t border-white/5 flex items-center justify-center gap-1 group"
           >
-            {showAllCards ? "收起牌库 ▲" : "完整牌库 ▼ (78张)"}
+            <span className="group-hover:tracking-wider transition-all duration-300">
+              {showAllCards ? "收起牌库" : "完整牌库 · 78 张"}
+            </span>
+            <span className={`inline-block transition-transform duration-300 ${showAllCards ? 'rotate-180' : ''}`}>
+              ▼
+            </span>
           </button>
 
           {showAllCards && (
-            <div className="mt-4">
-              {/* Filters */}
+            <div className="mt-4 animate-reveal-in">
+              {/* 过滤器 */}
               <div className="flex flex-wrap gap-2 mb-4 justify-center">
                 <button onClick={() => { setFilterType("all"); setFilterSuit("all"); }}
-                  className={`px-3 py-1.5 rounded-lg text-xs ${filterType === "all" ? "btn-gold text-dark-900" : "bg-dark-700 border border-white/10 text-white/50"}`}>
+                  className={`px-3 py-1.5 rounded-lg text-xs transition-all ${
+                    filterType === "all" && filterSuit === "all"
+                      ? 'btn-gold text-dark-900'
+                      : 'bg-dark-700/50 border border-white/10 text-white/50 hover:border-gold/30'
+                  }`}>
                   全部
                 </button>
-                <button onClick={() => setFilterType("major")}
-                  className={`px-3 py-1.5 rounded-lg text-xs ${filterType === "major" ? "btn-gold text-dark-900" : "bg-dark-700 border border-white/10 text-white/50"}`}>
+                <button onClick={() => { setFilterType("major"); setFilterSuit("all"); }}
+                  className={`px-3 py-1.5 rounded-lg text-xs transition-all ${
+                    filterType === "major"
+                      ? 'btn-gold text-dark-900'
+                      : 'bg-dark-700/50 border border-white/10 text-white/50 hover:border-gold/30'
+                  }`}>
                   大阿卡纳
                 </button>
                 {SUITS.map((s, i) => (
                   <button key={s} onClick={() => { setFilterSuit(s); setFilterType(""); }}
-                    className={`px-3 py-1.5 rounded-lg text-xs ${filterSuit === s ? "btn-gold text-dark-900" : "bg-dark-700 border border-white/10 text-white/50"}`}>
+                    className={`px-3 py-1.5 rounded-lg text-xs transition-all ${
+                      filterSuit === s
+                        ? 'btn-gold text-dark-900'
+                        : 'bg-dark-700/50 border border-white/10 text-white/50 hover:border-gold/30'
+                    }`}>
                     {SUIT_ICONS[i]} {s}
                   </button>
                 ))}
               </div>
 
-              {/* Cards Grid */}
+              {/* 牌库网格 */}
               <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
-                {(filterType === "all" && filterSuit === "all" ? ALL_CARDS : filteredCards).map((card) => (
-                  <div key={card.id}
-                    className="bg-dark-800 border border-white/5 rounded-xl p-2 text-center hover:border-gold/20 transition-colors cursor-default"
-                  >
-                    <div className="text-lg mb-0.5">{card.type === "major" ? "🃏" : card.suitIcon}</div>
-                    <div className="text-[10px] font-bold text-gold-light leading-tight">{card.name}</div>
-                    <div className="text-[7px] text-white/20 truncate">{card.nameEn}</div>
-                  </div>
-                ))}
+                {(filterType === "all" && filterSuit === "all" ? ALL_CARDS : filteredCards).map((card) => {
+                  const ec = card.element === "火" ? "text-orange-400/30" :
+                             card.element === "水" ? "text-blue-400/30" :
+                             card.element === "风" ? "text-cyan-300/30" : "text-green-400/30";
+                  return (
+                    <div
+                      key={card.id}
+                      className="bg-dark-800/50 border border-white/5 rounded-xl p-2.5 text-center hover:border-gold/20 hover:bg-dark-800/80 transition-all duration-200 cursor-default group"
+                    >
+                      <div className={`text-lg mb-0.5 ${ec}`}>
+                        {card.type === "major" ? "🃏" : card.suitIcon}
+                      </div>
+                      <div className="text-[10px] font-bold text-gold-light/80 leading-tight group-hover:text-gold-light transition-colors">
+                        {card.name}
+                      </div>
+                      <div className="text-[7px] text-white/20 truncate mt-0.5">
+                        {card.nameEn}
+                      </div>
+                      <div className={`text-[6px] ${ec} mt-1`}>{card.element}</div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* 牌库统计 */}
+              <div className="text-center mt-4 text-[10px] text-white/20">
+                共 {ALL_CARDS.length} 张 · 大阿卡纳 22 张 · 小阿卡纳 40 张 · 宫廷牌 16 张
               </div>
             </div>
           )}

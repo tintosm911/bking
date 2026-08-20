@@ -8,6 +8,9 @@
   --gold: #d49a1a;
   --gold-light: #ecc454;
   --gold-dark: #b07a14;
+  --crystal: #88ddff;
+  --crystal-light: #bbeeff;
+  --crystal-glow: #44bbee;
 }
 
 * {
@@ -66,7 +69,7 @@ body {
   box-shadow: 0 8px 30px rgba(212, 154, 26, 0.4);
 }
 
-/* 3D翻牌 */
+/* ========== 3D 翻牌系统 ========== */
 .perspective-1000 {
   perspective: 1000px;
 }
@@ -83,27 +86,109 @@ body {
   transform: rotateY(180deg);
 }
 
-/* 翻牌光效动画 */
+/* 抵消背面 3D 镜像翻转 */
+.unflip-content {
+  transform: rotateY(180deg);
+}
+
+/* ========== 水晶球特效 ========== */
+.crystal-ball {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.crystal-ball::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(136, 221, 255, 0.25) 0%, rgba(68, 187, 238, 0.07) 40%, transparent 70%);
+  animation: crystal-pulse 3s ease-in-out infinite;
+}
+
+.crystal-ball::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 65% 65%, rgba(187, 238, 255, 0.15) 0%, transparent 60%);
+  animation: crystal-rotate 6s linear infinite;
+}
+
+/* 水晶高光 */
+.crystal-shine {
+  position: absolute;
+  width: 30%;
+  height: 20%;
+  top: 12%;
+  left: 20%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 70%);
+  transform: rotate(-30deg);
+  pointer-events: none;
+}
+
+.crystal-shine-secondary {
+  position: absolute;
+  width: 15%;
+  height: 8%;
+  bottom: 25%;
+  right: 15%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+  transform: rotate(20deg);
+  pointer-events: none;
+}
+
+@keyframes crystal-pulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes crystal-rotate {
+  0% {
+    transform: rotate(0deg);
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: rotate(360deg);
+    opacity: 0.4;
+  }
+}
+
+/* ========== 翻牌光效 ========== */
 @keyframes shimmer-fast {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(200%); }
 }
 
 .animate-shimmer-fast {
-  animation: shimmer-fast 0.8s ease-in-out;
+  animation: shimmer-fast 0.8s ease-in-out forwards;
 }
 
-/* 脉冲光晕 */
-@keyframes pulse-slow {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.6; }
+@keyframes glow-flash {
+  0% { opacity: 0; transform: scale(0.8); }
+  30% { opacity: 0.8; transform: scale(1.1); }
+  60% { opacity: 0.4; }
+  100% { opacity: 0; transform: scale(1.3); }
 }
 
-.animate-pulse-slow {
-  animation: pulse-slow 1.2s ease-in-out;
+.animate-glow-flash {
+  animation: glow-flash 1.2s ease-out forwards;
 }
 
-/* 粒子飘散 */
+/* ========== 粒子系统 ========== */
 @keyframes particle-float {
   0% {
     opacity: 1;
@@ -119,17 +204,112 @@ body {
   animation: particle-float 2s ease-out forwards;
 }
 
-.animate-particle:nth-child(1) { --dx: -15px; --dy: -25px; }
-.animate-particle:nth-child(2) { --dx: 20px; --dy: -20px; }
-.animate-particle:nth-child(3) { --dx: -10px; --dy: -35px; }
-.animate-particle:nth-child(4) { --dx: 25px; --dy: -15px; }
-.animate-particle:nth-child(5) { --dx: -20px; --dy: -30px; }
-.animate-particle:nth-child(6) { --dx: 15px; --dy: -25px; }
+/* ========== 悬浮浮动 ========== */
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
 
-/* 玻璃效果 */
+.animate-float-soft {
+  animation: float-soft 3s ease-in-out infinite;
+}
+
+/* ========== 光晕背景 ========== */
+@keyframes aurora-drift {
+  0% { transform: translate(0%, 0%) scale(1); opacity: 0.3; }
+  25% { transform: translate(10%, -10%) scale(1.1); opacity: 0.4; }
+  50% { transform: translate(-5%, 5%) scale(0.9); opacity: 0.2; }
+  75% { transform: translate(8%, -5%) scale(1.05); opacity: 0.35; }
+  100% { transform: translate(0%, 0%) scale(1); opacity: 0.3; }
+}
+
+.animate-aurora {
+  animation: aurora-drift 12s ease-in-out infinite;
+}
+
+/* ========== 牌背面星光 ========== */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.animate-twinkle {
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+.animate-twinkle:nth-child(1) { animation-delay: 0s; }
+.animate-twinkle:nth-child(2) { animation-delay: 0.4s; }
+.animate-twinkle:nth-child(3) { animation-delay: 0.8s; }
+.animate-twinkle:nth-child(4) { animation-delay: 1.2s; }
+.animate-twinkle:nth-child(5) { animation-delay: 1.6s; }
+
+/* ========== 牌背面流光线条 ========== */
+@keyframes border-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-border-flow {
+  background-size: 200% 200%;
+  animation: border-flow 4s ease-in-out infinite;
+}
+
+/* ========== 正面发光边框 ========== */
+@keyframes edge-glow {
+  0%, 100% { box-shadow: 0 0 10px rgba(212,154,26,0.1), inset 0 0 10px rgba(212,154,26,0.05); }
+  50% { box-shadow: 0 0 20px rgba(212,154,26,0.2), inset 0 0 15px rgba(212,154,26,0.08); }
+}
+
+.animate-edge-glow {
+  animation: edge-glow 2s ease-in-out infinite;
+}
+
+/* ========== 玻璃效果 ========== */
 .glass {
   background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ========== 解读文字闪烁 ========== */
+@keyframes reveal-in {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-reveal-in {
+  animation: reveal-in 0.6s ease-out forwards;
+}
+
+/* ========== 3D 视角倾斜效果 ========== */
+@keyframes tilt-card {
+  0% { transform: rotateY(0deg) rotateX(0deg); }
+  25% { transform: rotateY(2deg) rotateX(-1deg); }
+  50% { transform: rotateY(0deg) rotateX(0deg); }
+  75% { transform: rotateY(-2deg) rotateX(1deg); }
+  100% { transform: rotateY(0deg) rotateX(0deg); }
+}
+
+.animate-tilt-card {
+  animation: tilt-card 6s ease-in-out infinite;
+}
+
+/* ========== 星尘散落 ========== */
+@keyframes star-dust {
+  0% { transform: translateY(0) scale(0); opacity: 0; }
+  20% { transform: translateY(-10px) scale(1); opacity: 0.8; }
+  80% { opacity: 0.6; }
+  100% { transform: translateY(-40px) scale(0); opacity: 0; }
+}
+
+.animate-star-dust {
+  animation: star-dust 1.5s ease-out forwards;
 }
