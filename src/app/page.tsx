@@ -3,7 +3,16 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-const skills: { name: string; icon: string; desc: string; descEn: string; color: string; href: string }[] = [
+const skills: { name: string; icon: string; desc: string; descEn: string; color: string; href: string; badge?: string }[] = [
+  {
+    name: "天机命理",
+    icon: "☯️",
+    desc: "八字 · 紫微 · 星座 · 称骨 · 五格 一站测算",
+    descEn: "All-in-One · BaZi · ZiWei · Astrology · Name",
+    color: "from-gold-900/40 to-amber-900/20",
+    href: "/tianji",
+    badge: "NEW",
+  },
   {
     name: "八字",
     icon: "🌙",
@@ -284,7 +293,7 @@ export default function Home() {
         </AnimatedSection>
 
         <AnimatedSection className="w-full max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
             {skills.map((skill) => (
               <Link
                 href={skill.href}
@@ -292,7 +301,14 @@ export default function Home() {
                 className="relative group rounded-2xl p-6 bg-gradient-to-b from-white/[0.04] to-transparent border border-white/[0.06] hover:border-gold/25 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-gold/10 text-center"
               >
                 <div className="text-4xl mb-4 transition-transform duration-300 group-hover:scale-110">{skill.icon}</div>
-                <h3 className="text-xl font-serif font-bold text-white/90 mb-1">{skill.name}</h3>
+                <h3 className="text-xl font-serif font-bold text-white/90 mb-1 flex items-center justify-center gap-2">
+                  {skill.name}
+                  {skill.badge && (
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-gold/20 text-gold border border-gold/30 font-sans font-normal animate-pulse">
+                      {skill.badge}
+                    </span>
+                  )}
+                </h3>
                 <p className="text-xs text-white/40 leading-relaxed">{skill.desc}</p>
                 <p className="text-[10px] text-white/20 leading-relaxed mt-1">{skill.descEn}</p>
                 <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity">
