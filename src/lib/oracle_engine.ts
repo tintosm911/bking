@@ -17,7 +17,7 @@
 import { buildBazi, formatBazi } from "./bazi_engine";
 import { buildChart, formatChart } from "./zwei_engine";
 import { qimenMasterPan, formatQimenOutput } from "./qimen_engine";
-import { calcTianji } from "./tianji_engine";
+import { calcTianji, TianjiMemberInput } from "./tianji_engine";
 
 // ============ 类型定义 ============
 
@@ -287,6 +287,104 @@ function runChat(text: string, profile: Partial<OracleSession["profile"]>): stri
   return `【玄机问道】${base} 🙏\n\n(可发任意一句，我会自动判断是要排八字、看紫微、起奇门、解梦境，还是算今日运势。)`;
 }
 
+// ============ 天机合盘（双人契合） ============
+
+interface PairBirth {
+  complete: boolean;
+  members: TianjiMemberInput[];
+  missing?: string;
+}
+
+/**
+ * 从一句话解析两位命主的出生信息。
+ * 支持「我1998年8月8日午时出生，对方2000年5月20日辰时出生」「男1998…女2000…」等格式。
+ */
+function extractPairBirth(text: string): PairBirth {
+  const t = text;
+
+  // 分隔词：对方 / 她 / 他 / 另一个 / 另一个人 / 另一位 / 伴侣 / 对象
+  const sep =
+    t.match(/(对方|她|他|另一个|另一个人|另一位|伴侣|对象|那位)/);
+
+  if (!sep || !sep.index) {
+    // 没有第二人信息 → 不完整
+    return { complete: false, members: [] };
+  }
+
+  const aText = t.slice(0, sep.index);
+  const bText = t.slice(sep.index + sep[1].length);
+
+  const a = extractBirthInfo(aText);
+  const b = extractBirthInfo(bText);
+
+  const aComplete = birthComplete(a);
+  const bComplete = birthComplete(b);
+
+  if (!aComplete || !bComplete) {
+    return {
+      complete: false,
+      members: [],
+      missing: !aComplete ? "第一位命主" : "第二位命主",
+    };
+  }
+
+  return {
+    complete: true,
+    members: [
+      {
+        name: "甲",
+        gender: a.gender === 1 ? "女" : "男",
+        solar_date: `${a.year}-${String(a.month).padStart(2, "0")}-${String(a.day).padStart(2, "0")}`,
+        birth_time: `${String(a.hour).padStart(2, "0")}:00`,
+      },
+      {
+        name: "乙",
+        gender: b.gender === 1 ? "女" : "男",
+        solar_date: `${b.year}-${String(b.month).padStart(2, "0")}-${String(b.day).padStart(2, "0")}`,
+        birth_time: `${String(b.hour).padStart(2, "0")}:00`,
+      },
+    ],
+  };
+}
+
+const RATING_TEXT: Record<string, string> = {
+  "★★★★★ 极佳组合": "天作之合，五行互补，气场相融，是难得的上佳良缘。",
+  "★★★★☆ 良好组合": "有缘有分，彼此能补益，用心经营可成佳偶。",
+  "★★★☆☆ 中等组合": "缘分尚可，性格需多磨合包容，方能长久。",
+  "★★☆☆☆ 有待改善": "互补之处与相冲之处并存，需多理解与退让。",
+};
+
+function runTianjiPair(pair: PairBirth): {
+  text: string;
+  detail: any;
+} {
+  const result = calcTianji({ members: pair.members });
+  const s = result.synastry;
+  const score = s.total ?? 0;
+  const pct = s.max_possible > 0 ? Math.round((score / s.max_possible) * 100) : 0;
+  const ratingNote = RATING_TEXT[s.rating] ?? s.rating;
+
+  // 各维度评分（去掉 null）
+  const parts: string[] = [];
+  for (const [k, v] of Object.entries(s.scores)) {
+    if (v != null) parts.push(`  ${k}: ${v}分`);
+  }
+
+  const text =
+    `【天机合盘 · ${s.rating}】\n` +
+    `契合总评分 **${score}/${s.max_possible}**（约 ${pct}%）。\n\n` +
+    `${ratingNote}\n\n` +
+    `分项细查：\n\`\`\`\n${parts.join("\n") || "  （本命局维度数据暂缺）"}\n\`\`\`\n` +
+    `\n两人八字与称骨详录：\n\`\`\`\n${result.members
+      .map(
+        (m) =>
+          `${m.name}（${m.gender === "女" ? "女" : "男"}） 八字 ${m.bazi.join(" ")} | 生肖${m.shengxiao} | 称骨${m.chenggu?.总重 ?? "-"}`
+      )
+      .join("\n")}\n\`\`\``;
+
+  return { text, detail: { synastry: s, members: result.members } };
+}
+
 // ============ 主入口 ============
 
 export function runOracle(
@@ -337,8 +435,14 @@ export function runOracle(
       break;
     }
     case "tianji": {
-      // 天机合盘需要至少两人的生辰，规则版简化：引导补充
-      reply = { message: `${flavor.opening}天机合盘需知两人生辰。请按「我1998年8月8日午时出生，对方2000年5月20日辰时出生」这样的格式告诉我（含两人性别），老夫为你推演契合度。${flavor.closing}`, skill: "天机合盘", mood };
+      const pair = extractPairBirth(text);
+      if (pair.complete) {
+        const r = runTianjiPair(pair);
+        reply = { message: r.text, skill: "天机合盘", mood, detail: r.detail };
+      } else {
+        needBirth = true;
+        reply = { message: `${flavor.opening}天机合盘需知两人生辰。请按「我1998年8月8日午时出生，对方2000年5月20日辰时出生」这样的格式告诉我（含两人性别，缺哪个告诉我哪个），老夫为你推演两人的契合度。${flavor.closing}`, skill: "天机合盘", mood };
+      }
       break;
     }
     case "fortune": {

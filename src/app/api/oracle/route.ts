@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { getDb } from "@/lib/db";
 import { runOracle, OracleSession, OracleMessage } from "@/lib/oracle_engine";
+import { deepenOracleReply } from "@/lib/llm";
 
 /**
  * DB 优先 + 内存降级：
@@ -108,9 +109,18 @@ export async function POST(request: NextRequest) {
     // 调用玄机大师引擎
     const reply = runOracle(text, session.profile);
 
+    // 有 DeepSeek key 时做 LLM 增强解读（无 key 自动降级，原样返回）
+    let message = reply.message;
+    try {
+      const deepened = await deepenOracleReply(reply.message, reply.skill, reply.profile);
+      if (deepened) message = deepened;
+    } catch {
+      /* LLM 失败不影响主流程 */
+    }
+
     // 记住用户信息 + 追加大师回复
     session.profile = { ...session.profile, ...reply.profile };
-    const replyMsg: OracleMessage = { role: "master", content: reply.message, ts: Date.now() };
+    const replyMsg: OracleMessage = { role: "master", content: message, ts: Date.now() };
     session.messages.push(replyMsg);
 
     // 只保留最近 50 条，防止无限膨胀
@@ -123,7 +133,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       sessionId: session.id,
-      reply: reply.message,
+      reply: message,
       skill: reply.skill,
       mood: reply.mood,
       needBirthInfo: reply.needBirthInfo,
