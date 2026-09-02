@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { getDb } from "@/lib/db";
 import { runOracle, OracleSession, OracleMessage } from "@/lib/oracle_engine";
-import { deepenOracleReply } from "@/lib/llm";
+import { deepenOracleReply, lastLLMError, hasDeepSeek } from "@/lib/llm";
 
 /**
  * DB 优先 + 内存降级：
@@ -111,11 +111,17 @@ export async function POST(request: NextRequest) {
 
     // 有 DeepSeek key 时做 LLM 增强解读（无 key 自动降级，原样返回）
     let message = reply.message;
-    try {
-      const deepened = await deepenOracleReply(reply.message, reply.skill, reply.profile);
-      if (deepened) message = deepened;
-    } catch {
-      /* LLM 失败不影响主流程 */
+    let llmDebug: any = null;
+    if (hasDeepSeek()) {
+      try {
+        const deepened = await deepenOracleReply(reply.message, reply.skill, reply.profile);
+        llmDebug = { keySet: true, deepened: !!deepened, error: lastLLMError, from: message === reply.message ? "rules" : "llm" };
+        if (deepened) message = deepened;
+      } catch (e: any) {
+        llmDebug = { keySet: true, deepened: false, error: String(e?.message ?? e) };
+      }
+    } else {
+      llmDebug = { keySet: false };
     }
 
     // 记住用户信息 + 追加大师回复
@@ -139,6 +145,7 @@ export async function POST(request: NextRequest) {
       needBirthInfo: reply.needBirthInfo,
       detail: reply.detail ?? null,
       profile: session.profile,
+      _llmDebug: llmDebug,
     });
   } catch (err: any) {
     return NextResponse.json(

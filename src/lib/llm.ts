@@ -7,6 +7,9 @@
 const DEEPSEEK_BASE = "https://api.siliconflow.cn/v1";
 const DEEPSEEK_MODEL = "deepseek-ai/DeepSeek-V4-Flash";
 
+/** 最近一次 LLM 调用错误（临时诊断用；生产可读 _llmDebug） */
+export let lastLLMError: string | null = null;
+
 /** 当前是否配置了 DeepSeek key */
 export function hasDeepSeek(): boolean {
   return !!(process.env.DEEPSEEK_API_KEY);
@@ -64,12 +67,17 @@ export async function deepenOracleReply(
       }),
     });
 
-    if (!res.ok) return null;
+    if (!res.ok) {
+      lastLLMError = `HTTP ${res.status} ${res.statusText}`;
+      return null;
+    }
 
     const data: any = await res.json();
     const out = data?.choices?.[0]?.message?.content?.trim();
+    lastLLMError = null;
     return typeof out === "string" && out.length > 0 ? out : null;
-  } catch {
+  } catch (e: any) {
+    lastLLMError = `fetch失败: ${e?.message ?? String(e)}`;
     return null;
   }
 }
