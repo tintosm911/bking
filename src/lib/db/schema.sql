@@ -33,6 +33,23 @@ CREATE TABLE IF NOT EXISTS orders (
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+-- 订阅表 (会员：年付/月付)
+CREATE TABLE IF NOT EXISTS subscriptions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  plan TEXT NOT NULL,             -- monthly / yearly
+  status TEXT DEFAULT 'active',   -- active / expired / cancelled
+  started_at TEXT DEFAULT (datetime('now')),
+  expires_at TEXT NOT NULL,
+  last_order_id INTEGER,
+  cancelled_at TEXT,
+  created_at TEXT DEFAULT (datetime('now')),
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (last_order_id) REFERENCES orders(id)
+);
+CREATE INDEX IF NOT EXISTS idx_subscriptions_user ON subscriptions(user_id);
+CREATE INDEX IF NOT EXISTS idx_subscriptions_status ON subscriptions(status);
+
 -- 报告表 (生成的 PDF 记录)
 CREATE TABLE IF NOT EXISTS reports (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -121,3 +138,15 @@ CREATE INDEX IF NOT EXISTS idx_readings_user ON readings(user_id);
 CREATE INDEX IF NOT EXISTS idx_readings_service ON readings(service_type);
 CREATE INDEX IF NOT EXISTS idx_wishes_status ON wishes(status);
 CREATE INDEX IF NOT EXISTS idx_birthday_gifts_year ON birthday_gifts(year);
+
+-- 玄机大师 (Oracle) 对话会话表
+CREATE TABLE IF NOT EXISTS oracle_sessions (
+  id TEXT PRIMARY KEY,             -- 会话 UUID
+  user_id INTEGER,                 -- 可选关联用户
+  profile TEXT DEFAULT '{}',       -- 记住的用户信息 (JSON: 姓名/性别/生日)
+  messages TEXT DEFAULT '[]',      -- 聊天记录 (JSON array)
+  created_at TEXT DEFAULT (datetime('now')),
+  updated_at TEXT DEFAULT (datetime('now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_oracle_sessions_user ON oracle_sessions(user_id);

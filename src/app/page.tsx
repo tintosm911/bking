@@ -5,6 +5,15 @@ import { useEffect, useRef, useState } from "react";
 
 const skills: { name: string; icon: string; desc: string; descEn: string; color: string; href: string; badge?: string }[] = [
   {
+    name: "玄机大师",
+    icon: "🔮",
+    desc: "AI 命理对话 · 一句话自动排八字/紫微/奇门/解梦/运势",
+    descEn: "AI Oracle · Conversational Divination",
+    color: "from-gold-900/50 to-amber-900/30",
+    href: "/oracle",
+    badge: "NEW",
+  },
+  {
     name: "天机命理",
     icon: "☯️",
     desc: "八字 · 紫微 · 星座 · 称骨 · 五格 一站测算",
@@ -316,6 +325,92 @@ export default function Home() {
                 </div>
               </Link>
             ))}
+          </div>
+        </AnimatedSection>
+      </section>
+
+      {/* Pricing 收费套餐 */}
+      <section id="pricing" className="relative z-10 flex flex-col items-center px-6 py-20">
+        <AnimatedSection className="flex flex-col items-center text-center mb-12 max-w-2xl mx-auto gap-2">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-gold-400">
+            命理测算套餐
+          </h2>
+          <p className="text-sm text-white/30">Pricing & Plans</p>
+          <p className="text-xs text-white/20 max-w-md">
+            支持 USDT / USDC / USDG · 按 1:1 等同金额
+          </p>
+        </AnimatedSection>
+
+        <AnimatedSection className="w-full max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {[
+              { name: "入门单测", en: "Starter", price: "$1", items: ["八字排盘", "星座分析"], badge: "引流款" },
+              { name: "进阶测算", en: "Advanced", price: "$4.9", items: ["八字排盘", "紫微斗数", "星座分析"] },
+              { name: "专业全测", en: "Pro", price: "$9.9", items: ["紫微斗数", "奇门遁甲", "星座分析", "塔罗占卜"], badge: "主力", hot: true },
+              { name: "至尊全套", en: "Deluxe", price: "$14.9", items: ["八字", "紫微", "奇门", "天机", "星座", "塔罗", "起名"], badge: "全套" },
+            ].map((p) => (
+              <div
+                key={p.price}
+                className={`relative rounded-2xl p-6 bg-gradient-to-b from-white/[0.04] to-transparent border transition-all duration-300 hover:-translate-y-1 ${
+                  p.hot
+                    ? "border-gold/40 shadow-lg shadow-gold/10"
+                    : "border-white/[0.06] hover:border-gold/25"
+                }`}
+              >
+                {p.badge && (
+                  <span className={`absolute -top-2.5 left-5 text-[10px] px-2.5 py-1 rounded-full font-sans font-bold ${
+                    p.hot ? "bg-gold text-black" : "bg-gold/20 text-gold border border-gold/30"
+                  }`}>
+                    {p.badge}
+                  </span>
+                )}
+                <h3 className="text-xl font-serif font-bold text-white/90">{p.name}</h3>
+                <p className="text-[10px] text-white/25 uppercase tracking-widest mt-0.5">{p.en}</p>
+                <div className="mt-4 mb-5">
+                  <span className="text-4xl font-serif font-bold bg-gradient-to-r from-gold-500 via-gold-300 to-gold-500 bg-clip-text text-transparent">{p.price}</span>
+                  <span className="text-xs text-white/30 ml-1">USDT / USDC</span>
+                </div>
+                <ul className="space-y-2 text-sm text-white/50">
+                  {p.items.map((it) => (
+                    <li key={it} className="flex items-center gap-2">
+                      <span className="text-gold text-xs">✦</span>
+                      {it}
+                    </li>
+                  ))}
+                </ul>
+                <button className={`mt-6 w-full py-2.5 rounded-xl text-sm font-semibold transition-all ${
+                  p.hot ? "btn-gold" : "border border-white/10 text-white/70 hover:border-gold/30 hover:text-gold"
+                }`}>
+                  立即测算
+                </button>
+              </div>
+            ))}
+          </div>
+
+          {/* 订阅制 */}
+          <div className="mt-10 rounded-2xl p-6 md:p-8 bg-gradient-to-r from-gold/8 to-amber-900/15 border border-gold/20">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-xl md:text-2xl font-serif font-bold text-gold-400">订阅会员 · VIP</h3>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-gold/20 text-gold border border-gold/30">随时可测</span>
+                </div>
+                <p className="text-sm text-white/40 mt-2 max-w-xl">
+                  订阅期内不限次数测算当期运程 · 塔罗 · 星座，随时可测，无需逐次付费
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="text-center sm:text-right">
+                  <div className="text-2xl font-serif font-bold text-white/90">$4.9<span className="text-xs text-white/30">/月</span></div>
+                  <div className="text-[10px] text-white/25 mt-0.5">灵活月付</div>
+                </div>
+                <div className="text-center sm:text-right">
+                  <div className="text-2xl font-serif font-bold bg-gradient-to-r from-gold-500 to-gold-300 bg-clip-text text-transparent">$49.9<span className="text-xs text-white/40">/年</span></div>
+                  <div className="text-[10px] text-gold/70 mt-0.5 font-semibold">年付省 $9 · 推荐</div>
+                </div>
+                <button className="btn-gold px-8 py-3 rounded-xl text-sm font-semibold">开通订阅</button>
+              </div>
+            </div>
           </div>
         </AnimatedSection>
       </section>

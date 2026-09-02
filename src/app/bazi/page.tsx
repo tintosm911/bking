@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { downloadReport } from "@/lib/downloadPdf";
 
 export default function BaZiPage() {
   const [form, setForm] = useState({
@@ -14,6 +15,20 @@ export default function BaZiPage() {
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [downloading, setDownloading] = useState(false);
+
+  const handleDownload = async () => {
+    if (!result) return;
+    setDownloading(true);
+    setError("");
+    try {
+      await downloadReport("bazi", "缘主", result);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -262,8 +277,15 @@ export default function BaZiPage() {
 
             <div className="text-center">
               <button
+                onClick={handleDownload}
+                disabled={downloading}
+                className="btn-gold px-6 py-3 rounded-xl text-sm font-semibold disabled:opacity-50"
+              >
+                {downloading ? "生成 PDF 中..." : "📄 下载 PDF 报告"}
+              </button>
+              <button
                 onClick={() => setResult(null)}
-                className="btn-gold-outline px-6 py-3 rounded-xl text-sm"
+                className="btn-gold-outline px-6 py-3 rounded-xl text-sm ml-3"
               >
                 重新排盘
               </button>

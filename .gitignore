@@ -44,3 +44,6 @@ next-env.d.ts
 
 # 生成的PDF报告
 /data/reports/
+
+# runtime sqlite db
+/data/bking.db*

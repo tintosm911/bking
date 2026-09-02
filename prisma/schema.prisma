@@ -11,3 +11,15 @@ generator client {
 datasource db {
   provider = "sqlite"
 }
+
+model Subscription {
+  id            Int      @id @default(autoincrement())
+  user_id       Int
+  plan          String
+  status        String   @default("active")
+  started_at    String   @default(dbgenerated("datetime('now')"))
+  expires_at    String
+  last_order_id Int?
+  cancelled_at  String?
+  created_at    String   @default(dbgenerated("datetime('now')"))
+}

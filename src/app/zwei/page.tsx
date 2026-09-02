@@ -1,12 +1,27 @@
 "use client";
 
 import { useState } from "react";
+import { downloadReport } from "@/lib/downloadPdf";
 
 export default function ZWeiPage() {
   const [form, setForm] = useState({ year: 2000, month: 1, day: 1, hour: 12, gender: 1 });
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [downloading, setDownloading] = useState(false);
+
+  const handleDownload = async () => {
+    if (!result) return;
+    setDownloading(true);
+    setError("");
+    try {
+      await downloadReport("zwei", "缘主", result);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -192,7 +207,14 @@ export default function ZWeiPage() {
             </details>
 
             <div className="text-center">
-              <button onClick={() => setResult(null)} className="btn-gold-outline px-6 py-3 rounded-xl text-sm">重新排盘</button>
+              <button
+                onClick={handleDownload}
+                disabled={downloading}
+                className="btn-gold px-6 py-3 rounded-xl text-sm font-semibold disabled:opacity-50"
+              >
+                {downloading ? "生成 PDF 中..." : "📄 下载 PDF 报告"}
+              </button>
+              <button onClick={() => setResult(null)} className="btn-gold-outline px-6 py-3 rounded-xl text-sm ml-3">重新排盘</button>
             </div>
           </div>
         )}
