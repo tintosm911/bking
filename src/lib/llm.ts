@@ -2,8 +2,10 @@
 // 有 DEEPSEEK_API_KEY 时启用 LLM 深化解读；无 key 时自动降级，不影响独立上线。
 // DeepSeek 兼容 OpenAI Chat Completions 协议。
 
-const DEEPSEEK_BASE = "https://api.deepseek.com";
-const DEEPSEEK_MODEL = "deepseek-chat";
+// SiliconFlow(硅基流动) 兼容 OpenAI Chat 协议，国内直连无墙。
+// 模型 deepseek-ai/DeepSeek-V4-Flash 经实测可用此 key 鉴权（非 DeepSeek 官方 key）。
+const DEEPSEEK_BASE = "https://api.siliconflow.cn/v1";
+const DEEPSEEK_MODEL = "deepseek-ai/DeepSeek-V4-Flash";
 
 /** 当前是否配置了 DeepSeek key */
 export function hasDeepSeek(): boolean {
