@@ -65,6 +65,15 @@ const skills: { name: string; icon: string; desc: string; descEn: string; color:
     badge: "NEW",
   },
   {
+    name: "梅花易数",
+    icon: "🌸",
+    desc: "以数起卦 · 观体用生克 · 断事之吉凶",
+    descEn: "Plum Blossom Numeracy",
+    color: "from-rose-900/40 to-pink-900/20",
+    href: "/meihua",
+    badge: "NEW",
+  },
+  {
     name: "八字合婚",
     icon: "💑",
     desc: "双方八字 · 剖析缘分 · 契合度评估",

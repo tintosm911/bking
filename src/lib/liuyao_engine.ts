@@ -21,7 +21,7 @@ export interface GuaInfo {
   nature: string;
 }
 
-const TRIGRAMS: Record<string, GuaInfo> = {
+export const TRIGRAMS: Record<string, GuaInfo> = {
   乾: { trigram: "乾", symbol: "☰", element: "金", nature: "天 · 刚健" },
   兑: { trigram: "兑", symbol: "☱", element: "金", nature: "泽 · 喜悦" },
   离: { trigram: "离", symbol: "☲", element: "火", nature: "火 · 光明" },
@@ -32,13 +32,13 @@ const TRIGRAMS: Record<string, GuaInfo> = {
   坤: { trigram: "坤", symbol: "☷", element: "土", nature: "地 · 柔顺" },
 };
 
-const TRIGRAM_BITS: Record<string, [0 | 1, 0 | 1, 0 | 1]> = {
+export const TRIGRAM_BITS: Record<string, [0 | 1, 0 | 1, 0 | 1]> = {
   乾: [1, 1, 1], 兑: [1, 1, 0], 离: [1, 0, 1], 震: [1, 0, 0],
   巽: [0, 1, 1], 坎: [0, 1, 0], 艮: [0, 0, 1], 坤: [0, 0, 0],
 };
 
 /** 六十四卦名：上卦名_下卦名 → 卦名 */
-const HEX_NAMES: Record<string, string> = {
+export const HEX_NAMES: Record<string, string> = {
   "乾_乾": "乾为天", "乾_兑": "天泽履", "乾_离": "天火同人", "乾_震": "天雷无妄",
   "乾_巽": "天风姤", "乾_坎": "天水讼", "乾_艮": "天山遁", "乾_坤": "天地否",
   "兑_乾": "泽天夬", "兑_兑": "兑为泽", "兑_离": "泽火革", "兑_震": "泽雷随",
