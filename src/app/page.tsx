@@ -56,6 +56,15 @@ const skills: { name: string; icon: string; desc: string; descEn: string; color:
     badge: "NEW",
   },
   {
+    name: "六爻占卜",
+    icon: "🪙",
+    desc: "三枚铜钱 · 卦象断吉凶 · 世应六亲",
+    descEn: "Six Lines · Yarrow Stalk Divination",
+    color: "from-orange-900/40 to-red-900/20",
+    href: "/liuyao",
+    badge: "NEW",
+  },
+  {
     name: "每日黄历",
     icon: "📅",
     desc: "当日干支 · 宜忌 · 冲煞 · 彭祖百忌 · 万年历",
