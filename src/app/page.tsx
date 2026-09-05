@@ -56,6 +56,15 @@ const skills: { name: string; icon: string; desc: string; descEn: string; color:
     badge: "NEW",
   },
   {
+    name: "每日黄历",
+    icon: "📅",
+    desc: "当日干支 · 宜忌 · 冲煞 · 彭祖百忌 · 万年历",
+    descEn: "Almanac · Daily Fortune · Calendars",
+    color: "from-amber-900/40 to-yellow-900/20",
+    href: "/huangli",
+    badge: "NEW",
+  },
+  {
     name: "星座运势",
 
     icon: "🌍",
