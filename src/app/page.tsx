@@ -65,6 +65,15 @@ const skills: { name: string; icon: string; desc: string; descEn: string; color:
     badge: "NEW",
   },
   {
+    name: "择日择吉",
+    icon: "📆",
+    desc: "为诸事挑选黄道吉日 · 嫁娶开业搬迁动土",
+    descEn: "Choose Auspicious Days · Calendar Selection",
+    color: "from-purple-900/40 to-indigo-900/20",
+    href: "/zeyi",
+    badge: "NEW",
+  },
+  {
     name: "每日黄历",
     icon: "📅",
     desc: "当日干支 · 宜忌 · 冲煞 · 彭祖百忌 · 万年历",
