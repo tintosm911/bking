@@ -47,7 +47,17 @@ const skills: { name: string; icon: string; desc: string; descEn: string; color:
     href: "/qimen",
   },
   {
+    name: "小六壬",
+    icon: "🔮",
+    desc: "六宫掌诀 · 便捷快占 · 心中默念所问",
+    descEn: "Xiao Liu Ren · Quick Divination",
+    color: "from-teal-900/40 to-cyan-900/20",
+    href: "/liuren",
+    badge: "NEW",
+  },
+  {
     name: "星座运势",
+
     icon: "🌍",
     desc: "行星相位 · 宫位系统 · 每日运势",
     descEn: "Western Astrology · Signs · Horoscope",
