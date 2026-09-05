@@ -65,6 +65,15 @@ const skills: { name: string; icon: string; desc: string; descEn: string; color:
     badge: "NEW",
   },
   {
+    name: "八字合婚",
+    icon: "💑",
+    desc: "双方八字 · 剖析缘分 · 契合度评估",
+    descEn: "BaZi Marriage Compatibility",
+    color: "from-pink-900/40 to-rose-900/20",
+    href: "/hehun",
+    badge: "NEW",
+  },
+  {
     name: "周公解梦",
     icon: "💤",
     desc: "梦境意象 · 剖析吉凶 · 古法释梦",
