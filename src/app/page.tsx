@@ -65,6 +65,15 @@ const skills: { name: string; icon: string; desc: string; descEn: string; color:
     badge: "NEW",
   },
   {
+    name: "八字反推",
+    icon: "🔁",
+    desc: "不知时辰也能排 · 十二时辰对照校正命盘",
+    descEn: "BaZi Time Retro-Deduction",
+    color: "from-slate-900/40 to-indigo-900/20",
+    href: "/tuifa",
+    badge: "NEW",
+  },
+  {
     name: "梅花易数",
     icon: "🌸",
     desc: "以数起卦 · 观体用生克 · 断事之吉凶",
