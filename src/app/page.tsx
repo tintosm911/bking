@@ -65,6 +65,15 @@ const skills: { name: string; icon: string; desc: string; descEn: string; color:
     badge: "NEW",
   },
   {
+    name: "周公解梦",
+    icon: "💤",
+    desc: "梦境意象 · 剖析吉凶 · 古法释梦",
+    descEn: "Duke of Zhou Dream Interpretation",
+    color: "from-blue-900/40 to-indigo-900/20",
+    href: "/jiemeng",
+    badge: "NEW",
+  },
+  {
     name: "择日择吉",
     icon: "📆",
     desc: "为诸事挑选黄道吉日 · 嫁娶开业搬迁动土",
