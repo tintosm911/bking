@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { buildBazi } from '@/lib/bazi_engine';
+import { buildBazi, formatBazi } from '@/lib/bazi_engine';
 import { deepenOracleReply } from '@/lib/llm';
 
 export async function POST(request: NextRequest) {
@@ -14,11 +14,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const result = buildBazi(Number(year), Number(month), Number(day), Number(hour), Number(gender));
+    const numYear = Number(year);
+    const result = buildBazi(numYear, Number(month), Number(day), Number(hour), Number(gender));
+
+    // 生成排盘纯文本（供展示 / TTS 朗读 / DeepSeek 深化解读上下文）
+    const formatted = formatBazi(result);
+    Object.assign(result, { formatted });
 
     // C 档③：DeepSeek 深化解读（有 key 时加深『命格解读』，无 key 静默降级）
-    const baseText = result.formatted || "";
-    const deepened = await deepenOracleReply(baseText, "八字");
+    const deepened = await deepenOracleReply(
+      formatted,
+      "八字",
+      { year: numYear, month: Number(month), day: Number(day), hour: Number(hour) }
+    );
     if (deepened) {
       Object.assign(result, { _deepen: deepened });
     }
