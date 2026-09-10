@@ -18,7 +18,7 @@ function BirthForm({ title, icon, value, onChange, accent }: {
       </div>
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="block text-xs text-gray-400 mb-1">出生年份</label>
+          <label className="block text-xs text-gray-200 mb-1">出生年份</label>
           <select value={value.year} onChange={(e) => onChange({ ...value, year: Number(e.target.value) })}
             className="w-full px-3 py-2.5 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none">
             {Array.from({ length: 80 }, (_, i) => now.getFullYear() - i).map((y) => (
@@ -27,7 +27,7 @@ function BirthForm({ title, icon, value, onChange, accent }: {
           </select>
         </div>
         <div>
-          <label className="block text-xs text-gray-400 mb-1">出生月份</label>
+          <label className="block text-xs text-gray-200 mb-1">出生月份</label>
           <select value={value.month} onChange={(e) => onChange({ ...value, month: Number(e.target.value) })}
             className="w-full px-3 py-2.5 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none">
             {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
@@ -36,14 +36,14 @@ function BirthForm({ title, icon, value, onChange, accent }: {
           </select>
         </div>
         <div>
-          <label className="block text-xs text-gray-400 mb-1">出生日</label>
+          <label className="block text-xs text-gray-200 mb-1">出生日</label>
           <select value={value.day} onChange={(e) => onChange({ ...value, day: Number(e.target.value) })}
             className="w-full px-3 py-2.5 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none">
             {DAYS.map((d) => <option key={d} value={d}>{d}日</option>)}
           </select>
         </div>
         <div>
-          <label className="block text-xs text-gray-400 mb-1">出生时辰</label>
+          <label className="block text-xs text-gray-200 mb-1">出生时辰</label>
           <select value={value.hour} onChange={(e) => onChange({ ...value, hour: Number(e.target.value) })}
             className="w-full px-3 py-2.5 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none">
             <option value={0}>子时 23-1点</option>
@@ -61,17 +61,17 @@ function BirthForm({ title, icon, value, onChange, accent }: {
           </select>
         </div>
         <div className="col-span-2">
-          <label className="block text-xs text-gray-400 mb-1">性别</label>
+          <label className="block text-xs text-gray-200 mb-1">性别</label>
           <div className="grid grid-cols-2 gap-2">
             <button type="button"
               onClick={() => onChange({ ...value, gender: 1 })}
               className={`px-3 py-2 rounded-lg text-center text-sm font-semibold border transition ${
-                value.gender === 1 ? "bg-gold text-dark-900 border-gold" : "bg-dark-700 border-gold/20 text-gray-400"
+                value.gender === 1 ? "bg-gold text-dark-900 border-gold" : "bg-dark-700 border-gold/20 text-gray-200"
               }`}>男</button>
             <button type="button"
               onClick={() => onChange({ ...value, gender: 2 })}
               className={`px-3 py-2 rounded-lg text-center text-sm font-semibold border transition ${
-                value.gender === 2 ? "bg-gold text-dark-900 border-gold" : "bg-dark-700 border-gold/20 text-gray-400"
+                value.gender === 2 ? "bg-gold text-dark-900 border-gold" : "bg-dark-700 border-gold/20 text-gray-200"
               }`}>女</button>
           </div>
         </div>
@@ -126,7 +126,7 @@ export default function HeHunPage() {
         <div className="text-center mb-10">
           <div className="text-5xl mb-4">💑</div>
           <h1 className="text-3xl font-serif font-bold text-gold">八字合婚</h1>
-          <p className="text-gray-400 mt-2">双方八字 · 剖析缘分 · 契合度评估</p>
+          <p className="text-gray-200 mt-2">双方八字 · 剖析缘分 · 契合度评估</p>
         </div>
 
         <form onSubmit={handleSubmit} className="max-w-4xl mx-auto space-y-5">
@@ -145,7 +145,7 @@ export default function HeHunPage() {
           <div className="mt-12 space-y-6">
             {/* 总分 + 等级 */}
             <div className="glass rounded-2xl p-6 border-gold/30 text-center">
-              <div className="text-sm text-gray-400 mb-2">
+              <div className="text-sm text-gray-200 mb-2">
                 {result.manName} ⚓ {result.womanName} · 合婚契合度
               </div>
               <div className="text-6xl font-serif font-bold text-gold mb-2">{result.totalScore}</div>
@@ -161,12 +161,12 @@ export default function HeHunPage() {
               <div className="glass rounded-2xl p-5">
                 <div className="text-blue-300 font-serif font-bold mb-2">👨 {result.manName} 命盘</div>
                 <div className="text-3xl font-serif text-gold mb-1">{result.man["日主"]}</div>
-                <div className="text-xs text-gray-500">日主{result.man["日主五行"]} · 身{result.man["日主力量"]} · 用神{result.man["用神"]}</div>
+                <div className="text-xs text-gray-300">日主{result.man["日主五行"]} · 身{result.man["日主力量"]} · 用神{result.man["用神"]}</div>
               </div>
               <div className="glass rounded-2xl p-5">
                 <div className="text-pink-300 font-serif font-bold mb-2">👩 {result.womanName} 命盘</div>
                 <div className="text-3xl font-serif text-gold mb-1">{result.woman["日主"]}</div>
-                <div className="text-xs text-gray-500">日主{result.woman["日主五行"]} · 身{result.woman["日主力量"]} · 用神{result.woman["用神"]}</div>
+                <div className="text-xs text-gray-300">日主{result.woman["日主五行"]} · 身{result.woman["日主力量"]} · 用神{result.woman["用神"]}</div>
               </div>
             </div>
 
@@ -184,7 +184,7 @@ export default function HeHunPage() {
                       <span className="text-sm font-bold text-gold w-10 text-right">{it.score}</span>
                       <span className={`px-2 py-0.5 rounded-full border text-xs font-bold ${GOOD_STYLE[it.good]}`}>{it.good}</span>
                     </div>
-                    <p className="text-sm text-gray-400">{it.text}</p>
+                    <p className="text-sm text-gray-200">{it.text}</p>
                   </div>
                 ))}
               </div>
@@ -195,25 +195,25 @@ export default function HeHunPage() {
               <div className="glass rounded-2xl p-5 border-green-500/30">
                 <h4 className="text-green-300 font-serif font-bold mb-3">✓ 相合之处</h4>
                 {result.chiHe.length > 0 ? (
-                  <ul className="space-y-1.5 text-sm text-gray-300">
+                  <ul className="space-y-1.5 text-sm text-gray-100">
                     {result.chiHe.map((c: string, i: number) => (
                       <li key={i} className="flex gap-2"><span className="text-green-400">▸</span>{c}</li>
                     ))}
                   </ul>
                 ) : (
-                  <p className="text-sm text-gray-500">暂无显著相合之处</p>
+                  <p className="text-sm text-gray-300">暂无显著相合之处</p>
                 )}
               </div>
               <div className="glass rounded-2xl p-5 border-red-500/20">
                 <h4 className="text-red-300 font-serif font-bold mb-3">⚠ 相冲相害</h4>
                 {result.chongHai.length > 0 ? (
-                  <ul className="space-y-1.5 text-sm text-gray-300">
+                  <ul className="space-y-1.5 text-sm text-gray-100">
                     {result.chongHai.map((c: string, i: number) => (
                       <li key={i} className="flex gap-2"><span className="text-red-400">▸</span>{c}</li>
                     ))}
                   </ul>
                 ) : (
-                  <p className="text-sm text-gray-500">无显著相冲，大吉</p>
+                  <p className="text-sm text-gray-300">无显著相冲，大吉</p>
                 )}
               </div>
             </div>

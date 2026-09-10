@@ -119,6 +119,23 @@ const skills: { name: string; icon: string; desc: string; descEn: string; color:
     badge: "NEW",
   },
   {
+    name: "起名取名",
+    icon: "🖋️",
+    desc: "八字用神起名 · 五格数理 · 姓名评分",
+    descEn: "Baby Naming · Five Elements · Name Score",
+    color: "from-indigo-900/40 to-purple-900/20",
+    href: "/ming",
+  },
+  {
+    name: "十二生肖",
+    icon: "🐲",
+    desc: "流年运势 · 生肖配对 · 属相五行合盘",
+    descEn: "Chinese Zodiac · Fortune · Compatibility",
+    color: "from-amber-900/40 to-orange-900/20",
+    href: "/shengxiao",
+    badge: "NEW",
+  },
+  {
     name: "星座运势",
 
     icon: "🌍",
@@ -134,6 +151,32 @@ const skills: { name: string; icon: string; desc: string; descEn: string; color:
     descEn: "Tarot · Major Arcana · Card Spreads",
     color: "from-violet-900/40 to-pink-900/20",
     href: "/tarot",
+  },
+  {
+    name: "玄空飞星",
+    icon: "🧭",
+    desc: "九宫飞泊 · 紫白飞星 · 察流年流月方位吉凶",
+    descEn: "XuanKong · Flying Stars · Directions",
+    color: "from-gold-900/40 to-amber-900/20",
+    href: "/xuankong",
+    badge: "NEW",
+  },
+  {
+    name: "达摩一掌经",
+    icon: "🪷",
+    desc: "四柱起课 · 十二宫 · 六道轮回观前世今生之性",
+    descEn: "Damu · One Palm Classic · Twelve Palaces",
+    color: "from-gold-900/40 to-amber-900/20",
+    href: "/zhangjing",
+    badge: "NEW",
+  },
+  {
+    name: "术数宝典",
+    icon: "📚",
+    desc: "阴阳五行 · 十神神煞 · 塔罗牌典 · 术数理论基础库",
+    descEn: "Knowledge Base · Theory & Encyclopaedia",
+    color: "from-gold-900/40 to-amber-900/20",
+    href: "/baodian",
   },
 ];
 
@@ -276,7 +319,7 @@ export default function Home() {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-4">
               <span className="text-gold text-2xl font-serif font-bold tracking-wider">BKing</span>
-              <span className="hidden md:inline text-xs text-white/30 uppercase tracking-[0.2em]">Oriental Wisdom · AI Divination</span>
+              <span className="hidden md:inline text-xs text-white/70 uppercase tracking-[0.2em]">Oriental Wisdom · AI Divination</span>
             </div>
             <div className="flex items-center gap-3">
               <button className="px-5 py-2.5 rounded-lg text-base text-white/60 hover:text-white transition-colors">
@@ -298,7 +341,7 @@ export default function Home() {
             <span className="px-4 py-1.5 text-xs text-gold bg-gold/8 rounded-full border border-gold/15 tracking-wider">
               ✦ 许愿池 RWA · 玄学赛道
             </span>
-            <p className="text-[10px] text-white/15 mt-1 tracking-wider">Wish Pool · On-Chain Mysticism</p>
+            <p className="text-[10px] text-white/50 mt-1 tracking-wider">Wish Pool · On-Chain Mysticism</p>
           </div>
 
           {/* Main Title - 东方智慧 · AI 解码 */}
@@ -312,20 +355,20 @@ export default function Home() {
                 <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold tracking-tight text-gold-400">AI 解码</span>
               </span>
             </div>
-            <p className="text-base sm:text-lg md:text-xl font-serif text-white/20 tracking-wide">
+            <p className="text-base sm:text-lg md:text-xl font-serif text-white/60 tracking-wide">
               Eastern Wisdom · AI Decoded
             </p>
           </div>
 
           {/* Subtitle - Systems */}
           <div className="space-y-1.5">
-            <p className="text-sm sm:text-base md:text-lg text-white/40 leading-relaxed max-w-xl">
+            <p className="text-sm sm:text-base md:text-lg text-white/80 leading-relaxed max-w-xl">
               八字 · 紫微斗数 · 奇门遁甲 · 西方星座 · 塔罗
             </p>
-            <p className="text-xs sm:text-sm text-white/20 leading-relaxed max-w-xl">
+            <p className="text-xs sm:text-sm text-white/60 leading-relaxed max-w-xl">
               Ba Zi · Zi Wei · Qi Men · Astrology · Tarot
             </p>
-            <p className="text-xs text-white/15 italic max-w-md">
+            <p className="text-xs text-white/50 italic max-w-md">
               Five ancient wisdom systems, cross-validated by AI
             </p>
           </div>
@@ -346,7 +389,7 @@ export default function Home() {
             </Link>
           </div>
 
-          <p className="text-xs text-white/15">
+          <p className="text-xs text-white/50">
             Start your reading →
           </p>
         </AnimatedSection>
@@ -366,10 +409,10 @@ export default function Home() {
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-gold-400">
             五大玄学体系
           </h2>
-          <p className="text-sm text-white/30">
+          <p className="text-sm text-white/70">
             Five Systems of Wisdom
           </p>
-          <p className="text-xs text-white/20 max-w-md">
+          <p className="text-xs text-white/60 max-w-md">
             Cross-validate your destiny across all traditions
           </p>
         </AnimatedSection>
@@ -391,8 +434,8 @@ export default function Home() {
                     </span>
                   )}
                 </h3>
-                <p className="text-xs text-white/40 leading-relaxed">{skill.desc}</p>
-                <p className="text-[10px] text-white/20 leading-relaxed mt-1">{skill.descEn}</p>
+                <p className="text-xs text-white/80 leading-relaxed">{skill.desc}</p>
+                <p className="text-[10px] text-white/60 leading-relaxed mt-1">{skill.descEn}</p>
                 <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity">
                   <span className="text-gold text-xs tracking-wider">探索 →</span>
                 </div>
@@ -408,8 +451,8 @@ export default function Home() {
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-gold-400">
             命理测算套餐
           </h2>
-          <p className="text-sm text-white/30">Pricing & Plans</p>
-          <p className="text-xs text-white/20 max-w-md">
+          <p className="text-sm text-white/70">Pricing & Plans</p>
+          <p className="text-xs text-white/60 max-w-md">
             支持 USDT / USDC / USDG · 按 1:1 等同金额
           </p>
         </AnimatedSection>
@@ -438,10 +481,10 @@ export default function Home() {
                   </span>
                 )}
                 <h3 className="text-xl font-serif font-bold text-white/90">{p.name}</h3>
-                <p className="text-[10px] text-white/25 uppercase tracking-widest mt-0.5">{p.en}</p>
+                <p className="text-[10px] text-white/60 uppercase tracking-widest mt-0.5">{p.en}</p>
                 <div className="mt-4 mb-5">
                   <span className="text-4xl font-serif font-bold bg-gradient-to-r from-gold-500 via-gold-300 to-gold-500 bg-clip-text text-transparent">{p.price}</span>
-                  <span className="text-xs text-white/30 ml-1">USDT / USDC</span>
+                  <span className="text-xs text-white/70 ml-1">USDT / USDC</span>
                 </div>
                 <ul className="space-y-2 text-sm text-white/50">
                   {p.items.map((it) => (
@@ -468,17 +511,17 @@ export default function Home() {
                   <h3 className="text-xl md:text-2xl font-serif font-bold text-gold-400">订阅会员 · VIP</h3>
                   <span className="text-[10px] px-2 py-0.5 rounded-full bg-gold/20 text-gold border border-gold/30">随时可测</span>
                 </div>
-                <p className="text-sm text-white/40 mt-2 max-w-xl">
+                <p className="text-sm text-white/80 mt-2 max-w-xl">
                   订阅期内不限次数测算当期运程 · 塔罗 · 星座，随时可测，无需逐次付费
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <div className="text-center sm:text-right">
-                  <div className="text-2xl font-serif font-bold text-white/90">$4.9<span className="text-xs text-white/30">/月</span></div>
-                  <div className="text-[10px] text-white/25 mt-0.5">灵活月付</div>
+                  <div className="text-2xl font-serif font-bold text-white/90">$4.9<span className="text-xs text-white/70">/月</span></div>
+                  <div className="text-[10px] text-white/60 mt-0.5">灵活月付</div>
                 </div>
                 <div className="text-center sm:text-right">
-                  <div className="text-2xl font-serif font-bold bg-gradient-to-r from-gold-500 to-gold-300 bg-clip-text text-transparent">$49.9<span className="text-xs text-white/40">/年</span></div>
+                  <div className="text-2xl font-serif font-bold bg-gradient-to-r from-gold-500 to-gold-300 bg-clip-text text-transparent">$49.9<span className="text-xs text-white/80">/年</span></div>
                   <div className="text-[10px] text-gold/70 mt-0.5 font-semibold">年付省 $9 · 推荐</div>
                 </div>
                 <button className="btn-gold px-8 py-3 rounded-xl text-sm font-semibold">开通订阅</button>
@@ -498,8 +541,8 @@ export default function Home() {
                 <h3 className="text-2xl md:text-3xl font-serif font-bold mb-3">
                   <span className="text-gold-400">连接钱包</span>
                 </h3>
-                <p className="text-sm text-white/40 mb-1">Connect Wallet</p>
-                <p className="text-sm text-white/30 mb-6">
+                <p className="text-sm text-white/80 mb-1">Connect Wallet</p>
+                <p className="text-sm text-white/70 mb-6">
                   OKX 钱包一键连接 · USDT / USDC / USDG 支付
                 </p>
                 <button className="btn-gold px-6 py-3 rounded-xl text-sm font-semibold inline-flex items-center gap-2">
@@ -507,9 +550,9 @@ export default function Home() {
                   连接 OKX 钱包
                 </button>
                 <div className="mt-6 flex gap-3 justify-center">
-                  <span className="px-3 py-1 bg-white/5 rounded-lg text-xs text-white/40 border border-white/5">USDT</span>
-                  <span className="px-3 py-1 bg-white/5 rounded-lg text-xs text-white/40 border border-white/5">USDC</span>
-                  <span className="px-3 py-1 bg-white/5 rounded-lg text-xs text-white/40 border border-white/5">USDG</span>
+                  <span className="px-3 py-1 bg-white/5 rounded-lg text-xs text-white/80 border border-white/5">USDT</span>
+                  <span className="px-3 py-1 bg-white/5 rounded-lg text-xs text-white/80 border border-white/5">USDC</span>
+                  <span className="px-3 py-1 bg-white/5 rounded-lg text-xs text-white/80 border border-white/5">USDG</span>
                 </div>
               </div>
 
@@ -518,8 +561,8 @@ export default function Home() {
                 <h3 className="text-2xl md:text-3xl font-serif font-bold mb-3">
                   <span className="text-gold-400">加入社区</span>
                 </h3>
-                <p className="text-sm text-white/40 mb-1">Join Community</p>
-                <p className="text-sm text-white/30 mb-6">
+                <p className="text-sm text-white/80 mb-1">Join Community</p>
+                <p className="text-sm text-white/70 mb-6">
                   与 10,000+ 玄学爱好者一起探索命运
                 </p>
                 <div className="flex flex-wrap gap-3 justify-center">
@@ -529,14 +572,14 @@ export default function Home() {
                       href={link.href}
                       className={`flex items-center gap-2 px-5 py-3 rounded-xl border text-sm transition-all ${
                         link.status === "coming"
-                          ? "border-white/5 text-white/20 cursor-not-allowed"
+                          ? "border-white/5 text-white/60 cursor-not-allowed"
                           : "border-white/10 text-white/60 hover:border-gold/25 hover:text-gold hover:bg-gold/5"
                       }`}
                     >
                       <span>{link.icon}</span>
                       <span>{link.name}</span>
                       {link.status === "coming" && (
-                        <span className="text-[10px] text-white/15">Coming</span>
+                        <span className="text-[10px] text-white/50">Coming</span>
                       )}
                     </a>
                   ))}
@@ -557,7 +600,7 @@ export default function Home() {
                   {stat.num}
                 </div>
                 <div className="text-sm text-white/50 mt-1">{stat.label}</div>
-                <div className="text-[10px] text-white/20">{stat.labelEn}</div>
+                <div className="text-[10px] text-white/60">{stat.labelEn}</div>
               </div>
             ))}
           </div>
@@ -570,9 +613,9 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <span className="text-gold font-serif font-bold tracking-wider">BKing</span>
-              <span className="text-[10px] text-white/15">© 2026 许愿池 RWA</span>
+              <span className="text-[10px] text-white/50">© 2026 许愿池 RWA</span>
             </div>
-            <div className="flex gap-6 text-xs text-white/30">
+            <div className="flex gap-6 text-xs text-white/70">
               <span className="hover:text-white/60 cursor-pointer transition-colors">服务条款</span>
               <span className="hover:text-white/60 cursor-pointer transition-colors">隐私政策</span>
               <span className="hover:text-white/60 cursor-pointer transition-colors">帮助中心</span>

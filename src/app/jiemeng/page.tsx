@@ -57,7 +57,7 @@ export default function JieMengPage() {
         <div className="text-center mb-10">
           <div className="text-5xl mb-4">💤</div>
           <h1 className="text-3xl font-serif font-bold text-gold">周公解梦</h1>
-          <p className="text-gray-400 mt-2">梦境意象 · 剖析吉凶 · 古法释梦</p>
+          <p className="text-gray-200 mt-2">梦境意象 · 剖析吉凶 · 古法释梦</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -74,7 +74,7 @@ export default function JieMengPage() {
                 key={i}
                 type="button"
                 onClick={() => setText(ex)}
-                className="px-3 py-1.5 rounded-full bg-dark-700 border border-gold/15 text-gray-300 text-xs hover:border-gold/40 hover:text-gold transition"
+                className="px-3 py-1.5 rounded-full bg-dark-700 border border-gold/15 text-gray-100 text-xs hover:border-gold/40 hover:text-gold transition"
               >
                 {ex.slice(0, 14)}…
               </button>
@@ -98,7 +98,7 @@ export default function JieMengPage() {
                 </span>
               </div>
               <p className="text-gray-200 leading-relaxed">{result.summary}</p>
-              <div className="text-xs text-gray-500 mt-3">命中意象 {result.hits.length} 项</div>
+              <div className="text-xs text-gray-300 mt-3">命中意象 {result.hits.length} 项</div>
             </div>
 
             {/* 命中意象 */}
@@ -114,7 +114,7 @@ export default function JieMengPage() {
                         {h.good}
                       </span>
                     </div>
-                    <p className="text-sm text-gray-400">{h.text}</p>
+                    <p className="text-sm text-gray-200">{h.text}</p>
                   </div>
                 ))}
               </div>

@@ -1,0 +1,602 @@
+"use client";
+
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+
+const skills: { name: string; icon: string; desc: string; descEn: string; color: string; href: string; badge?: string }[] = [
+  {
+    name: "玄机大师",
+    icon: "🔮",
+    desc: "AI 命理对话 · 一句话自动排八字/紫微/奇门/解梦/运势",
+    descEn: "AI Oracle · Conversational Divination",
+    color: "from-gold-900/50 to-amber-900/30",
+    href: "/oracle",
+    badge: "NEW",
+  },
+  {
+    name: "天机命理",
+    icon: "☯️",
+    desc: "八字 · 紫微 · 星座 · 称骨 · 五格 一站测算",
+    descEn: "All-in-One · BaZi · ZiWei · Astrology · Name",
+    color: "from-gold-900/40 to-amber-900/20",
+    href: "/tianji",
+    badge: "NEW",
+  },
+  {
+    name: "八字",
+    icon: "🌙",
+    desc: "四柱八字 · 十神格局 · 大运流年",
+    descEn: "Four Pillars · Fortune · Decade Luck",
+    color: "from-amber-900/40 to-yellow-900/20",
+    href: "/bazi",
+  },
+  {
+    name: "紫微斗数",
+    icon: "⭐",
+    desc: "十二宫位 · 星曜分布 · 四化飞星",
+    descEn: "Zi Wei · 12 Palaces · Star Layout",
+    color: "from-purple-900/40 to-indigo-900/20",
+    href: "/zwei",
+  },
+  {
+    name: "奇门遁甲",
+    icon: "🏯",
+    desc: "时空盘局 · 三奇八门 · 择时决策",
+    descEn: "Qi Men · Space-Time · Divination",
+    color: "from-red-900/40 to-orange-900/20",
+    href: "/qimen",
+  },
+  {
+    name: "小六壬",
+    icon: "🔮",
+    desc: "六宫掌诀 · 便捷快占 · 心中默念所问",
+    descEn: "Xiao Liu Ren · Quick Divination",
+    color: "from-teal-900/40 to-cyan-900/20",
+    href: "/liuren",
+    badge: "NEW",
+  },
+  {
+    name: "六爻占卜",
+    icon: "🪙",
+    desc: "三枚铜钱 · 卦象断吉凶 · 世应六亲",
+    descEn: "Six Lines · Yarrow Stalk Divination",
+    color: "from-orange-900/40 to-red-900/20",
+    href: "/liuyao",
+    badge: "NEW",
+  },
+  {
+    name: "八字反推",
+    icon: "🔁",
+    desc: "不知时辰也能排 · 十二时辰对照校正命盘",
+    descEn: "BaZi Time Retro-Deduction",
+    color: "from-slate-900/40 to-indigo-900/20",
+    href: "/tuifa",
+    badge: "NEW",
+  },
+  {
+    name: "梅花易数",
+    icon: "🌸",
+    desc: "以数起卦 · 观体用生克 · 断事之吉凶",
+    descEn: "Plum Blossom Numeracy",
+    color: "from-rose-900/40 to-pink-900/20",
+    href: "/meihua",
+    badge: "NEW",
+  },
+  {
+    name: "八字合婚",
+    icon: "💑",
+    desc: "双方八字 · 剖析缘分 · 契合度评估",
+    descEn: "BaZi Marriage Compatibility",
+    color: "from-pink-900/40 to-rose-900/20",
+    href: "/hehun",
+    badge: "NEW",
+  },
+  {
+    name: "周公解梦",
+    icon: "💤",
+    desc: "梦境意象 · 剖析吉凶 · 古法释梦",
+    descEn: "Duke of Zhou Dream Interpretation",
+    color: "from-blue-900/40 to-indigo-900/20",
+    href: "/jiemeng",
+    badge: "NEW",
+  },
+  {
+    name: "择日择吉",
+    icon: "📆",
+    desc: "为诸事挑选黄道吉日 · 嫁娶开业搬迁动土",
+    descEn: "Choose Auspicious Days · Calendar Selection",
+    color: "from-purple-900/40 to-indigo-900/20",
+    href: "/zeyi",
+    badge: "NEW",
+  },
+  {
+    name: "每日黄历",
+    icon: "📅",
+    desc: "当日干支 · 宜忌 · 冲煞 · 彭祖百忌 · 万年历",
+    descEn: "Almanac · Daily Fortune · Calendars",
+    color: "from-amber-900/40 to-yellow-900/20",
+    href: "/huangli",
+    badge: "NEW",
+  },
+  {
+    name: "起名取名",
+    icon: "🖋️",
+    desc: "八字用神起名 · 五格数理 · 姓名评分",
+    descEn: "Baby Naming · Five Elements · Name Score",
+    color: "from-indigo-900/40 to-purple-900/20",
+    href: "/ming",
+  },
+  {
+    name: "十二生肖",
+    icon: "🐲",
+    desc: "流年运势 · 生肖配对 · 属相五行合盘",
+    descEn: "Chinese Zodiac · Fortune · Compatibility",
+    color: "from-amber-900/40 to-orange-900/20",
+    href: "/shengxiao",
+    badge: "NEW",
+  },
+  {
+    name: "星座运势",
+
+    icon: "🌍",
+    desc: "行星相位 · 宫位系统 · 每日运势",
+    descEn: "Western Astrology · Signs · Horoscope",
+    color: "from-blue-900/40 to-cyan-900/20",
+    href: "/astrology",
+  },
+  {
+    name: "塔罗占卜",
+    icon: "🔮",
+    desc: "大阿卡纳 · 小阿卡纳 · 牌阵解读",
+    descEn: "Tarot · Major Arcana · Card Spreads",
+    color: "from-violet-900/40 to-pink-900/20",
+    href: "/tarot",
+  },
+];
+
+const socialLinks = [
+  { name: "Discord", href: "#", icon: "💬" },
+  { name: "X / Twitter", href: "#", icon: "𝕏" },
+  { name: "Telegram", href: "#", icon: "✈️", status: "coming" },
+];
+
+const stats = [
+  { num: "10,000+", label: "社区成员", labelEn: "Community" },
+  { num: "50,000+", label: "命理分析", labelEn: "Readings" },
+  { num: "5", label: "玄学体系", labelEn: "Systems" },
+  { num: "98.5%", label: "准确率", labelEn: "Accuracy" },
+];
+
+function ParticleField() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animationId: number;
+    const particles: { x: number; y: number; vx: number; vy: number; r: number; o: number }[] = [];
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    for (let i = 0; i < 80; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        r: Math.random() * 2 + 0.5,
+        o: Math.random() * 0.5 + 0.1,
+      });
+    }
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0) p.x = canvas.width;
+        if (p.x > canvas.width) p.x = 0;
+        if (p.y < 0) p.y = canvas.height;
+        if (p.y > canvas.height) p.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(212, 154, 26, ${p.o})`;
+        ctx.fill();
+      }
+
+      // Draw connections
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 150) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(212, 154, 26, ${0.06 * (1 - dist / 150)})`;
+            ctx.stroke();
+          }
+        }
+      }
+
+      animationId = requestAnimationFrame(draw);
+    };
+    draw();
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 pointer-events-none z-0"
+    />
+  );
+}
+
+function AnimatedSection({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`transition-all duration-1000 ease-out ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"} ${className}`}
+    >
+      {children}
+    </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <div className="relative min-h-screen bg-[#0d0d0d] overflow-x-hidden">
+      {/* Particle background */}
+      <ParticleField />
+
+      {/* Gradient orbs */}
+      <div className="fixed top-1/4 -left-32 w-96 h-96 bg-gold/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="fixed bottom-1/4 -right-32 w-96 h-96 bg-purple-900/10 rounded-full blur-[120px] pointer-events-none" />
+
+      {/* Navigation */}
+      <nav className="relative z-10 border-b border-white/5">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center gap-4">
+              <span className="text-gold text-2xl font-serif font-bold tracking-wider">BKing</span>
+              <span className="hidden md:inline text-xs text-white/30 uppercase tracking-[0.2em]">Oriental Wisdom · AI Divination</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <button className="px-5 py-2.5 rounded-lg text-base text-white/60 hover:text-white transition-colors">
+                登录 / Login
+              </button>
+              <button className="btn-gold px-5 py-2.5 rounded-lg text-base font-semibold">
+                注册 / Register
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="relative z-10 flex flex-col items-center justify-center px-6 pt-24 lg:pt-32 pb-16 min-h-[80vh]">
+        <AnimatedSection className="flex flex-col items-center text-center max-w-4xl mx-auto gap-6">
+          {/* Tag */}
+          <div>
+            <span className="px-4 py-1.5 text-xs text-gold bg-gold/8 rounded-full border border-gold/15 tracking-wider">
+              ✦ 许愿池 RWA · 玄学赛道
+            </span>
+            <p className="text-[10px] text-white/15 mt-1 tracking-wider">Wish Pool · On-Chain Mysticism</p>
+          </div>
+
+          {/* Main Title - 东方智慧 · AI 解码 */}
+          <div className="space-y-1">
+            <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+              <span className="whitespace-nowrap">
+                <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold tracking-tight text-gold-400">东方智慧</span>
+              </span>
+              <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold tracking-tight text-gold-400/80">·</span>
+              <span className="whitespace-nowrap">
+                <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold tracking-tight text-gold-400">AI 解码</span>
+              </span>
+            </div>
+            <p className="text-base sm:text-lg md:text-xl font-serif text-white/20 tracking-wide">
+              Eastern Wisdom · AI Decoded
+            </p>
+          </div>
+
+          {/* Subtitle - Systems */}
+          <div className="space-y-1.5">
+            <p className="text-sm sm:text-base md:text-lg text-white/40 leading-relaxed max-w-xl">
+              八字 · 紫微斗数 · 奇门遁甲 · 西方星座 · 塔罗
+            </p>
+            <p className="text-xs sm:text-sm text-white/20 leading-relaxed max-w-xl">
+              Ba Zi · Zi Wei · Qi Men · Astrology · Tarot
+            </p>
+            <p className="text-xs text-white/15 italic max-w-md">
+              Five ancient wisdom systems, cross-validated by AI
+            </p>
+          </div>
+
+          {/* Buttons */}
+          <div className="flex flex-wrap gap-4 justify-center pt-2">
+            <Link href="/bazi" className="btn-gold px-8 py-3.5 rounded-xl text-base font-semibold inline-flex items-center gap-2 shadow-lg shadow-gold/15">
+              🔮 开始测算
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </Link>
+            <Link href="/wishing-well" className="px-8 py-3.5 rounded-xl text-base inline-flex items-center gap-2 border border-white/10 text-white/70 hover:border-gold/30 hover:text-gold transition-all">
+              💎 许愿池
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </Link>
+          </div>
+
+          <p className="text-xs text-white/15">
+            Start your reading →
+          </p>
+        </AnimatedSection>
+
+        {/* Decorative divider */}
+        <div className="mt-16 flex flex-col items-center gap-2">
+          <div className="w-px h-12 bg-gradient-to-b from-gold/30 to-transparent" />
+          <svg className="w-4 h-4 text-gold/30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 15l7-7 7 7" />
+          </svg>
+        </div>
+      </section>
+
+      {/* Skills Section */}
+      <section id="skills" className="relative z-10 flex flex-col items-center px-6 py-20">
+        <AnimatedSection className="flex flex-col items-center text-center mb-14 max-w-2xl mx-auto gap-2">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-gold-400">
+            五大玄学体系
+          </h2>
+          <p className="text-sm text-white/30">
+            Five Systems of Wisdom
+          </p>
+          <p className="text-xs text-white/20 max-w-md">
+            Cross-validate your destiny across all traditions
+          </p>
+        </AnimatedSection>
+
+        <AnimatedSection className="w-full max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+            {skills.map((skill) => (
+              <Link
+                href={skill.href}
+                key={skill.name}
+                className="relative group rounded-2xl p-6 bg-gradient-to-b from-white/[0.04] to-transparent border border-white/[0.06] hover:border-gold/25 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-gold/10 text-center"
+              >
+                <div className="text-4xl mb-4 transition-transform duration-300 group-hover:scale-110">{skill.icon}</div>
+                <h3 className="text-xl font-serif font-bold text-white/90 mb-1 flex items-center justify-center gap-2">
+                  {skill.name}
+                  {skill.badge && (
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-gold/20 text-gold border border-gold/30 font-sans font-normal animate-pulse">
+                      {skill.badge}
+                    </span>
+                  )}
+                </h3>
+                <p className="text-xs text-white/40 leading-relaxed">{skill.desc}</p>
+                <p className="text-[10px] text-white/20 leading-relaxed mt-1">{skill.descEn}</p>
+                <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span className="text-gold text-xs tracking-wider">探索 →</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </AnimatedSection>
+      </section>
+
+      {/* Pricing 收费套餐 */}
+      <section id="pricing" className="relative z-10 flex flex-col items-center px-6 py-20">
+        <AnimatedSection className="flex flex-col items-center text-center mb-12 max-w-2xl mx-auto gap-2">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-gold-400">
+            命理测算套餐
+          </h2>
+          <p className="text-sm text-white/30">Pricing & Plans</p>
+          <p className="text-xs text-white/20 max-w-md">
+            支持 USDT / USDC / USDG · 按 1:1 等同金额
+          </p>
+        </AnimatedSection>
+
+        <AnimatedSection className="w-full max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {[
+              { name: "入门单测", en: "Starter", price: "$1", items: ["八字排盘", "星座分析"], badge: "引流款" },
+              { name: "进阶测算", en: "Advanced", price: "$4.9", items: ["八字排盘", "紫微斗数", "星座分析"] },
+              { name: "专业全测", en: "Pro", price: "$9.9", items: ["紫微斗数", "奇门遁甲", "星座分析", "塔罗占卜"], badge: "主力", hot: true },
+              { name: "至尊全套", en: "Deluxe", price: "$14.9", items: ["八字", "紫微", "奇门", "天机", "星座", "塔罗", "起名"], badge: "全套" },
+            ].map((p) => (
+              <div
+                key={p.price}
+                className={`relative rounded-2xl p-6 bg-gradient-to-b from-white/[0.04] to-transparent border transition-all duration-300 hover:-translate-y-1 ${
+                  p.hot
+                    ? "border-gold/40 shadow-lg shadow-gold/10"
+                    : "border-white/[0.06] hover:border-gold/25"
+                }`}
+              >
+                {p.badge && (
+                  <span className={`absolute -top-2.5 left-5 text-[10px] px-2.5 py-1 rounded-full font-sans font-bold ${
+                    p.hot ? "bg-gold text-black" : "bg-gold/20 text-gold border border-gold/30"
+                  }`}>
+                    {p.badge}
+                  </span>
+                )}
+                <h3 className="text-xl font-serif font-bold text-white/90">{p.name}</h3>
+                <p className="text-[10px] text-white/25 uppercase tracking-widest mt-0.5">{p.en}</p>
+                <div className="mt-4 mb-5">
+                  <span className="text-4xl font-serif font-bold bg-gradient-to-r from-gold-500 via-gold-300 to-gold-500 bg-clip-text text-transparent">{p.price}</span>
+                  <span className="text-xs text-white/30 ml-1">USDT / USDC</span>
+                </div>
+                <ul className="space-y-2 text-sm text-white/50">
+                  {p.items.map((it) => (
+                    <li key={it} className="flex items-center gap-2">
+                      <span className="text-gold text-xs">✦</span>
+                      {it}
+                    </li>
+                  ))}
+                </ul>
+                <button className={`mt-6 w-full py-2.5 rounded-xl text-sm font-semibold transition-all ${
+                  p.hot ? "btn-gold" : "border border-white/10 text-white/70 hover:border-gold/30 hover:text-gold"
+                }`}>
+                  立即测算
+                </button>
+              </div>
+            ))}
+          </div>
+
+          {/* 订阅制 */}
+          <div className="mt-10 rounded-2xl p-6 md:p-8 bg-gradient-to-r from-gold/8 to-amber-900/15 border border-gold/20">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-xl md:text-2xl font-serif font-bold text-gold-400">订阅会员 · VIP</h3>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-gold/20 text-gold border border-gold/30">随时可测</span>
+                </div>
+                <p className="text-sm text-white/40 mt-2 max-w-xl">
+                  订阅期内不限次数测算当期运程 · 塔罗 · 星座，随时可测，无需逐次付费
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="text-center sm:text-right">
+                  <div className="text-2xl font-serif font-bold text-white/90">$4.9<span className="text-xs text-white/30">/月</span></div>
+                  <div className="text-[10px] text-white/25 mt-0.5">灵活月付</div>
+                </div>
+                <div className="text-center sm:text-right">
+                  <div className="text-2xl font-serif font-bold bg-gradient-to-r from-gold-500 to-gold-300 bg-clip-text text-transparent">$49.9<span className="text-xs text-white/40">/年</span></div>
+                  <div className="text-[10px] text-gold/70 mt-0.5 font-semibold">年付省 $9 · 推荐</div>
+                </div>
+                <button className="btn-gold px-8 py-3 rounded-xl text-sm font-semibold">开通订阅</button>
+              </div>
+            </div>
+          </div>
+        </AnimatedSection>
+      </section>
+
+      {/* Wallet & Community */}
+      <section className="relative z-10 flex flex-col items-center px-6 py-16">
+        <AnimatedSection className="w-full max-w-5xl mx-auto">
+          <div className="rounded-3xl p-8 md:p-12 bg-gradient-to-b from-white/[0.03] to-transparent border border-white/[0.06]">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
+              {/* Wallet Connect */}
+              <div className="flex flex-col items-center text-center">
+                <h3 className="text-2xl md:text-3xl font-serif font-bold mb-3">
+                  <span className="text-gold-400">连接钱包</span>
+                </h3>
+                <p className="text-sm text-white/40 mb-1">Connect Wallet</p>
+                <p className="text-sm text-white/30 mb-6">
+                  OKX 钱包一键连接 · USDT / USDC / USDG 支付
+                </p>
+                <button className="btn-gold px-6 py-3 rounded-xl text-sm font-semibold inline-flex items-center gap-2">
+                  <span>🔗</span>
+                  连接 OKX 钱包
+                </button>
+                <div className="mt-6 flex gap-3 justify-center">
+                  <span className="px-3 py-1 bg-white/5 rounded-lg text-xs text-white/40 border border-white/5">USDT</span>
+                  <span className="px-3 py-1 bg-white/5 rounded-lg text-xs text-white/40 border border-white/5">USDC</span>
+                  <span className="px-3 py-1 bg-white/5 rounded-lg text-xs text-white/40 border border-white/5">USDG</span>
+                </div>
+              </div>
+
+              {/* Community */}
+              <div className="flex flex-col items-center text-center">
+                <h3 className="text-2xl md:text-3xl font-serif font-bold mb-3">
+                  <span className="text-gold-400">加入社区</span>
+                </h3>
+                <p className="text-sm text-white/40 mb-1">Join Community</p>
+                <p className="text-sm text-white/30 mb-6">
+                  与 10,000+ 玄学爱好者一起探索命运
+                </p>
+                <div className="flex flex-wrap gap-3 justify-center">
+                  {socialLinks.map((link) => (
+                    <a
+                      key={link.name}
+                      href={link.href}
+                      className={`flex items-center gap-2 px-5 py-3 rounded-xl border text-sm transition-all ${
+                        link.status === "coming"
+                          ? "border-white/5 text-white/20 cursor-not-allowed"
+                          : "border-white/10 text-white/60 hover:border-gold/25 hover:text-gold hover:bg-gold/5"
+                      }`}
+                    >
+                      <span>{link.icon}</span>
+                      <span>{link.name}</span>
+                      {link.status === "coming" && (
+                        <span className="text-[10px] text-white/15">Coming</span>
+                      )}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </AnimatedSection>
+      </section>
+
+      {/* Stats */}
+      <section className="relative z-10 flex flex-col items-center px-6 py-12">
+        <AnimatedSection className="w-full max-w-4xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {stats.map((stat) => (
+              <div key={stat.label} className="text-center p-4 rounded-2xl bg-white/[0.02] border border-white/[0.04]">
+                <div className="text-2xl md:text-3xl lg:text-4xl font-serif font-bold bg-gradient-to-r from-gold-500 via-gold-300 to-gold-500 bg-clip-text text-transparent">
+                  {stat.num}
+                </div>
+                <div className="text-sm text-white/50 mt-1">{stat.label}</div>
+                <div className="text-[10px] text-white/20">{stat.labelEn}</div>
+              </div>
+            ))}
+          </div>
+        </AnimatedSection>
+      </section>
+
+      {/* Footer */}
+      <footer className="relative z-10 border-t border-white/5 mt-16">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <span className="text-gold font-serif font-bold tracking-wider">BKing</span>
+              <span className="text-[10px] text-white/15">© 2026 许愿池 RWA</span>
+            </div>
+            <div className="flex gap-6 text-xs text-white/30">
+              <span className="hover:text-white/60 cursor-pointer transition-colors">服务条款</span>
+              <span className="hover:text-white/60 cursor-pointer transition-colors">隐私政策</span>
+              <span className="hover:text-white/60 cursor-pointer transition-colors">帮助中心</span>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}

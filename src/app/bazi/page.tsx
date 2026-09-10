@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import TTSButton from "@/components/TTSButton";
 import { downloadReport } from "@/lib/downloadPdf";
 
 export default function BaZiPage() {
@@ -71,14 +72,14 @@ export default function BaZiPage() {
         <div className="text-center mb-10">
           <div className="text-5xl mb-4">🌙</div>
           <h1 className="text-3xl font-serif font-bold text-gold">八字排盘</h1>
-          <p className="text-gray-400 mt-2">输入出生信息，AI 自动排盘 + 五行解读</p>
+          <p className="text-gray-200 mt-2">输入出生信息，AI 自动排盘 + 五行解读</p>
         </div>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-5">
           <div className="grid grid-cols-3 gap-3">
             <div>
-              <label className="block text-sm text-gray-400 mb-1">出生年</label>
+              <label className="block text-sm text-gray-200 mb-1">出生年</label>
               <select
                 value={form.year}
                 onChange={(e) => setForm({ ...form, year: Number(e.target.value) })}
@@ -90,7 +91,7 @@ export default function BaZiPage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm text-gray-400 mb-1">出生月</label>
+              <label className="block text-sm text-gray-200 mb-1">出生月</label>
               <select
                 value={form.month}
                 onChange={(e) => setForm({ ...form, month: Number(e.target.value) })}
@@ -102,7 +103,7 @@ export default function BaZiPage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm text-gray-400 mb-1">出生日</label>
+              <label className="block text-sm text-gray-200 mb-1">出生日</label>
               <select
                 value={form.day}
                 onChange={(e) => setForm({ ...form, day: Number(e.target.value) })}
@@ -117,7 +118,7 @@ export default function BaZiPage() {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm text-gray-400 mb-1">出生时辰</label>
+              <label className="block text-sm text-gray-200 mb-1">出生时辰</label>
               <select
                 value={form.hour}
                 onChange={(e) => setForm({ ...form, hour: Number(e.target.value) })}
@@ -129,7 +130,7 @@ export default function BaZiPage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm text-gray-400 mb-1">性别</label>
+              <label className="block text-sm text-gray-200 mb-1">性别</label>
               <select
                 value={form.gender}
                 onChange={(e) => setForm({ ...form, gender: Number(e.target.value) })}
@@ -169,7 +170,7 @@ export default function BaZiPage() {
               <div className="grid grid-cols-4 gap-3 text-center">
                 {Object.entries(result.四柱).map(([key, val]: [string, any]) => (
                   <div key={key} className="bg-dark-700 rounded-xl p-3 border border-gold/10">
-                    <div className="text-xs text-gray-500 mb-1">{key}</div>
+                    <div className="text-xs text-gray-300 mb-1">{key}</div>
                     <div className="text-2xl font-serif font-bold text-gold-light">{val}</div>
                   </div>
                 ))}
@@ -181,7 +182,7 @@ export default function BaZiPage() {
               <h2 className="text-lg font-serif font-bold text-gold mb-4 text-center">【日主】</h2>
               <div className="text-center">
                 <div className="text-4xl font-serif font-bold text-gold-light mb-2">{result.日主}</div>
-                <div className="text-gray-400">
+                <div className="text-gray-200">
                   {result.日主五行} · {result.日主阴阳} · 身{result.日主力量}
                 </div>
               </div>
@@ -206,7 +207,7 @@ export default function BaZiPage() {
                           style={{ width: `${(count as number) / 6 * 100}%` }}
                         />
                       </div>
-                      <span className="text-xs text-gray-400 w-8 text-right">{(count as number).toFixed(1)}</span>
+                      <span className="text-xs text-gray-200 w-8 text-right">{(count as number).toFixed(1)}</span>
                     </div>
                   );
                 })}
@@ -218,15 +219,15 @@ export default function BaZiPage() {
               <h2 className="text-lg font-serif font-bold text-gold mb-4 text-center">【用神喜忌】</h2>
               <div className="grid grid-cols-3 gap-4 text-center">
                 <div className="bg-dark-700 rounded-xl p-4 border border-green-500/20">
-                  <div className="text-xs text-gray-500 mb-1">用神</div>
+                  <div className="text-xs text-gray-300 mb-1">用神</div>
                   <div className="text-2xl font-bold text-green-400">{result.用神}</div>
                 </div>
                 <div className="bg-dark-700 rounded-xl p-4 border border-blue-500/20">
-                  <div className="text-xs text-gray-500 mb-1">喜神</div>
+                  <div className="text-xs text-gray-300 mb-1">喜神</div>
                   <div className="text-2xl font-bold text-blue-400">{result.喜神}</div>
                 </div>
                 <div className="bg-dark-700 rounded-xl p-4 border border-red-500/20">
-                  <div className="text-xs text-gray-500 mb-1">忌神</div>
+                  <div className="text-xs text-gray-300 mb-1">忌神</div>
                   <div className="text-2xl font-bold text-red-400">{result.忌神}</div>
                 </div>
               </div>
@@ -239,7 +240,7 @@ export default function BaZiPage() {
                 {(result.大运 as any[]).slice(0, 4).map((dy: any, i: number) => (
                   <div key={i} className="bg-dark-700 rounded-xl p-3 text-center border border-gold/10">
                     <div className="text-xl font-serif font-bold text-gold-light">{dy.大运}</div>
-                    <div className="text-xs text-gray-500 mt-1">{dy.年龄}</div>
+                    <div className="text-xs text-gray-300 mt-1">{dy.年龄}</div>
                   </div>
                 ))}
               </div>
@@ -250,17 +251,26 @@ export default function BaZiPage() {
               <h2 className="text-lg font-serif font-bold text-gold mb-4 text-center">【当前流年】</h2>
               <div className="text-center">
                 <div className="text-3xl font-serif font-bold text-gold-light">{result.流年}</div>
-                <div className="text-gray-400 text-sm mt-2">丙午年 · 天干丙火，地支午火</div>
+                <div className="text-gray-200 text-sm mt-2">丙午年 · 天干丙火，地支午火</div>
               </div>
             </div>
 
             {/* 交易解读 */}
             <div className="glass rounded-2xl p-6 mb-6 border-gold/20">
-              <h2 className="text-lg font-serif font-bold text-gold mb-4 text-center">【命格解读】</h2>
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <h2 className="text-lg font-serif font-bold text-gold text-center">【命格解读】</h2>
+                <TTSButton text={result._deepen || result.formatted} label="🔊 听解读" small />
+              </div>
+              {result._deepen && (
+                <div className="mb-5 rounded-xl border border-gold/20 bg-gold/5 p-4">
+                  <div className="text-xs text-gold/70 mb-2 tracking-wider">玄机大师 · 深化解读</div>
+                  <div className="text-sm text-gray-100 leading-relaxed whitespace-pre-wrap">{result._deepen}</div>
+                </div>
+              )}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {Object.entries(result.交易解读).map(([key, val]: [string, any]) => (
                   <div key={key} className="bg-dark-700 rounded-xl p-3 text-center">
-                    <div className="text-xs text-gray-500 mb-1">{key}</div>
+                    <div className="text-xs text-gray-300 mb-1">{key}</div>
                     <div className="text-sm text-gold-light">{val as string}</div>
                   </div>
                 ))}
@@ -270,7 +280,7 @@ export default function BaZiPage() {
             {/* Raw text */}
             <div className="glass rounded-2xl p-6 mb-6">
               <h2 className="text-lg font-serif font-bold text-gold mb-4 text-center">【排盘明细】</h2>
-              <pre className="text-xs text-gray-400 leading-relaxed whitespace-pre-wrap font-mono">
+              <pre className="text-xs text-gray-200 leading-relaxed whitespace-pre-wrap font-mono">
                 {result.formatted}
               </pre>
             </div>

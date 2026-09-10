@@ -55,7 +55,7 @@ export default function LiuRenPage() {
         <div className="text-center mb-10">
           <div className="text-5xl mb-4">🔮</div>
           <h1 className="text-3xl font-serif font-bold text-gold">小六壬占卜</h1>
-          <p className="text-gray-400 mt-2">六宫掌诀 · 便捷快占 · 心中默念所问之事</p>
+          <p className="text-gray-200 mt-2">六宫掌诀 · 便捷快占 · 心中默念所问之事</p>
         </div>
 
         {/* 玩法切换 */}
@@ -65,7 +65,7 @@ export default function LiuRenPage() {
             className={`px-4 py-2.5 rounded-xl text-sm font-semibold transition border ${
               mode === "now"
                 ? "bg-gold text-dark-900 border-gold"
-                : "bg-dark-700 border-gold/20 text-gray-400 hover:border-gold/50"
+                : "bg-dark-700 border-gold/20 text-gray-200 hover:border-gold/50"
             }`}
           >
             🕐 当前时刻
@@ -75,7 +75,7 @@ export default function LiuRenPage() {
             className={`px-4 py-2.5 rounded-xl text-sm font-semibold transition border ${
               mode === "numbers"
                 ? "bg-gold text-dark-900 border-gold"
-                : "bg-dark-700 border-gold/20 text-gray-400 hover:border-gold/50"
+                : "bg-dark-700 border-gold/20 text-gray-200 hover:border-gold/50"
             }`}
           >
             🔢 随心取数
@@ -85,14 +85,14 @@ export default function LiuRenPage() {
         <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-5">
           {mode === "now" ? (
             <div className="glass rounded-2xl p-6 text-center">
-              <p className="text-sm text-gray-300 mb-2">闭目 · 静心 · 心中默念所问之事，然后起课</p>
+              <p className="text-sm text-gray-100 mb-2">闭目 · 静心 · 心中默念所问之事，然后起课</p>
               <p className="text-xs text-gold/70">按你此刻的农历月、日、时辰自动起课</p>
             </div>
           ) : (
             <div className="grid grid-cols-3 gap-3">
               {(["a", "b", "c"] as const).map((k, idx) => (
                 <div key={k}>
-                  <label className="block text-sm text-gray-400 mb-1">第{idx + 1}数</label>
+                  <label className="block text-sm text-gray-200 mb-1">第{idx + 1}数</label>
                   <input
                     type="number"
                     min={1}
@@ -130,7 +130,7 @@ export default function LiuRenPage() {
               <span className={`inline-block mt-3 px-3 py-1 rounded-full text-xs font-semibold border ${badClass(result.final.goodBad)}`}>
                 {result.final.goodBad}
               </span>
-              <p className="mt-4 text-gray-400 text-sm">
+              <p className="mt-4 text-gray-200 text-sm">
                 {result.final.position} · {result.final.element}属性 ·「{result.final.body}」
               </p>
               {result.shichenName && (
@@ -143,7 +143,7 @@ export default function LiuRenPage() {
             {/* 掌诀断语 */}
             <div className="glass rounded-2xl p-6">
               <h3 className="text-lg font-serif font-bold text-gold mb-3">【掌诀断语】</h3>
-              <p className="text-gray-300 leading-relaxed">{result.final.general}</p>
+              <p className="text-gray-100 leading-relaxed">{result.final.general}</p>
             </div>
 
             {/* 起课步骤 */}
@@ -155,7 +155,7 @@ export default function LiuRenPage() {
                     <span className="text-gold/60 shrink-0 mt-0.5">▸</span>
                     <div>
                       <span className="text-gold/80 font-semibold">{s.label}:</span>{" "}
-                      <span className="text-gray-400">{s.text}</span>
+                      <span className="text-gray-200">{s.text}</span>
                     </div>
                   </div>
                 ))}
@@ -177,7 +177,7 @@ export default function LiuRenPage() {
                   >
                     <div className="text-2xl">{p.emoji}</div>
                     <div className="text-sm font-semibold mt-1" style={{ color: p.color }}>{p.name}</div>
-                    <div className="text-[10px] text-gray-500">{p.goodBad}</div>
+                    <div className="text-[10px] text-gray-300">{p.goodBad}</div>
                   </div>
                 ))}
               </div>

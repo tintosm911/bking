@@ -71,11 +71,11 @@ export default function WishingForm() {
         <p className="text-sm text-white/50 mb-4">
           连接钱包支付 {finalAmount} USDT 即可开启许愿池助力
         </p>
-        <p className="text-[10px] text-white/20 mb-6">愿望 ID: {result}</p>
+        <p className="text-[10px] text-white/60 mb-6">愿望 ID: {result}</p>
         <button className="btn-gold px-8 py-3.5 rounded-xl text-base font-semibold inline-flex items-center gap-2">
           🔗 连接 OKX 钱包支付
         </button>
-        <div className="mt-6 text-xs text-white/25">
+        <div className="mt-6 text-xs text-white/60">
           <p>支持：USDT / USDC / USDG</p>
           <p className="mt-1">支付后愿望将展示在许愿池中，等待有缘人助力</p>
         </div>
@@ -91,20 +91,20 @@ export default function WishingForm() {
           <div className="flex items-center gap-3 px-4 py-3 bg-white/[0.03] rounded-xl">
             <span className="text-lg">{categories.find(c => c.id === category)?.icon}</span>
             <div>
-              <p className="text-xs text-white/30">分类</p>
+              <p className="text-xs text-white/70">分类</p>
               <p className="text-sm text-white/70">{categories.find(c => c.id === category)?.name}</p>
             </div>
           </div>
           <div className="px-4 py-3 bg-white/[0.03] rounded-xl">
-            <p className="text-xs text-white/30">标题</p>
+            <p className="text-xs text-white/70">标题</p>
             <p className="text-sm text-white/70">{title}</p>
           </div>
           <div className="px-4 py-3 bg-white/[0.03] rounded-xl">
-            <p className="text-xs text-white/30">内容</p>
+            <p className="text-xs text-white/70">内容</p>
             <p className="text-sm text-white/70 leading-relaxed">{content}</p>
           </div>
           <div className="px-4 py-3 bg-white/[0.03] rounded-xl">
-            <p className="text-xs text-white/30">祈愿金额</p>
+            <p className="text-xs text-white/70">祈愿金额</p>
             <p className="text-sm text-gold">{finalAmount} USDT</p>
           </div>
         </div>
@@ -130,11 +130,11 @@ export default function WishingForm() {
   return (
     <div className="rounded-3xl p-8 md:p-12 bg-gradient-to-b from-white/[0.03] to-transparent border border-white/[0.06]">
       <h3 className="text-xl font-serif font-bold text-gold mb-2">写下你的愿望</h3>
-      <p className="text-sm text-white/40 mb-6">选择类别、写下心愿、设定祈愿金额</p>
+      <p className="text-sm text-white/80 mb-6">选择类别、写下心愿、设定祈愿金额</p>
 
       {/* Category selector */}
       <div className="mb-6">
-        <p className="text-xs text-white/30 mb-3 uppercase tracking-wider">愿望类别</p>
+        <p className="text-xs text-white/70 mb-3 uppercase tracking-wider">愿望类别</p>
         <div className="grid grid-cols-4 gap-2">
           {categories.map((cat) => (
             <button
@@ -143,7 +143,7 @@ export default function WishingForm() {
               className={`flex flex-col items-center gap-1 p-3 rounded-xl border transition-all ${
                 category === cat.id
                   ? "border-gold bg-gold/10 text-gold"
-                  : "border-white/10 text-white/40 hover:border-white/20 hover:text-white/60"
+                  : "border-white/10 text-white/80 hover:border-white/20 hover:text-white/60"
               }`}
             >
               <span className="text-lg">{cat.icon}</span>
@@ -155,7 +155,7 @@ export default function WishingForm() {
 
       {/* Title */}
       <div className="mb-4">
-        <p className="text-xs text-white/30 mb-2 uppercase tracking-wider">愿望标题</p>
+        <p className="text-xs text-white/70 mb-2 uppercase tracking-wider">愿望标题</p>
         <input
           type="text"
           value={title}
@@ -164,12 +164,12 @@ export default function WishingForm() {
           maxLength={50}
           className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white/70 text-sm placeholder:text-white/15 focus:outline-none focus:border-gold/30 transition-all"
         />
-        <p className="text-[10px] text-white/15 mt-1 text-right">{title.length}/50</p>
+        <p className="text-[10px] text-white/50 mt-1 text-right">{title.length}/50</p>
       </div>
 
       {/* Content */}
       <div className="mb-6">
-        <p className="text-xs text-white/30 mb-2 uppercase tracking-wider">愿望详情</p>
+        <p className="text-xs text-white/70 mb-2 uppercase tracking-wider">愿望详情</p>
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
@@ -178,12 +178,12 @@ export default function WishingForm() {
           maxLength={500}
           className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white/70 text-sm placeholder:text-white/15 focus:outline-none focus:border-gold/30 transition-all resize-none"
         />
-        <p className="text-[10px] text-white/15 mt-1 text-right">{content.length}/500</p>
+        <p className="text-[10px] text-white/50 mt-1 text-right">{content.length}/500</p>
       </div>
 
       {/* Amount */}
       <div className="mb-8">
-        <p className="text-xs text-white/30 mb-3 uppercase tracking-wider">祈愿金额 (USDT)</p>
+        <p className="text-xs text-white/70 mb-3 uppercase tracking-wider">祈愿金额 (USDT)</p>
         <div className="grid grid-cols-2 gap-2 mb-3">
           {amounts.map((a) => (
             <button
@@ -198,7 +198,7 @@ export default function WishingForm() {
               <span className={`text-sm font-semibold ${
                 amount === a.value ? "text-gold" : "text-white/60"
               }`}>{a.label}</span>
-              <span className="text-[10px] text-white/30">{a.desc}</span>
+              <span className="text-[10px] text-white/70">{a.desc}</span>
             </button>
           ))}
         </div>
@@ -210,7 +210,7 @@ export default function WishingForm() {
               : "border-white/10 hover:border-white/20"
           }`}
         >
-          <span className={`text-sm ${amount === "custom" ? "text-gold" : "text-white/40"}`}>
+          <span className={`text-sm ${amount === "custom" ? "text-gold" : "text-white/80"}`}>
             自定义金额
           </span>
           {amount === "custom" && (

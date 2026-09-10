@@ -267,8 +267,8 @@ export default function TarotPage() {
           >
             塔罗占卜
           </h1>
-          <p className="text-gray-400 mt-2 text-sm">78 张塔罗牌 · 三大牌阵 · AI 解读</p>
-          <p className="text-[10px] text-white/15 mt-1 tracking-wider">Tarot · 78 Cards · 3 Spreads · AI Interpretation</p>
+          <p className="text-gray-200 mt-2 text-sm">78 张塔罗牌 · 三大牌阵 · AI 解读</p>
+          <p className="text-[10px] text-white/50 mt-1 tracking-wider">Tarot · 78 Cards · 3 Spreads · AI Interpretation</p>
         </div>
 
         {/* ─── 牌阵选择 ─── */}
@@ -300,7 +300,7 @@ export default function TarotPage() {
               </button>
             ))}
           </div>
-          <p className="text-center text-xs text-white/30 mt-2">{SPREADS[spreadIdx].desc}</p>
+          <p className="text-center text-xs text-white/70 mt-2">{SPREADS[spreadIdx].desc}</p>
         </div>
 
         {/* ─── 抽牌按钮 ─── */}
@@ -332,7 +332,7 @@ export default function TarotPage() {
             )}
           </button>
           {!cards.length && !animating && (
-            <p className="text-xs text-white/20 mt-3">选择牌阵后，点击开始</p>
+            <p className="text-xs text-white/60 mt-3">选择牌阵后，点击开始</p>
           )}
         </div>
 
@@ -348,7 +348,7 @@ export default function TarotPage() {
                     {/* 位置名 */}
                     <div className="text-center mb-2">
                       <div className="text-[11px] text-gold font-medium tracking-wide">{pos.zh}</div>
-                      <div className="text-[8px] text-white/20 tracking-wider">{pos.en}</div>
+                      <div className="text-[8px] text-white/60 tracking-wider">{pos.en}</div>
                     </div>
                     <FlippingCard
                       card={card}
@@ -373,7 +373,7 @@ export default function TarotPage() {
         <div className="mt-16">
           <button
             onClick={() => setShowAllCards(!showAllCards)}
-            className="w-full text-center py-3 text-sm text-white/40 hover:text-gold transition-colors border-t border-white/5 flex items-center justify-center gap-1 group"
+            className="w-full text-center py-3 text-sm text-white/80 hover:text-gold transition-colors border-t border-white/5 flex items-center justify-center gap-1 group"
           >
             <span className="group-hover:tracking-wider transition-all duration-300">
               {showAllCards ? "收起牌库" : "完整牌库 · 78 张"}
@@ -432,7 +432,7 @@ export default function TarotPage() {
                       <div className="text-[10px] font-bold text-gold-light/80 leading-tight group-hover:text-gold-light transition-colors">
                         {card.name}
                       </div>
-                      <div className="text-[7px] text-white/20 truncate mt-0.5">
+                      <div className="text-[7px] text-white/60 truncate mt-0.5">
                         {card.nameEn}
                       </div>
                       <div className={`text-[6px] ${ec} mt-1`}>{card.element}</div>
@@ -442,7 +442,7 @@ export default function TarotPage() {
               </div>
 
               {/* 牌库统计 */}
-              <div className="text-center mt-4 text-[10px] text-white/20">
+              <div className="text-center mt-4 text-[10px] text-white/60">
                 共 {ALL_CARDS.length} 张 · 大阿卡纳 22 张 · 小阿卡纳 40 张 · 宫廷牌 16 张
               </div>
             </div>

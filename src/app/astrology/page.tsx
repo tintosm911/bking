@@ -139,8 +139,8 @@ export default function AstrologyPage() {
         <div className="text-center mb-10">
           <div className="text-5xl mb-4">🌍</div>
           <h1 className="text-3xl font-serif font-bold text-gold">星座运势</h1>
-          <p className="text-gray-400 mt-2">西方占星 · 十二星座 · 行星相位 · 每日运势</p>
-          <p className="text-xs text-white/15 mt-1">Western Astrology · 12 Signs · Planets · Daily Horoscope</p>
+          <p className="text-gray-200 mt-2">西方占星 · 十二星座 · 行星相位 · 每日运势</p>
+          <p className="text-xs text-white/50 mt-1">Western Astrology · 12 Signs · Planets · Daily Horoscope</p>
         </div>
 
         {selectedSign === null ? (
@@ -153,8 +153,8 @@ export default function AstrologyPage() {
                 >
                   <div className="text-4xl mb-2 transition-transform duration-300 group-hover:scale-110">{s.icon}</div>
                   <div className="text-lg font-serif font-bold text-white/90">{s.name}</div>
-                  <div className="text-xs text-white/30">{s.nameEn}</div>
-                  <div className="text-[10px] text-white/20 mt-1">{s.date}</div>
+                  <div className="text-xs text-white/70">{s.nameEn}</div>
+                  <div className="text-[10px] text-white/60 mt-1">{s.date}</div>
                   <div className="mt-2 text-xs text-gold/60">{s.element} · {s.ruler}</div>
                 </button>
               ))}
@@ -163,7 +163,7 @@ export default function AstrologyPage() {
             {/* Planets Section */}
             <div className="mt-16">
               <button onClick={() => setShowPlanets(!showPlanets)}
-                className="w-full text-center py-3 text-sm text-white/40 hover:text-gold transition-colors border-t border-white/5"
+                className="w-full text-center py-3 text-sm text-white/80 hover:text-gold transition-colors border-t border-white/5"
               >
                 {showPlanets ? "收起行星信息 ▲" : "太阳系十大行星 ▼"}
               </button>
@@ -173,8 +173,8 @@ export default function AstrologyPage() {
                     <div key={i} className="bg-dark-800 border border-white/5 rounded-xl p-3 text-center hover:border-gold/15 transition-colors">
                       <div className="text-2xl mb-1">{p.icon}</div>
                       <div className="text-sm font-bold text-gold-light">{p.name}</div>
-                      <div className="text-[10px] text-white/30">{p.nameEn} ({p.symbol})</div>
-                      <div className="text-[10px] text-white/40 mt-1">守护: {p.sign}</div>
+                      <div className="text-[10px] text-white/70">{p.nameEn} ({p.symbol})</div>
+                      <div className="text-[10px] text-white/80 mt-1">守护: {p.sign}</div>
                     </div>
                   ))}
                 </div>
@@ -185,7 +185,7 @@ export default function AstrologyPage() {
           /* Sign Detail */
           <div>
             <button onClick={() => { setSelectedSign(null); setHoroscope(null); }}
-              className="mb-6 text-sm text-white/40 hover:text-gold transition-colors inline-flex items-center gap-1"
+              className="mb-6 text-sm text-white/80 hover:text-gold transition-colors inline-flex items-center gap-1"
             >
               ← 返回星座列表
             </button>
@@ -193,15 +193,15 @@ export default function AstrologyPage() {
             <div className="text-center mb-8">
               <div className="text-6xl mb-3">{sign.icon}</div>
               <h2 className="text-3xl font-serif font-bold text-gold">{sign.name}</h2>
-              <p className="text-sm text-white/30">{sign.nameEn}</p>
-              <p className="text-xs text-white/20 mt-1">{sign.date}</p>
+              <p className="text-sm text-white/70">{sign.nameEn}</p>
+              <p className="text-xs text-white/60 mt-1">{sign.date}</p>
             </div>
 
             {/* Basic Info */}
             <div className="max-w-2xl mx-auto">
               <div className="grid grid-cols-3 gap-4 mb-6">
                 <div className="bg-dark-800 rounded-xl p-4 text-center border border-white/5">
-                  <div className="text-xs text-white/40 mb-1">元素</div>
+                  <div className="text-xs text-white/80 mb-1">元素</div>
                   <div className="text-2xl">
                     {sign.element === "火" && "🔥"}
                     {sign.element === "土" && "🌍"}
@@ -211,12 +211,12 @@ export default function AstrologyPage() {
                   <div className="text-sm font-bold text-gold-light">{sign.element}</div>
                 </div>
                 <div className="bg-dark-800 rounded-xl p-4 text-center border border-white/5">
-                  <div className="text-xs text-white/40 mb-1">守护星</div>
+                  <div className="text-xs text-white/80 mb-1">守护星</div>
                   <div className="text-2xl">⭐</div>
                   <div className="text-sm font-bold text-gold-light">{sign.ruler}</div>
                 </div>
                 <div className="bg-dark-800 rounded-xl p-4 text-center border border-white/5">
-                  <div className="text-xs text-white/40 mb-1">对应塔罗</div>
+                  <div className="text-xs text-white/80 mb-1">对应塔罗</div>
                   <div className="text-2xl">🃏</div>
                   <div className="text-sm font-bold text-gold-light">
                     {["皇帝", "女皇", "恋人", "战车", "力量", "隐士", "正义", "死神", "节制", "恶魔", "星星", "月亮"][selectedSign]}
@@ -230,22 +230,22 @@ export default function AstrologyPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <div className="text-sm text-green-400 mb-2">✓ 优点</div>
-                    <p className="text-sm text-gray-300">{sign.positive}</p>
+                    <p className="text-sm text-gray-100">{sign.positive}</p>
                   </div>
                   <div>
                     <div className="text-sm text-red-400 mb-2">✗ 缺点</div>
-                    <p className="text-sm text-gray-300">{sign.negative}</p>
+                    <p className="text-sm text-gray-100">{sign.negative}</p>
                   </div>
                 </div>
                 <div className="mt-4 pt-4 border-t border-white/5">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <div className="text-xs text-white/40 mb-1">喜欢</div>
-                      <p className="text-sm text-gray-300">{sign.likes}</p>
+                      <div className="text-xs text-white/80 mb-1">喜欢</div>
+                      <p className="text-sm text-gray-100">{sign.likes}</p>
                     </div>
                     <div>
-                      <div className="text-xs text-white/40 mb-1">不喜欢</div>
-                      <p className="text-sm text-gray-300">{sign.dislikes}</p>
+                      <div className="text-xs text-white/80 mb-1">不喜欢</div>
+                      <p className="text-sm text-gray-100">{sign.dislikes}</p>
                     </div>
                   </div>
                 </div>
@@ -261,20 +261,20 @@ export default function AstrologyPage() {
                         <span className="text-gold text-sm mt-0.5">
                           {i === 0 ? "💫" : i === 1 ? "📌" : "💡"}
                         </span>
-                        <p className="text-sm text-gray-300">{h}</p>
+                        <p className="text-sm text-gray-100">{h}</p>
                       </div>
                     ))}
                     <div className="flex justify-center gap-6 mt-4 pt-4 border-t border-white/5">
                       <div className="text-center">
-                        <div className="text-xs text-white/40">幸运数字</div>
+                        <div className="text-xs text-white/80">幸运数字</div>
                         <div className="text-lg font-bold text-gold-light">{luckyNumber}</div>
                       </div>
                       <div className="text-center">
-                        <div className="text-xs text-white/40">幸运颜色</div>
+                        <div className="text-xs text-white/80">幸运颜色</div>
                         <div className="text-lg font-bold text-gold-light">{luckyColor}</div>
                       </div>
                       <div className="text-center">
-                        <div className="text-xs text-white/40">整体运势</div>
+                        <div className="text-xs text-white/80">整体运势</div>
                         <div className="text-lg">{starRating}</div>
                       </div>
                     </div>

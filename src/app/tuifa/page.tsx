@@ -42,14 +42,14 @@ export default function TuifaPage() {
         <div className="text-center mb-10">
           <div className="text-5xl mb-4">🔁</div>
           <h1 className="text-3xl font-serif font-bold text-gold">八字反推</h1>
-          <p className="text-gray-400 mt-2">不知时辰也能排 · 十二时辰对照校正命盘</p>
+          <p className="text-gray-200 mt-2">不知时辰也能排 · 十二时辰对照校正命盘</p>
         </div>
 
         <form onSubmit={handleSubmit} className="max-w-xl mx-auto space-y-5">
           <div className="grid grid-cols-3 gap-3">
             {([["year", "出生年份"], ["month", "出生月份"], ["day", "出生日"]] as const).map(([k, label]) => (
               <div key={k}>
-                <label className="block text-xs text-gray-400 mb-1">{label}</label>
+                <label className="block text-xs text-gray-200 mb-1">{label}</label>
                 <input type="number" value={form[k]}
                   onChange={(e) => setForm({ ...form, [k]: Number(e.target.value) })}
                   className="w-full px-3 py-2.5 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none" />
@@ -66,14 +66,14 @@ export default function TuifaPage() {
         {result && (
           <div className="mt-12 space-y-6">
             <div className="glass rounded-2xl p-6 border-gold/40 text-center">
-              <div className="text-sm text-gray-400 mb-1">已知三柱 · 时辰待定</div>
+              <div className="text-sm text-gray-200 mb-1">已知三柱 · 时辰待定</div>
               <div className="flex justify-center gap-4 text-xl font-serif text-gold">
                 <span>{result.yearPillar}</span>
                 <span>{result.monthPillar}</span>
                 <span>{result.dayPillar}</span>
-                <span className="text-gray-500">??</span>
+                <span className="text-gray-300">??</span>
               </div>
-              <div className="text-xs text-gray-500 mt-2">日主 {result.dayMaster}</div>
+              <div className="text-xs text-gray-300 mt-2">日主 {result.dayMaster}</div>
             </div>
 
             <h3 className="text-center text-gold font-serif font-bold text-lg">十二时辰对照</h3>
@@ -83,33 +83,33 @@ export default function TuifaPage() {
                   <div className="flex items-center justify-between mb-1">
                     <div className="flex items-center gap-3">
                       <span className="font-bold text-gold">{h.label}</span>
-                      <span className="text-xs text-gray-500">{h.range}</span>
+                      <span className="text-xs text-gray-300">{h.range}</span>
                     </div>
                     <span className="font-serif text-gold text-lg">{h.hourPillar}</span>
                     <span className="px-1.5 py-0.5 rounded border border-gold/30 text-gold text-[10px]">{h.hourShishen}</span>
                   </div>
                   <div className="grid grid-cols-3 gap-2 text-center text-xs mb-2">
                     <div className="bg-dark-700 rounded-lg py-1.5">
-                      <div className="text-gray-500 mb-0.5">身强弱</div>
+                      <div className="text-gray-300 mb-0.5">身强弱</div>
                       <div className={`font-bold ${h.isStrong ? "text-orange-300" : "text-blue-300"}`}>{h.strength}</div>
                     </div>
                     <div className="bg-dark-700 rounded-lg py-1.5">
-                      <div className="text-gray-500 mb-0.5">用神</div>
+                      <div className="text-gray-300 mb-0.5">用神</div>
                       <div className="font-bold text-green-300">{h.yongshen}</div>
                     </div>
                     <div className="bg-dark-700 rounded-lg py-1.5">
-                      <div className="text-gray-500 mb-0.5">忌神</div>
+                      <div className="text-gray-300 mb-0.5">忌神</div>
                       <div className="font-bold text-red-300">{h.jishen}</div>
                     </div>
                   </div>
-                  <p className="text-xs text-gray-400 leading-relaxed">{h.summary}</p>
+                  <p className="text-xs text-gray-200 leading-relaxed">{h.summary}</p>
                 </div>
               ))}
             </div>
 
             <div className="glass rounded-2xl p-5 border-gold/30">
               <h4 className="text-gold font-serif font-bold text-center mb-2">大师点拨</h4>
-              <p className="text-sm text-gray-300 text-center leading-relaxed">{result.tip}</p>
+              <p className="text-sm text-gray-100 text-center leading-relaxed">{result.tip}</p>
             </div>
           </div>
         )}

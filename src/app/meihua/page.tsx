@@ -13,9 +13,9 @@ function GuaCard({ label, name, nature, highlight }: {
 }) {
   return (
     <div className={`glass rounded-2xl p-4 text-center ${highlight ? "border-gold/50 bg-gold/5" : ""}`}>
-      <div className="text-xs text-gray-500 mb-1">{label}</div>
+      <div className="text-xs text-gray-300 mb-1">{label}</div>
       <div className="text-xl font-serif font-bold text-gold">{name}</div>
-      {nature && <div className="text-[10px] text-gray-500 mt-1">{nature}</div>}
+      {nature && <div className="text-[10px] text-gray-300 mt-1">{nature}</div>}
     </div>
   );
 }
@@ -67,7 +67,7 @@ export default function MeiHuaPage() {
         <div className="text-center mb-10">
           <div className="text-5xl mb-4">🌸</div>
           <h1 className="text-3xl font-serif font-bold text-gold">梅花易数</h1>
-          <p className="text-gray-400 mt-2">以数起卦 · 观体用生克 · 断事之吉凶</p>
+          <p className="text-gray-200 mt-2">以数起卦 · 观体用生克 · 断事之吉凶</p>
         </div>
 
         <form onSubmit={handleSubmit} className="max-w-xl mx-auto space-y-5">
@@ -75,11 +75,11 @@ export default function MeiHuaPage() {
           <div className="grid grid-cols-2 gap-2">
             <button type="button" onClick={() => setMode("time")}
               className={`px-3 py-2.5 rounded-xl text-center text-sm font-semibold border transition ${
-                mode === "time" ? "bg-gold text-dark-900 border-gold" : "bg-dark-700 border-gold/20 text-gray-400"
+                mode === "time" ? "bg-gold text-dark-900 border-gold" : "bg-dark-700 border-gold/20 text-gray-200"
               }`}>⏰ 时间起卦</button>
             <button type="button" onClick={() => setMode("num")}
               className={`px-3 py-2.5 rounded-xl text-center text-sm font-semibold border transition ${
-                mode === "num" ? "bg-gold text-dark-900 border-gold" : "bg-dark-700 border-gold/20 text-gray-400"
+                mode === "num" ? "bg-gold text-dark-900 border-gold" : "bg-dark-700 border-gold/20 text-gray-200"
               }`}>🔢 报数起卦</button>
           </div>
 
@@ -87,7 +87,7 @@ export default function MeiHuaPage() {
             <div className="grid grid-cols-4 gap-3">
               {(["year", "month", "day", "hour"] as const).map((k) => (
                 <div key={k}>
-                  <label className="block text-xs text-gray-400 mb-1">
+                  <label className="block text-xs text-gray-200 mb-1">
                     {k === "year" ? "年" : k === "month" ? "月" : k === "day" ? "日" : "时"}
                   </label>
                   <input type="number" value={t[k]}
@@ -100,7 +100,7 @@ export default function MeiHuaPage() {
             <div className="grid grid-cols-3 gap-3">
               {([["n1", "第一数"], ["n2", "第二数"], ["n3", "动爻数"]] as const).map(([k, label]) => (
                 <div key={k}>
-                  <label className="block text-xs text-gray-400 mb-1">{label}</label>
+                  <label className="block text-xs text-gray-200 mb-1">{label}</label>
                   <input type="number" value={n[k]}
                     onChange={(e) => setN({ ...n, [k]: Number(e.target.value) })}
                     className="w-full px-3 py-2.5 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none" />
@@ -120,7 +120,7 @@ export default function MeiHuaPage() {
           <div className="mt-12 space-y-6">
             {/* 三卦 */}
             <div>
-              <div className="text-xs text-gray-500 text-center mb-3">{result.method} · 动爻第{result.moving}爻</div>
+              <div className="text-xs text-gray-300 text-center mb-3">{result.method} · 动爻第{result.moving}爻</div>
               <div className="grid grid-cols-3 gap-3">
                 <GuaCard label="本卦" name={result.benName} nature={`${result.upperNature} · ${result.lowerNature}`} highlight />
                 <GuaCard label="互卦" name={result.huName} />
@@ -132,15 +132,15 @@ export default function MeiHuaPage() {
             <div className="glass rounded-2xl p-5">
               <div className="flex items-center justify-around mb-3">
                 <div className="text-center">
-                  <div className="text-xs text-gray-500">体卦（己方）</div>
+                  <div className="text-xs text-gray-300">体卦（己方）</div>
                   <div className="text-2xl font-serif font-bold text-gold">{result.tiName}</div>
-                  <div className="text-xs text-gray-400">{result.tiWx}五行</div>
+                  <div className="text-xs text-gray-200">{result.tiWx}五行</div>
                 </div>
                 <div className="text-amber-400 text-3xl">{result.relation === "比和" ? "≋" : "→"}</div>
                 <div className="text-center">
-                  <div className="text-xs text-gray-500">用卦（所问）</div>
+                  <div className="text-xs text-gray-300">用卦（所问）</div>
                   <div className="text-2xl font-serif font-bold text-gold">{result.yongName}</div>
-                  <div className="text-xs text-gray-400">{result.yongWx}五行</div>
+                  <div className="text-xs text-gray-200">{result.yongWx}五行</div>
                 </div>
               </div>
               <div className="text-center">

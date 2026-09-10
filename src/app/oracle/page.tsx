@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import TTSButton from "@/components/TTSButton";
 
 interface ChatItem {
   role: "user" | "master";
@@ -87,7 +88,7 @@ export default function OraclePage() {
         <div className="text-center mb-8">
           <div className="text-5xl mb-4">🔮</div>
           <h1 className="text-3xl font-serif font-bold text-gold">玄机大师</h1>
-          <p className="text-gray-400 mt-3 max-w-xl mx-auto leading-relaxed">
+          <p className="text-gray-200 mt-3 max-w-xl mx-auto leading-relaxed">
             直接对话，一句人话。我自动判断你是要 <span className="text-gold">排八字</span>、
             <span className="text-gold">看紫微</span>、<span className="text-gold">起奇门</span>、
             <span className="text-gold">算运势</span> 还是 <span className="text-gold">解梦</span>——
@@ -118,7 +119,7 @@ export default function OraclePage() {
         {/* 对话区 */}
         <div className="space-y-4 mb-6">
           {messages.length === 0 && (
-            <div className="text-center text-gray-500 py-10 leading-relaxed">
+            <div className="text-center text-gray-300 py-10 leading-relaxed">
               <div className="text-2xl mb-3">🕯️</div>
               玄机大师在此恭候。<br />说句话，我便为你起盘。
             </div>
@@ -140,6 +141,11 @@ export default function OraclePage() {
                   </div>
                 )}
                 {m.content}
+                {m.role === "master" && (
+                  <div className="flex justify-end mt-2">
+                    <TTSButton text={m.content} label="🔊 听解读" small />
+                  </div>
+                )}
               </div>
             </div>
           ))}
@@ -160,7 +166,7 @@ export default function OraclePage() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="问我句话，例如：帮我排八字 / 今天运势 / 我梦到水了…"
-              className="flex-1 bg-transparent text-white px-3 py-2 outline-none placeholder:text-gray-500 text-sm"
+              className="flex-1 bg-transparent text-white px-3 py-2 outline-none placeholder:text-gray-300 text-sm"
             />
             <button
               type="submit"

@@ -86,6 +86,10 @@ export interface BaZiResult {
   大运: { 大运: string; 年龄: string }[];
   流年: string;
   交易解读: Record<string, string>;
+  /** 排盘明细纯文本（供 PDF / TTS / DeepSeek 深化解读使用） */
+  formatted?: string;
+  /** C 档③：DeepSeek 深化解读（可选，无 key 时不存在） */
+  _deepen?: string;
 }
 
 // ========= 核心函数 =========

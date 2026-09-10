@@ -15,6 +15,7 @@
  */
 
 import { buildBazi, formatBazi } from "./bazi_engine";
+import { fanTuiDivination, formatFanTui } from "./fan_tui_engine";
 import { buildChart, formatChart } from "./zwei_engine";
 import { qimenMasterPan, formatQimenOutput } from "./qimen_engine";
 import { calcTianji, TianjiMemberInput } from "./tianji_engine";
@@ -164,9 +165,54 @@ function detectIntent(text: string): string {
   if (/紫微|斗数|命盘|主星|星盘/.test(t)) return "zwei";
   if (/今日|今天|运势|财运|事业运|感情运|桃花/.test(t)) return "fortune";
   if (/解梦|梦见|梦到|做梦/.test(t)) return "dream";
+  if (/反推|覆盘|复盘|过往|过去|经历|遭遇|之前|以前|回顾|回看|小人|破财|受过|吃过亏/.test(t)) return "fantu";
   if (/八字|排盘|生辰|命理|四柱|五行|日主|用神/.test(t)) return "bazi";
   if (/运势|命|前程|事业|感情|财运|婚姻|健康/.test(t)) return "fortune";
   return "chat";
+}
+
+// 是否追问型短句（指代开头 / 超短句）
+function isFollowUp(text: string): boolean {
+  const t = text.trim();
+  if (t.length <= 10) return true; // 超短句，多半是指代追问
+  if (FOLLOW_PREFIX.test(t)) return true;
+  // 无明确的排盘技能关键词，且是口语化问句
+  if (!(/八字|紫微|奇门|天机|排盘|运势|解梦|反推/.test(t)) && /[？?]$/.test(t)) return true;
+  return false;
+}
+
+// 生成追问接续答复（基于已知用神/生日 + 追问的具体话题）
+function buildFollowReply(
+  text: string,
+  dimension: string,
+  profile: Partial<OracleSession["profile"]>,
+  skill: string | null
+): OracleReply | null {
+  if (!profile.year || !profile.month || !profile.day) return null;
+  const hour = profile.hour ?? 12;
+  const b = buildBazi(profile.year, profile.month, profile.day, hour, profile.gender ?? 1);
+  const ys = b.用神 || "取平衡";
+  const js = b.忌神 || "";
+  const strong = b.是否身强 ? "身强" : "身弱";
+  const dimText: Record<string, string> = {
+    财: `财运上，日主${strong}，以「${ys}」为用神。命中正财有源与否，要看用神得地之年限与行运走向。财非求急，${js ? `忌「${js}」之岁运扰动，` : ""}宜循序积攒、守正经营，中年用神得地之时，正财自稳中有升。`,
+    婚: `姻缘上，日主${strong}。感情之事重日月支之合冲与桃花之现。缘起缘聚，讲求一个"适时"——用神当旺之岁，桃花引动之日，自然水到渠成。${js ? `忌「${js}」岁运感情多波折，` : ""}宜平心静气，莫强求，缘分自有定数。`,
+    官: `事业仕途，日主${strong}，官星当令则贵，伤官见官则起波澜。升迁跳槽宜择用神得力之岁运行动，${js ? `避「${js}」之岁难免阻滞，` : ""}沉住气，厚积薄发，位自可进。`,
+    健: `健康方面，日主${strong}。身${strong}者气血根基不弱，然五行失衡处便是暗疾之源。${js ? `「${js}」所主之脏腑${"火" === js ? "（心、小肠）" : "水" === js ? "（肾、膀胱）" : "木" === js ? "（肝、胆）" : "金" === js ? "（肺、大肠）" : "（脾、胃）"}最需调养，` : ""}作息有常、清淡饮食、戒怒少耗，得用神之气自可常葆康宁。`,
+    感: `感情桃花，日主${strong}。桃花之兴衰，系于时支与岁运之引动。桃运来时莫错过，桃运去时莫强留。${js ? `「${js}」岁运桃花多虚，易遇非正缘，` : ""}缘来缘去皆由命数，心正自遇良人。`,
+    子: `子嗣之缘，日主${strong}。子孙星以食伤与子女宫论之。${ys ? `用神「${ys}」得地之岁，气顺缘至。` : ""}养正持心，顺其自然，瓜熟蒂落，儿孙自有儿孙福。`,
+    贵: `贵人运，日主${strong}。贵人看印星与年月之吉神。${ys ? `以「${ys}」为用，印星得力之年多得师辈提携、贵人相助。` : ""}多行善结缘，人脉自旺，关键处自有贵人拉一把。`,
+  };
+  const body = dimText[dimension] || `此事与命局用神「${ys}」呼应。日主${strong}，行事宜顺用神之性而为，自能趋吉避凶。`;
+  const mood = detectMood(text);
+  const flavor = moodFlavor(mood);
+  return {
+    message: `${flavor.opening}依先前所排之命，为你细论此事。${body}${flavor.closing}`,
+    skill: skill || "玄学问答",
+    mood,
+    needBirthInfo: false,
+    profile: { ...profile },
+  };
 }
 
 // ============ 排盘调用 + 解读 ============
@@ -200,6 +246,13 @@ function runBazi(p: Partial<OracleSession["profile"]>): { text: string; detail: 
     (yongShen ? `用神取「${yongShen}」，五行喜用合于此。` : "") +
     `\n\n完整命盘如下，供缘主细参：\n\n\`\`\`\n${block}\n\`\`\``;
   return { text, detail: bazi };
+}
+
+function runFanTui(p: Partial<OracleSession["profile"]>): { text: string; detail: any } {
+  const params = toBaziParams(p);
+  const r = fanTuiDivination(params.year, params.month, params.day, params.hour, params.gender);
+  const text = `【八字反推 · 过往经历】以命主四柱十神与一路大运，反推曾经经历过的波折与遭逢。\n\n\`\`\`\n${formatFanTui(r)}\n\`\`\``;
+  return { text, detail: r };
 }
 
 function runZwei(p: Partial<OracleSession["profile"]>): { text: string; detail: any } {
@@ -387,10 +440,47 @@ function runTianjiPair(pair: PairBirth): {
 
 // ============ 主入口 ============
 
+// ---------- 追问接续检测 ----------
+// 用户短问/指代问，且上文已有排盘技能 → 顺着上文的技能/用神续答，而非重新路由
+const FOLLOW_TOPIC: { re: RegExp; dimension: string }[] = [
+  { re: /买房|购房|置业|房子|房产|不动产/, dimension: "财" },
+  { re: /结婚|姻缘|婚姻|对象|配偶|伴侣|另一半|脱单/, dimension: "婚" },
+  { re: /考公|公务员|编制|上岸|升职|升迁|官职|职位|跳槽|换工作|事业/, dimension: "官" },
+  { re: /财运|赚钱|收入|生意|投资|财源/, dimension: "财" },
+  { re: /健康|疾病|身体|养生|病/, dimension: "健" },
+  { re: /桃花|感情|恋爱|异性缘/, dimension: "感" },
+  { re: /子嗣|子女|孩子|生儿育女|怀孕/, dimension: "子" },
+  { re: /贵人|贵人运|人脉|合作|合伙/, dimension: "贵" },
+];
+const FOLLOW_PREFIX = /^(那|哪|那我的|然后|今年|最近|能|可以|会不会|好不好|是不是|我想问|想问|再看看|再聊聊|接着|继续|还有|顺便|麻烦问)/;
+
+function extractFollowTopic(text: string): string | null {
+  for (const f of FOLLOW_TOPIC) if (f.re.test(text)) return f.dimension;
+  return null;
+}
+
+function lastSkillFromMessages(messages?: OracleMessage[]): string | null {
+  if (!messages || messages.length < 2) return null;
+  for (let i = messages.length - 1; i >= 0; i--) {
+    const m = messages[i];
+    if (m.role === "master" && /【(.+?)】/.test(m.content)) {
+      return RegExp.$1;
+    }
+  }
+  return null;
+}
+
 export function runOracle(
   text: string,
-  profile: Partial<OracleSession["profile"]> = {}
+  profile: Partial<OracleSession["profile"]> = {},
+  messages?: OracleMessage[]
 ): OracleReply {
+  // 0. 追问接续：短问/指代问 且 上文已有排盘技能 且 已有生日 → 顺上文续答
+  const follow = isFollowUp(text) ? extractFollowTopic(text) : null;
+  if (follow && lastSkillFromMessages(messages) && birthComplete(profile)) {
+    const reply = buildFollowReply(text, follow, profile, lastSkillFromMessages(messages));
+    if (reply) return reply;
+  }
   // 1. 更新记忆里的出生信息
   const merged: Partial<OracleSession["profile"]> = { ...profile, ...extractBirthInfo(text) };
 
@@ -415,6 +505,19 @@ export function runOracle(
         reply = {
           message: `${flavor.opening}八字排盘需知命主的生辰八字——请告诉我你的出生年份、月份、日期和时辰（如「1998年8月8日午时」出生），男女一并告知，老夫即刻为你起盘。${flavor.closing}`,
           skill: "八字排盘", mood,
+        };
+      }
+      break;
+    }
+    case "fantu": {
+      if (birthComplete(merged)) {
+        const r = runFanTui(merged);
+        reply = { message: r.text, skill: "八字反推·过往经历", mood, detail: r.detail };
+      } else {
+        needBirth = true;
+        reply = {
+          message: `${flavor.opening}反推过往经历，同样需知命主的生辰八字——告诉我出生年、月、日、时（如「1990年3月15日巳时」出生）与性别，老夫便以四柱大运为你还原曾经历过的起伏遭逢。${flavor.closing}`,
+          skill: "八字反推·过往经历", mood,
         };
       }
       break;

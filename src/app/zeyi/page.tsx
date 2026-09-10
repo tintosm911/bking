@@ -66,13 +66,13 @@ export default function ZeYiPage() {
         <div className="text-center mb-10">
           <div className="text-5xl mb-4">📆</div>
           <h1 className="text-3xl font-serif font-bold text-gold">择日择吉</h1>
-          <p className="text-gray-400 mt-2">为诸事挑选黄道吉日 · 嫁娶开业搬迁动土</p>
+          <p className="text-gray-200 mt-2">为诸事挑选黄道吉日 · 嫁娶开业搬迁动土</p>
         </div>
 
         <form onSubmit={handleSubmit} className="max-w-3xl mx-auto space-y-6">
           {/* 事务选择 */}
           <div>
-            <label className="block text-sm text-gray-400 mb-3 text-center">选择事务</label>
+            <label className="block text-sm text-gray-200 mb-3 text-center">选择事务</label>
             <div className="grid grid-cols-4 gap-3">
               {defaultShiwu.map((s) => (
                 <button
@@ -82,7 +82,7 @@ export default function ZeYiPage() {
                   className={`px-3 py-3 rounded-xl text-center border transition ${
                     sel === s.key
                       ? "bg-gold text-dark-900 border-gold"
-                      : "bg-dark-700 border-gold/20 text-gray-300 hover:border-gold/50"
+                      : "bg-dark-700 border-gold/20 text-gray-100 hover:border-gold/50"
                   }`}
                 >
                   <div className="text-2xl mb-1">{s.icon}</div>
@@ -95,12 +95,12 @@ export default function ZeYiPage() {
           {/* 日期区间 */}
           <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
             <div>
-              <label className="block text-xs text-gray-400 mb-1">起（公历）</label>
+              <label className="block text-xs text-gray-200 mb-1">起（公历）</label>
               <input type="date" value={from} onChange={(e) => setFrom(e.target.value)}
                 className="w-full px-3 py-2.5 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none" />
             </div>
             <div>
-              <label className="block text-xs text-gray-400 mb-1">止（公历）</label>
+              <label className="block text-xs text-gray-200 mb-1">止（公历）</label>
               <input type="date" value={to} onChange={(e) => setTo(e.target.value)}
                 className="w-full px-3 py-2.5 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none" />
             </div>
@@ -121,20 +121,20 @@ export default function ZeYiPage() {
                 <div className="inline-block px-4 py-1 bg-gold/10 rounded-full text-gold text-sm border border-gold/20">
                   {sw.icon} {sw.name} · {result.range.days} 天中优选吉日
                 </div>
-                <p className="text-xs text-gray-500 mt-2">{result.summary}</p>
+                <p className="text-xs text-gray-300 mt-2">{result.summary}</p>
               </div>
               {result.best.length > 0 ? (
                 <div className="grid md:grid-cols-2 gap-4">
                   {result.best.map((d: any, i: number) => (
                     <div key={i} className="glass rounded-2xl p-5 border-gold/30">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm text-gray-400">第{i + 1}吉日</span>
+                        <span className="text-sm text-gray-200">第{i + 1}吉日</span>
                         <span className="px-2 py-0.5 rounded bg-green-500/20 text-green-300 text-xs font-bold">吉 · {d.score}分</span>
                       </div>
                       <div className="text-2xl font-serif font-bold text-gold">
                         {d.date.month}月{d.date.day}日 · {d.date.weekday.replace("星期", "周")}
                       </div>
-                      <div className="text-sm text-gray-400 mt-1">
+                      <div className="text-sm text-gray-200 mt-1">
                         农历{d.lunar.month}月{d.lunar.dayName} · {d.ganzhi.day} · 建除{d.jianchu.name}
                       </div>
                       <div className="flex flex-wrap gap-1.5 mt-3">
@@ -143,12 +143,12 @@ export default function ZeYiPage() {
                         ))}
                         {d.clash && <span className="px-2 py-0.5 rounded bg-red-500/10 text-red-300 text-xs">{d.clash}</span>}
                       </div>
-                      <div className="text-[10px] text-gray-500 mt-2">{d.notes.join(" · ")}</div>
+                      <div className="text-[10px] text-gray-300 mt-2">{d.notes.join(" · ")}</div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="glass rounded-2xl p-6 text-center text-gray-400 text-sm">
+                <div className="glass rounded-2xl p-6 text-center text-gray-200 text-sm">
                   此区间未寻到特别吉日，建议放宽范围
                 </div>
               )}
@@ -174,7 +174,7 @@ export default function ZeYiPage() {
                         {d.score >= 50 ? "吉" : d.jianchu.goodBad}
                       </span>
                     </div>
-                    <div className="text-xs text-gray-500 mt-1">
+                    <div className="text-xs text-gray-300 mt-1">
                       {d.ganzhi.day} · {d.jianchu.name}{d.clash ? ` · ${d.clash}` : ""}
                     </div>
                   </div>

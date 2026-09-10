@@ -24,7 +24,7 @@ const TG_WUHE_WX: Record<string, string> = {
 };
 
 // —— 地支六合：子丑合土、寅亥合木、卯戌合火、辰酉合金、巳申合水、午未合土 ——
-const DZ_LIUHE: Record<string, string> = {
+export const DZ_LIUHE: Record<string, string> = {
   "子": "丑", "丑": "子",
   "寅": "亥", "亥": "寅",
   "卯": "戌", "戌": "卯",
@@ -34,14 +34,14 @@ const DZ_LIUHE: Record<string, string> = {
 };
 
 // —— 地支六冲 ——
-const DZ_CHONG: Record<string, string> = {
+export const DZ_CHONG: Record<string, string> = {
   "子": "午", "午": "子", "丑": "未", "未": "丑",
   "寅": "申", "申": "寅", "卯": "酉", "酉": "卯",
   "辰": "戌", "戌": "辰", "巳": "亥", "亥": "巳",
 };
 
 // —— 地支六害 ——
-const DZ_HAI: Record<string, string> = {
+export const DZ_HAI: Record<string, string> = {
   "子": "未", "未": "子", "丑": "午", "午": "丑",
   "寅": "巳", "巳": "寅", "卯": "辰", "辰": "卯",
   "申": "亥", "亥": "申", "酉": "戌", "戌": "酉",

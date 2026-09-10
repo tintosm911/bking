@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { buildBazi } from '@/lib/bazi_engine';
+import { deepenOracleReply } from '@/lib/llm';
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,6 +15,14 @@ export async function POST(request: NextRequest) {
     }
 
     const result = buildBazi(Number(year), Number(month), Number(day), Number(hour), Number(gender));
+
+    // C 档③：DeepSeek 深化解读（有 key 时加深『命格解读』，无 key 静默降级）
+    const baseText = result.formatted || "";
+    const deepened = await deepenOracleReply(baseText, "八字");
+    if (deepened) {
+      Object.assign(result, { _deepen: deepened });
+    }
+
     return NextResponse.json(result);
   } catch (err: any) {
     return NextResponse.json(

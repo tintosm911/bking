@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { downloadReport } from "@/lib/downloadPdf";
+import { interpretZwei } from "@/lib/zwei_deep_engine";
 
 export default function ZWeiPage() {
   const [form, setForm] = useState({ year: 2000, month: 1, day: 1, hour: 12, gender: 1 });
@@ -58,27 +59,27 @@ export default function ZWeiPage() {
         <div className="text-center mb-10">
           <div className="text-5xl mb-4">⭐</div>
           <h1 className="text-3xl font-serif font-bold text-gold">紫微斗数排盘</h1>
-          <p className="text-gray-400 mt-2">十二宫星曜分布 · 十四主星 · 四化飞星 · 格局判定</p>
+          <p className="text-gray-200 mt-2">十二宫星曜分布 · 十四主星 · 四化飞星 · 格局判定</p>
         </div>
 
         <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-5">
           <div className="grid grid-cols-3 gap-3">
             <div>
-              <label className="block text-sm text-gray-400 mb-1">出生年</label>
+              <label className="block text-sm text-gray-200 mb-1">出生年</label>
               <select value={form.year} onChange={(e) => setForm({ ...form, year: Number(e.target.value) })}
                 className="w-full px-3 py-2.5 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none">
                 {years.map((y) => <option key={y} value={y}>{y}年</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-sm text-gray-400 mb-1">月</label>
+              <label className="block text-sm text-gray-200 mb-1">月</label>
               <select value={form.month} onChange={(e) => setForm({ ...form, month: Number(e.target.value) })}
                 className="w-full px-3 py-2.5 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none">
                 {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => <option key={m} value={m}>{m}月</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-sm text-gray-400 mb-1">日</label>
+              <label className="block text-sm text-gray-200 mb-1">日</label>
               <select value={form.day} onChange={(e) => setForm({ ...form, day: Number(e.target.value) })}
                 className="w-full px-3 py-2.5 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none">
                 {Array.from({ length: 31 }, (_, i) => i + 1).map((d) => <option key={d} value={d}>{d}日</option>)}
@@ -87,14 +88,14 @@ export default function ZWeiPage() {
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm text-gray-400 mb-1">时辰</label>
+              <label className="block text-sm text-gray-200 mb-1">时辰</label>
               <select value={form.hour} onChange={(e) => setForm({ ...form, hour: Number(e.target.value) })}
                 className="w-full px-3 py-2.5 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none">
                 {Array.from({ length: 24 }, (_, i) => i).map((h) => <option key={h} value={h}>{h.toString().padStart(2, "0")}:00</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-sm text-gray-400 mb-1">性别</label>
+              <label className="block text-sm text-gray-200 mb-1">性别</label>
               <select value={form.gender} onChange={(e) => setForm({ ...form, gender: Number(e.target.value) })}
                 className="w-full px-3 py-2.5 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none">
                 <option value={1}>男</option>
@@ -122,19 +123,19 @@ export default function ZWeiPage() {
               <h2 className="text-lg font-serif font-bold text-gold mb-4 text-center">【基本信息】</h2>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
                 <div className="bg-dark-700 rounded-xl p-3">
-                  <div className="text-xs text-gray-500 mb-1">命宫</div>
+                  <div className="text-xs text-gray-300 mb-1">命宫</div>
                   <div className="text-lg font-bold text-gold-light">{result.命宫}</div>
                 </div>
                 <div className="bg-dark-700 rounded-xl p-3">
-                  <div className="text-xs text-gray-500 mb-1">五行局</div>
+                  <div className="text-xs text-gray-300 mb-1">五行局</div>
                   <div className="text-lg font-bold text-gold-light">{result.五行局}</div>
                 </div>
                 <div className="bg-dark-700 rounded-xl p-3">
-                  <div className="text-xs text-gray-500 mb-1">紫微星</div>
+                  <div className="text-xs text-gray-300 mb-1">紫微星</div>
                   <div className="text-lg font-bold text-gold-light">{result.紫微星}</div>
                 </div>
                 <div className="bg-dark-700 rounded-xl p-3">
-                  <div className="text-xs text-gray-500 mb-1">农历</div>
+                  <div className="text-xs text-gray-300 mb-1">农历</div>
                   <div className="text-xs font-bold text-gold-light">{result.农历}</div>
                 </div>
               </div>
@@ -147,10 +148,10 @@ export default function ZWeiPage() {
                 {Object.entries(result.星曜 || {}).map(([gong, stars]: [string, any]) => (
                   <div key={gong} className="bg-dark-700 rounded-xl p-3 border border-gold/10">
                     <div className="text-xs text-gold font-bold mb-1">{gong}</div>
-                    <div className="text-sm text-gray-300">
+                    <div className="text-sm text-gray-100">
                       {Array.isArray(stars) && stars.length > 0
                         ? stars.join(" · ")
-                        : <span className="text-gray-500 italic">空宫</span>}
+                        : <span className="text-gray-300 italic">空宫</span>}
                     </div>
                   </div>
                 ))}
@@ -163,7 +164,7 @@ export default function ZWeiPage() {
                 <h2 className="text-lg font-serif font-bold text-gold mb-4 text-center">【格局显现】</h2>
                 <div className="space-y-2">
                   {result.格局.map((p: string, i: number) => (
-                    <div key={i} className="bg-dark-700 rounded-xl p-3 text-sm text-gray-300 border border-gold/10">
+                    <div key={i} className="bg-dark-700 rounded-xl p-3 text-sm text-gray-100 border border-gold/10">
                       {p}
                     </div>
                   ))}
@@ -181,7 +182,7 @@ export default function ZWeiPage() {
                     <div className="flex-1 h-3 bg-dark-700 rounded-full overflow-hidden">
                       <div className="h-full rounded-full bg-gold transition-all" style={{ width: `${(v as number)}%` }} />
                     </div>
-                    <span className="text-xs text-gray-400 w-8 text-right">{v}</span>
+                    <span className="text-xs text-gray-200 w-8 text-right">{v}</span>
                   </div>
                 ))}
               </div>
@@ -194,16 +195,99 @@ export default function ZWeiPage() {
                 {(result.大限 || []).slice(0, 4).map((d: any, i: number) => (
                   <div key={i} className="bg-dark-700 rounded-xl p-3 text-center border border-gold/10">
                     <div className="text-sm font-bold text-gold-light">{d.宫}</div>
-                    <div className="text-xs text-gray-500">{d.起始年龄}-{d.结束年龄}岁</div>
+                    <div className="text-xs text-gray-300">{d.起始年龄}-{d.结束年龄}岁</div>
                   </div>
                 ))}
               </div>
             </div>
 
+            {/* 大师级细批（深度解读） */}
+            <div className="glass rounded-2xl p-6 border border-gold/40">
+              <h2 className="text-lg font-serif font-bold text-gold mb-1 text-center">📜 大师级细批</h2>
+              <p className="text-xs text-gray-300 text-center mb-4">逐宫解读 · 三方四正 · 格局详批 · 四化入宫 · 大限流年</p>
+              {(() => {
+                try {
+                  if (!result) return null;
+                  const deep = interpretZwei(result);
+                  return (
+                    <div className="space-y-5">
+                      {/* 十二宫细批 */}
+                      <div>
+                        <h3 className="text-sm font-bold text-gold mb-2">【十二宫细批】</h3>
+                        <div className="space-y-2">
+                          {Object.values(deep.星曜解读).map((s, i) => (
+                            <div key={i} className="bg-dark-700 rounded-xl p-3 text-sm text-gray-100 leading-relaxed border border-gold/10">{s}</div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* 三方四正 */}
+                      <div>
+                        <h3 className="text-sm font-bold text-gold mb-2">【三方四正】</h3>
+                        <div className="space-y-2">
+                          {deep.三方四正.map((s, i) => (
+                            <div key={i} className="bg-dark-700 rounded-xl p-3 text-sm text-gray-100 leading-relaxed border border-gold/10"><span className="text-gold font-bold">{s.t型}：</span>{s.解读}</div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* 格局详批 */}
+                      {deep.格局详批.length > 0 && (
+                        <div>
+                          <h3 className="text-sm font-bold text-gold mb-2">【格局详批】</h3>
+                          <div className="space-y-2">
+                            {deep.格局详批.map((s, i) => (
+                              <div key={i} className="bg-dark-700 rounded-xl p-3 text-sm text-gray-100 leading-relaxed border border-gold/30">{s}</div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* 四化入宫 */}
+                      {Object.keys(deep.四化解读).length > 0 && (
+                        <div>
+                          <h3 className="text-sm font-bold text-gold mb-2">【四化入宫】</h3>
+                          <div className="space-y-2">
+                            {Object.values(deep.四化解读).flat().map((s, i) => (
+                              <div key={i} className="bg-dark-700 rounded-xl p-3 text-sm text-gray-100 leading-relaxed border border-gold/10">{s}</div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* 大限流年批注 */}
+                      <div>
+                        <h3 className="text-sm font-bold text-gold mb-2">【大限流年批注】</h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                          {deep.大限批注.map((d, i) => (
+                            <div key={i} className="bg-dark-700 rounded-xl p-3 text-sm text-gray-100 border border-gold/10">
+                              <span className="text-gold font-bold">{d.年龄段}：</span>{d.主题}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* 总评 */}
+                      <div className="bg-dark-700 rounded-xl p-4 border border-gold/40">
+                        <h3 className="text-sm font-bold text-gold mb-2">【命盘总评】</h3>
+                        <div className="space-y-2">
+                          {deep.总评.map((s, i) => (
+                            <p key={i} className="text-sm text-gray-200 leading-relaxed">{s}</p>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                } catch {
+                  return <p className="text-xs text-gray-300">细批生成失败，请查看下方完整排盘。</p>;
+                }
+              })()}
+            </div>
+
             {/* 原始排盘 */}
             <details className="glass rounded-2xl p-6">
               <summary className="text-sm text-gold cursor-pointer font-bold">查看完整排盘明细</summary>
-              <pre className="mt-4 text-xs text-gray-400 leading-relaxed whitespace-pre-wrap font-mono">{result.formatted}</pre>
+              <pre className="mt-4 text-xs text-gray-200 leading-relaxed whitespace-pre-wrap font-mono">{result.formatted}</pre>
             </details>
 
             <div className="text-center">

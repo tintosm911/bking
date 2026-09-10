@@ -97,7 +97,7 @@ export default function TianjiPage() {
         <div className="text-center mb-10">
           <div className="text-5xl mb-4">☯️</div>
           <h1 className="text-3xl font-serif font-bold text-gold">天机 · 综合命理测算</h1>
-          <p className="text-gray-400 mt-2">八字五行 · 称骨算命 · 紫微斗数 · 西洋星座 · 三才五格 · 合盘分析</p>
+          <p className="text-gray-200 mt-2">八字五行 · 称骨算命 · 紫微斗数 · 西洋星座 · 三才五格 · 合盘分析</p>
         </div>
 
         <form onSubmit={handleSubmit} className="max-w-2xl mx-auto space-y-5">
@@ -116,14 +116,14 @@ export default function TianjiPage() {
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 <div>
-                  <label className="block text-xs text-gray-400 mb-1">姓名</label>
+                  <label className="block text-xs text-gray-200 mb-1">姓名</label>
                   <input type="text" value={m.name}
                     onChange={(e) => updateMember(i, "name", e.target.value)}
                     className="w-full px-3 py-2 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none text-sm"
                     placeholder="张三" />
                 </div>
                 <div>
-                  <label className="block text-xs text-gray-400 mb-1">性别</label>
+                  <label className="block text-xs text-gray-200 mb-1">性别</label>
                   <select value={m.gender}
                     onChange={(e) => updateMember(i, "gender", e.target.value)}
                     className="w-full px-3 py-2 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none text-sm">
@@ -132,19 +132,19 @@ export default function TianjiPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs text-gray-400 mb-1">出生日期</label>
+                  <label className="block text-xs text-gray-200 mb-1">出生日期</label>
                   <input type="date" value={m.solar_date}
                     onChange={(e) => updateMember(i, "solar_date", e.target.value)}
                     className="w-full px-3 py-2 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none text-sm" />
                 </div>
                 <div>
-                  <label className="block text-xs text-gray-400 mb-1">出生时间</label>
+                  <label className="block text-xs text-gray-200 mb-1">出生时间</label>
                   <input type="time" value={m.birth_time}
                     onChange={(e) => updateMember(i, "birth_time", e.target.value)}
                     className="w-full px-3 py-2 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none text-sm" />
                 </div>
                 <div>
-                  <label className="block text-xs text-gray-400 mb-1">出生城市</label>
+                  <label className="block text-xs text-gray-200 mb-1">出生城市</label>
                   <input type="text" value={m.birth_city}
                     onChange={(e) => updateMember(i, "birth_city", e.target.value)}
                     className="w-full px-3 py-2 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none text-sm"
@@ -188,7 +188,7 @@ export default function TianjiPage() {
                     className={`px-4 py-2 rounded-xl text-sm transition-all ${
                       idx === activeMember
                         ? "bg-gold/20 text-gold border border-gold/40"
-                        : "bg-dark-700 text-gray-400 border border-gold/10 hover:border-gold/30"
+                        : "bg-dark-700 text-gray-200 border border-gold/10 hover:border-gold/30"
                     }`}>
                     {result.members[idx].name || `第${idx + 1}位`}
                   </button>
@@ -211,19 +211,19 @@ export default function TianjiPage() {
                   <div className="grid grid-cols-4 gap-3 text-center mb-4">
                     {["年柱", "月柱", "日柱", "时柱"].map((col, ci) => (
                       <div key={col} className="bg-dark-700 rounded-xl p-3 border border-gold/10">
-                        <div className="text-xs text-gray-500 mb-1">{col}</div>
+                        <div className="text-xs text-gray-300 mb-1">{col}</div>
                         <div className="text-2xl font-serif font-bold text-gold-light">
                           {person.bazi?.[ci] || "--"}
                         </div>
-                        <div className="text-xs text-gray-500 mt-1">{person.nayins?.[ci] || ""}</div>
+                        <div className="text-xs text-gray-300 mt-1">{person.nayins?.[ci] || ""}</div>
                       </div>
                     ))}
                   </div>
                   {person.day_gan && (
                     <div className="text-center p-3 bg-dark-700 rounded-xl border border-gold/10">
-                      <span className="text-gray-400 text-sm">日主：</span>
+                      <span className="text-gray-200 text-sm">日主：</span>
                       <span className="text-2xl font-serif font-bold text-gold-light mx-2">{person.day_gan}</span>
-                      <span className="text-gray-400 text-sm">生肖：{person.shengxiao || "--"}</span>
+                      <span className="text-gray-200 text-sm">生肖：{person.shengxiao || "--"}</span>
                     </div>
                   )}
                 </div>
@@ -242,7 +242,7 @@ export default function TianjiPage() {
                             <div className="flex-1 h-4 bg-dark-700 rounded-full overflow-hidden">
                               <div className={`h-full rounded-full ${WUXING_COLORS[wx] || "bg-gold"} transition-all duration-700`} style={{ width: `${pct}%` }} />
                             </div>
-                            <span className="text-xs text-gray-400 w-8 text-right font-mono">{count}</span>
+                            <span className="text-xs text-gray-200 w-8 text-right font-mono">{count}</span>
                           </div>
                         );
                       })}
@@ -262,7 +262,7 @@ export default function TianjiPage() {
                     <div className="grid grid-cols-5 gap-2 text-center mb-4">
                       {Object.entries(person.chenggu).filter(([k]) => k !== "等级" && k !== "歌诀").map(([key, val]) => (
                         <div key={key} className="bg-dark-700 rounded-xl p-2 border border-gold/10">
-                          <div className="text-xs text-gray-500 mb-1">{key}</div>
+                          <div className="text-xs text-gray-300 mb-1">{key}</div>
                           <div className="text-sm font-bold text-gold-light">{val as string}</div>
                         </div>
                       ))}
@@ -270,7 +270,7 @@ export default function TianjiPage() {
                     {person.chenggu["总重"] && (
                       <div className="text-center">
                         <div className="inline-block bg-gold/10 rounded-xl px-6 py-2 border border-gold/20">
-                          <span className="text-gray-400 text-sm">总重：</span>
+                          <span className="text-gray-200 text-sm">总重：</span>
                           <span className="text-xl font-bold text-gold">{person.chenggu["总重"]}</span>
                           {person.chenggu["等级"] && (
                             <span className="ml-3 text-sm text-yellow-400">({person.chenggu["等级"]})</span>
@@ -280,7 +280,7 @@ export default function TianjiPage() {
                     )}
                     {person.chenggu["歌诀"] && (
                       <div className="mt-3 p-3 bg-dark-700 rounded-xl border border-gold/10">
-                        <p className="text-sm text-gray-300 text-center leading-relaxed italic">「{person.chenggu["歌诀"]}」</p>
+                        <p className="text-sm text-gray-100 text-center leading-relaxed italic">「{person.chenggu["歌诀"]}」</p>
                       </div>
                     )}
                   </div>
@@ -300,7 +300,7 @@ export default function TianjiPage() {
                         ["大运方向", person.ziwei.dayun_direction],
                       ].map(([label, val]) => (
                         <div key={label as string} className="bg-dark-700 rounded-xl p-2 text-center border border-gold/10">
-                          <div className="text-xs text-gray-500">{label as string}</div>
+                          <div className="text-xs text-gray-300">{label as string}</div>
                           <div className="text-sm font-bold text-gold-light mt-1">{val as string || "--"}</div>
                         </div>
                       ))}
@@ -308,14 +308,14 @@ export default function TianjiPage() {
                     {person.ziwei.life_palace_stars && (
                       <div className="text-center mb-4">
                         <div className="inline-block bg-gold/10 rounded-xl px-6 py-2 border border-gold/20">
-                          <span className="text-gray-400 text-sm">命宫主星：</span>
+                          <span className="text-gray-200 text-sm">命宫主星：</span>
                           <span className="text-lg font-bold text-gold-light">{person.ziwei.life_palace_stars}</span>
                         </div>
                       </div>
                     )}
                     {person.ziwei.格局 && person.ziwei.格局.length > 0 && (
                       <div className="text-center">
-                        <span className="text-xs text-gray-400">格局：</span>
+                        <span className="text-xs text-gray-200">格局：</span>
                         {(person.ziwei.格局 as string[]).map((g: string, gi: number) => (
                           <span key={gi} className="inline-block px-2 py-0.5 bg-gold/10 rounded text-xs text-gold ml-1">{g}</span>
                         ))}
@@ -336,9 +336,9 @@ export default function TianjiPage() {
                       ].map((item) => (
                         <div key={item.label} className="bg-dark-700 rounded-xl p-4 text-center border border-gold/10">
                           <div className="text-2xl mb-1">{item.emoji}</div>
-                          <div className="text-xs text-gray-500 mb-1">{item.label}</div>
+                          <div className="text-xs text-gray-300 mb-1">{item.label}</div>
                           <div className="text-lg font-bold text-gold-light">{item.value || "--"}</div>
-                          <div className="text-xs text-gray-500 mt-1">{item.desc}</div>
+                          <div className="text-xs text-gray-300 mt-1">{item.desc}</div>
                         </div>
                       ))}
                     </div>
@@ -354,12 +354,12 @@ export default function TianjiPage() {
                         const data = person.name_wuge[ge];
                         return (
                           <div key={ge} className="bg-dark-700 rounded-xl p-2 border border-gold/10">
-                            <div className="text-xs text-gray-500">{ge}</div>
+                            <div className="text-xs text-gray-300">{ge}</div>
                             <div className="text-sm font-bold text-gold-light mt-1">{data?.数理 || "--"}</div>
                             <div className={`text-xs mt-0.5 ${
                               data?.吉凶?.includes("大吉") ? "text-green-400" :
                               data?.吉凶?.includes("吉") ? "text-green-300" :
-                              data?.吉凶?.includes("凶") ? "text-red-400" : "text-gray-400"
+                              data?.吉凶?.includes("凶") ? "text-red-400" : "text-gray-200"
                             }`}>{data?.吉凶 || ""}</div>
                           </div>
                         );
@@ -367,13 +367,13 @@ export default function TianjiPage() {
                     </div>
                     {person.name_wuge["综合评分"] && (
                       <div className="text-center">
-                        <span className="text-gray-400 text-sm">综合评分：</span>
+                        <span className="text-gray-200 text-sm">综合评分：</span>
                         <span className={`text-xl font-bold ${
                           (person.name_wuge["综合评分"] as number) >= 80 ? "text-green-400" :
                           (person.name_wuge["综合评分"] as number) >= 60 ? "text-yellow-400" : "text-red-400"
                         }`}>{person.name_wuge["综合评分"]}</span>
                         {person.name_wuge["综合评级"] && (
-                          <span className="ml-2 text-sm text-gray-400">({person.name_wuge["综合评级"]})</span>
+                          <span className="ml-2 text-sm text-gray-200">({person.name_wuge["综合评级"]})</span>
                         )}
                       </div>
                     )}
@@ -394,21 +394,21 @@ export default function TianjiPage() {
                     { label: "星座相位", value: result.synastry.scores?.zodiac, max: 15 },
                   ].map((item) => (
                     <div key={item.label} className="bg-dark-700 rounded-xl p-4 text-center border border-gold/10">
-                      <div className="text-xs text-gray-500 mb-1">{item.label}</div>
+                      <div className="text-xs text-gray-300 mb-1">{item.label}</div>
                       <div className={`text-2xl font-bold ${
                         item.value && (item.value as number) / (item.max || 1) >= 0.7 ? "text-green-400" :
                         item.value && (item.value as number) / (item.max || 1) >= 0.4 ? "text-yellow-400" : "text-red-400"
                       }`}>{item.value ?? "--"}</div>
-                      <div className="text-xs text-gray-500 mt-1">/ {item.max}</div>
+                      <div className="text-xs text-gray-300 mt-1">/ {item.max}</div>
                     </div>
                   ))}
                 </div>
                 {result.synastry.total !== undefined && (
                   <div className="text-center">
                     <div className="inline-block bg-gold/10 rounded-xl px-8 py-3 border border-gold/20">
-                      <span className="text-gray-400 text-sm">综合匹配度：</span>
+                      <span className="text-gray-200 text-sm">综合匹配度：</span>
                       <span className="text-2xl font-bold text-gold">{result.synastry.total}</span>
-                      <span className="text-gray-400 text-sm ml-1">/ {result.synastry.max_possible || 100}</span>
+                      <span className="text-gray-200 text-sm ml-1">/ {result.synastry.max_possible || 100}</span>
                       {result.synastry.rating && (
                         <div className="mt-1">
                           <span className={`text-xs px-2 py-0.5 rounded ${
@@ -433,7 +433,7 @@ export default function TianjiPage() {
         )}
       </div>
 
-      <footer className="text-center py-8 text-gray-600 text-xs border-t border-gold/5 mt-12">
+      <footer className="text-center py-8 text-gray-400 text-xs border-t border-gold/5 mt-12">
         BKing · 天机引擎 v8.2 · 命理测算仅供娱乐参考
       </footer>
     </div>

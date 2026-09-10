@@ -56,7 +56,7 @@ export default function LiuYaoPage() {
         <div className="text-center mb-10">
           <div className="text-5xl mb-4">🪙</div>
           <h1 className="text-3xl font-serif font-bold text-gold">六爻占卜</h1>
-          <p className="text-gray-400 mt-2">三枚铜钱 · 六次摇卦 · 卦象断吉凶</p>
+          <p className="text-gray-200 mt-2">三枚铜钱 · 六次摇卦 · 卦象断吉凶</p>
         </div>
 
         {/* 起卦方式 */}
@@ -66,7 +66,7 @@ export default function LiuYaoPage() {
             className={`px-4 py-2.5 rounded-xl text-sm font-semibold transition border ${
               method === "auto"
                 ? "bg-gold text-dark-900 border-gold"
-                : "bg-dark-700 border-gold/20 text-gray-400 hover:border-gold/50"
+                : "bg-dark-700 border-gold/20 text-gray-200 hover:border-gold/50"
             }`}
           >
             🎲 自动摇卦
@@ -76,7 +76,7 @@ export default function LiuYaoPage() {
             className={`px-4 py-2.5 rounded-xl text-sm font-semibold transition border ${
               method === "manual"
                 ? "bg-gold text-dark-900 border-gold"
-                : "bg-dark-700 border-gold/20 text-gray-400 hover:border-gold/50"
+                : "bg-dark-700 border-gold/20 text-gray-200 hover:border-gold/50"
             }`}
           >
             🪙 手动摇卦
@@ -86,18 +86,18 @@ export default function LiuYaoPage() {
         <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-5">
           {method === "auto" ? (
             <div className="glass rounded-2xl p-6 text-center">
-              <p className="text-sm text-gray-300 mb-2">心中默念所问之事，三枚铜钱自动摇六次</p>
+              <p className="text-sm text-gray-100 mb-2">心中默念所问之事，三枚铜钱自动摇六次</p>
               <p className="text-xs text-gold/70">初爻 → 上爻 · 由系统随机起卦</p>
             </div>
           ) : (
             <div className="glass rounded-2xl p-6">
-              <p className="text-sm text-gray-300 text-center mb-4">
+              <p className="text-sm text-gray-100 text-center mb-4">
                 自行抛三枚铜钱（或用硬币），自下而上记录六次「正面几枚」（0-3）
               </p>
               <div className="grid grid-cols-6 gap-2">
                 {manual.map((v, i) => (
                   <div key={i}>
-                    <label className="block text-[10px] text-gray-500 text-center mb-1">{yaoNames[i]}</label>
+                    <label className="block text-[10px] text-gray-300 text-center mb-1">{yaoNames[i]}</label>
                     <input
                       type="number"
                       min={0}
@@ -135,25 +135,25 @@ export default function LiuYaoPage() {
             <div className="glass rounded-2xl p-6">
               <div className="flex items-center justify-center gap-8 mb-4">
                 <div className="text-center">
-                  <div className="text-xs text-gray-500 mb-1">本卦</div>
+                  <div className="text-xs text-gray-300 mb-1">本卦</div>
                   <div className="text-4xl font-serif font-bold text-gold">{result.benGua.name}</div>
                   <div className="text-3xl mt-2">{result.benGua.symbol}</div>
-                  <div className="text-xs text-gray-400 mt-1">五行{result.benGua.element}</div>
+                  <div className="text-xs text-gray-200 mt-1">五行{result.benGua.element}</div>
                 </div>
                 {result.bianGua && (
                   <>
                     <div className="text-gold/40 text-2xl">➜</div>
                     <div className="text-center">
-                      <div className="text-xs text-gray-500 mb-1">变卦</div>
+                      <div className="text-xs text-gray-300 mb-1">变卦</div>
                       <div className="text-4xl font-serif font-bold text-gold">{result.bianGua.name}</div>
                       <div className="text-3xl mt-2">{result.bianGua.symbol}</div>
-                      <div className="text-xs text-gray-400 mt-1">{result.movingCount} 爻动</div>
+                      <div className="text-xs text-gray-200 mt-1">{result.movingCount} 爻动</div>
                     </div>
                   </>
                 )}
               </div>
               {!result.bianGua && (
-                <div className="text-center text-xs text-gray-500">
+                <div className="text-center text-xs text-gray-300">
                   六爻安静 · 无动爻 · 以本卦卦辞断之
                 </div>
               )}
@@ -171,7 +171,7 @@ export default function LiuYaoPage() {
                     }`}
                   >
                     <div className="flex items-center gap-3 text-sm">
-                      <span className="text-gray-500 w-10">{yaoNames[y.index - 1]}</span>
+                      <span className="text-gray-300 w-10">{yaoNames[y.index - 1]}</span>
                       <span className={`font-mono text-lg ${y.moving ? "text-red-400" : "text-gray-200"}`}>
                         {y.line}
                       </span>
@@ -180,10 +180,10 @@ export default function LiuYaoPage() {
                       {y.moving && <span className="px-1.5 py-0.5 rounded bg-red-500/20 text-red-300 text-[10px]">动</span>}
                     </div>
                     <div className="flex items-center gap-3 text-xs">
-                      <span className="text-gray-500">{y.type}</span>
-                      <span className="text-gray-400">{y.element}行</span>
-                      <span className={`font-semibold ${LIUQIN_COLOR[y.liuqin] || "text-gray-300"}`}>{y.liuqin}</span>
-                      <span className="text-gray-500">{y.liushen}</span>
+                      <span className="text-gray-300">{y.type}</span>
+                      <span className="text-gray-200">{y.element}行</span>
+                      <span className={`font-semibold ${LIUQIN_COLOR[y.liuqin] || "text-gray-100"}`}>{y.liuqin}</span>
+                      <span className="text-gray-300">{y.liushen}</span>
                     </div>
                   </div>
                 ))}

@@ -242,7 +242,7 @@ function CardFront({ card, visible, delay }: { card: any; visible: boolean; dela
           {isReversed && <span className="inline-block mr-0.5">⬇</span>}
           {card.name}
         </div>
-        <div className="text-[7px] text-white/20 leading-tight mt-0.5">
+        <div className="text-[7px] text-white/60 leading-tight mt-0.5">
           {card.nameEn}
         </div>
       </div>
@@ -260,7 +260,7 @@ function CardFront({ card, visible, delay }: { card: any; visible: boolean; dela
       />
 
       {/* 释义 */}
-      <div className="text-[8px] text-white/35 text-center leading-relaxed px-1">
+      <div className="text-[8px] text-white/70 text-center leading-relaxed px-1">
         {isReversed ? `⚠ ${card.meaningEn}` : card.meaning}
       </div>
 

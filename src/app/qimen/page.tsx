@@ -43,27 +43,27 @@ export default function QiMenPage() {
         <div className="text-center mb-10">
           <div className="text-5xl mb-4">🏯</div>
           <h1 className="text-3xl font-serif font-bold text-gold">奇门遁甲起局</h1>
-          <p className="text-gray-400 mt-2">时空盘局 · 三奇八门 · 择时决策</p>
+          <p className="text-gray-200 mt-2">时空盘局 · 三奇八门 · 择时决策</p>
         </div>
 
         <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-5">
           <div className="grid grid-cols-3 gap-3">
             <div>
-              <label className="block text-sm text-gray-400 mb-1">年</label>
+              <label className="block text-sm text-gray-200 mb-1">年</label>
               <select value={form.year} onChange={(e) => setForm({ ...form, year: Number(e.target.value) })}
                 className="w-full px-3 py-2.5 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none">
                 {years.map((y) => <option key={y} value={y}>{y}年</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-sm text-gray-400 mb-1">月</label>
+              <label className="block text-sm text-gray-200 mb-1">月</label>
               <select value={form.month} onChange={(e) => setForm({ ...form, month: Number(e.target.value) })}
                 className="w-full px-3 py-2.5 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none">
                 {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => <option key={m} value={m}>{m}月</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-sm text-gray-400 mb-1">日</label>
+              <label className="block text-sm text-gray-200 mb-1">日</label>
               <select value={form.day} onChange={(e) => setForm({ ...form, day: Number(e.target.value) })}
                 className="w-full px-3 py-2.5 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none">
                 {Array.from({ length: 31 }, (_, i) => i + 1).map((d) => <option key={d} value={d}>{d}日</option>)}
@@ -71,7 +71,7 @@ export default function QiMenPage() {
             </div>
           </div>
           <div>
-            <label className="block text-sm text-gray-400 mb-1">时辰</label>
+            <label className="block text-sm text-gray-200 mb-1">时辰</label>
             <select value={form.hour} onChange={(e) => setForm({ ...form, hour: Number(e.target.value) })}
               className="w-full px-3 py-2.5 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none">
               {Array.from({ length: 24 }, (_, i) => i).map((h) => <option key={h} value={h}>{h.toString().padStart(2, "0")}:00</option>)}
@@ -95,13 +95,13 @@ export default function QiMenPage() {
             {/* 基本信息 */}
             <div className="glass rounded-2xl p-6">
               <h2 className="text-lg font-serif font-bold text-gold mb-4 text-center">【基本信息】</h2>
-              <div className="text-center text-gray-300 text-sm">{result.formatted?.split("\n")?.slice(1, 5)?.join("\n") || "无数据"}</div>
+              <div className="text-center text-gray-100 text-sm">{result.formatted?.split("\n")?.slice(1, 5)?.join("\n") || "无数据"}</div>
             </div>
 
             {/* 完整排盘 */}
             <details className="glass rounded-2xl p-6" open>
               <summary className="text-sm text-gold cursor-pointer font-bold">查看完整奇门盘</summary>
-              <pre className="mt-4 text-xs text-gray-400 leading-relaxed whitespace-pre-wrap font-mono">{result.formatted}</pre>
+              <pre className="mt-4 text-xs text-gray-200 leading-relaxed whitespace-pre-wrap font-mono">{result.formatted}</pre>
             </details>
 
             <div className="text-center">

@@ -207,7 +207,7 @@ export default function WishingWellPage() {
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="flex items-center gap-4">
               <span className="text-gold text-2xl font-serif font-bold tracking-wider">BKing</span>
-              <span className="hidden md:inline text-xs text-white/20">/ 许愿池</span>
+              <span className="hidden md:inline text-xs text-white/60">/ 许愿池</span>
             </Link>
             <div className="flex items-center gap-3">
               <button className="px-5 py-2.5 rounded-lg text-base text-white/60 hover:text-white transition-colors">
@@ -226,7 +226,7 @@ export default function WishingWellPage() {
         <AnimatedSection className="flex flex-col items-center text-center max-w-3xl mx-auto gap-4">
           {/* Tag */}
           <div>
-            <span className="px-4 py-1.5 text-xs text-white/40 bg-white/[0.03] rounded-full border border-white/[0.06] tracking-wider">
+            <span className="px-4 py-1.5 text-xs text-white/80 bg-white/[0.03] rounded-full border border-white/[0.06] tracking-wider">
               💎 许愿池 · 链上祈愿
             </span>
           </div>
@@ -237,7 +237,7 @@ export default function WishingWellPage() {
             </span>
           </h1>
 
-          <p className="text-sm md:text-base text-white/40 leading-relaxed max-w-lg">
+          <p className="text-sm md:text-base text-white/80 leading-relaxed max-w-lg">
             在链上许下心愿，汇聚众人之力，助你愿望成真
           </p>
 
@@ -266,7 +266,7 @@ export default function WishingWellPage() {
                   {stat.num}
                 </div>
                 <div className="text-xs text-white/50 mt-1">{stat.label}</div>
-                <div className="text-[10px] text-white/20">{stat.labelEn}</div>
+                <div className="text-[10px] text-white/60">{stat.labelEn}</div>
               </div>
             ))}
           </div>
@@ -281,7 +281,7 @@ export default function WishingWellPage() {
             <div className="text-center mt-4">
               <button
                 onClick={() => setShowForm(false)}
-                className="text-xs text-white/30 hover:text-white/50 transition-colors"
+                className="text-xs text-white/70 hover:text-white/50 transition-colors"
               >
                 收起表单
               </button>
@@ -303,14 +303,14 @@ export default function WishingWellPage() {
                   className={`px-4 py-2 rounded-lg text-xs transition-all ${
                     activeTab === tab.id
                       ? "bg-gold/15 text-gold"
-                      : "text-white/40 hover:text-white/60"
+                      : "text-white/80 hover:text-white/60"
                   }`}
                 >
                   {tab.label}
                 </button>
               ))}
             </div>
-            <p className="text-[10px] text-white/20">{filtered.length} 个愿望</p>
+            <p className="text-[10px] text-white/60">{filtered.length} 个愿望</p>
           </div>
 
           {/* Grid */}
@@ -323,7 +323,7 @@ export default function WishingWellPage() {
           {filtered.length === 0 && (
             <div className="text-center py-20">
               <div className="text-4xl mb-4">🔮</div>
-              <p className="text-sm text-white/30">暂无愿望</p>
+              <p className="text-sm text-white/70">暂无愿望</p>
               <button
                 onClick={() => setShowForm(true)}
                 className="mt-4 text-xs text-gold hover:text-gold-light transition-colors"
@@ -339,7 +339,7 @@ export default function WishingWellPage() {
       <section className="relative z-10 px-6 pb-20">
         <AnimatedSection className="max-w-5xl mx-auto text-center">
           <h2 className="text-2xl md:text-3xl font-serif font-bold text-gold mb-3">许愿池如何运作</h2>
-          <p className="text-sm text-white/40 mb-10">How the Wishing Well Works</p>
+          <p className="text-sm text-white/80 mb-10">How the Wishing Well Works</p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
@@ -351,13 +351,13 @@ export default function WishingWellPage() {
                 <div className="text-3xl mb-3">{item.icon}</div>
                 <div className="text-xs text-gold/60 mb-1 tracking-wider">{item.step}</div>
                 <h3 className="text-base font-serif font-bold text-white/70 mb-2">{item.title}</h3>
-                <p className="text-xs text-white/35 leading-relaxed">{item.desc}</p>
+                <p className="text-xs text-white/70 leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
 
           <div className="mt-10 px-6 py-5 rounded-2xl bg-white/[0.02] border border-white/[0.06] inline-block">
-            <p className="text-xs text-white/30 leading-relaxed">
+            <p className="text-xs text-white/70 leading-relaxed">
               💡 许愿金将按比例分配：<span className="text-gold">70%</span> 进入愿望实现基金 · <span className="text-gold">20%</span> 社区激励 · <span className="text-gold">10%</span> 平台运营
             </p>
           </div>
@@ -370,9 +370,9 @@ export default function WishingWellPage() {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <span className="text-gold font-serif font-bold tracking-wider">BKing</span>
-              <span className="text-[10px] text-white/15">© 2026 许愿池 RWA</span>
+              <span className="text-[10px] text-white/50">© 2026 许愿池 RWA</span>
             </div>
-            <div className="flex gap-6 text-xs text-white/30">
+            <div className="flex gap-6 text-xs text-white/70">
               <Link href="/" className="hover:text-white/60 transition-colors">首页</Link>
               <span className="hover:text-white/60 cursor-pointer transition-colors">服务条款</span>
               <span className="hover:text-white/60 cursor-pointer transition-colors">隐私政策</span>

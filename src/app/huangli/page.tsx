@@ -61,7 +61,7 @@ export default function HuangliPage() {
         <div className="text-center mb-10">
           <div className="text-5xl mb-4">📅</div>
           <h1 className="text-3xl font-serif font-bold text-gold">每日黄历</h1>
-          <p className="text-gray-400 mt-2">当日干支 · 宜忌 · 冲煞 · 彭祖百忌</p>
+          <p className="text-gray-200 mt-2">当日干支 · 宜忌 · 冲煞 · 彭祖百忌</p>
         </div>
 
         {/* 模式切换 */}
@@ -71,7 +71,7 @@ export default function HuangliPage() {
             className={`px-4 py-2.5 rounded-xl text-sm font-semibold transition border ${
               view === "today"
                 ? "bg-gold text-dark-900 border-gold"
-                : "bg-dark-700 border-gold/20 text-gray-400 hover:border-gold/50"
+                : "bg-dark-700 border-gold/20 text-gray-200 hover:border-gold/50"
             }`}
           >
             📅 今日黄历
@@ -81,7 +81,7 @@ export default function HuangliPage() {
             className={`px-4 py-2.5 rounded-xl text-sm font-semibold transition border ${
               view === "wanli"
                 ? "bg-gold text-dark-900 border-gold"
-                : "bg-dark-700 border-gold/20 text-gray-400 hover:border-gold/50"
+                : "bg-dark-700 border-gold/20 text-gray-200 hover:border-gold/50"
             }`}
           >
             🗓 万年历
@@ -91,21 +91,21 @@ export default function HuangliPage() {
         <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-5">
           <div className="grid grid-cols-3 gap-3">
             <div>
-              <label className="block text-sm text-gray-400 mb-1">年</label>
+              <label className="block text-sm text-gray-200 mb-1">年</label>
               <select value={date.year} onChange={(e) => setDate({ ...date, year: Number(e.target.value) })}
                 className="w-full px-3 py-2.5 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none">
                 {years.map((y) => <option key={y} value={y}>{y}年</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-sm text-gray-400 mb-1">月</label>
+              <label className="block text-sm text-gray-200 mb-1">月</label>
               <select value={date.month} onChange={(e) => setDate({ ...date, month: Number(e.target.value) })}
                 className="w-full px-3 py-2.5 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none">
                 {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => <option key={m} value={m}>{m}月</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-sm text-gray-400 mb-1">日</label>
+              <label className="block text-sm text-gray-200 mb-1">日</label>
               <select value={date.day} onChange={(e) => setDate({ ...date, day: Number(e.target.value) })}
                 className="w-full px-3 py-2.5 rounded-xl bg-dark-700 border border-gold/20 text-white focus:border-gold/50 outline-none">
                 {Array.from({ length: 31 }, (_, i) => i + 1).map((d) => <option key={d} value={d}>{d}日</option>)}
@@ -134,7 +134,7 @@ export default function HuangliPage() {
                 <div className="text-4xl font-serif font-bold text-gold mb-2">
                   {result.lunar.leap ? "闰" : ""}{result.lunar.month}月{result.lunar.dayName}
                 </div>
-                <div className="text-sm text-gray-400">
+                <div className="text-sm text-gray-200">
                   {result.lunar.year}年 · 生肖{result.lunar.zodiac} · 农历{result.lunar.month}月
                 </div>
                 <div className="mt-3 flex justify-center gap-2 flex-wrap text-sm">
@@ -147,15 +147,15 @@ export default function HuangliPage() {
               {/* 建除 + 冲煞 */}
               <div className="mt-6 grid grid-cols-2 gap-3 text-center text-sm">
                 <div className="rounded-xl bg-dark-700/50 border border-gold/15 p-4">
-                  <div className="text-gray-400 mb-1">建除十二神</div>
+                  <div className="text-gray-200 mb-1">建除十二神</div>
                   <div className={`text-xl font-bold ${goodColor(result.jianchu.goodBad)}`}>
                     {result.jianchu.name} · {result.jianchu.goodBad}
                   </div>
                 </div>
                 <div className="rounded-xl bg-dark-700/50 border border-gold/15 p-4">
-                  <div className="text-gray-400 mb-1">冲煞</div>
+                  <div className="text-gray-200 mb-1">冲煞</div>
                   <div className="text-xl font-bold text-gray-200">{result.wuxing.clashSX}</div>
-                  <div className="text-xs text-gray-500">{result.wuxing.clashZhi} · 五行{result.wuxing.day}</div>
+                  <div className="text-xs text-gray-300">{result.wuxing.clashZhi} · 五行{result.wuxing.day}</div>
                 </div>
               </div>
 
@@ -215,7 +215,7 @@ export default function HuangliPage() {
               {wanli.list.map((d: any, i: number) => (
                 <div key={i} className={`glass rounded-2xl p-5 ${i === 0 ? "ring-1 ring-gold" : ""}`}>
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm font-semibold text-gray-300">
+                    <span className="text-sm font-semibold text-gray-100">
                       {d.solar.month}/{d.solar.day} {d.solar.weekday.replace("星期", "周")}
                     </span>
                     <span className={`text-xs font-bold ${goodColor(d.jianchu.goodBad)}`}>
@@ -225,7 +225,7 @@ export default function HuangliPage() {
                   <div className="text-xl font-serif font-bold text-gold mb-1">
                     {d.lunar.dayName}
                   </div>
-                  <div className="text-xs text-gray-500 mb-2">
+                  <div className="text-xs text-gray-300 mb-2">
                     {d.lunar.leap ? "闰" : ""}{d.lunar.month}月 · 日柱 {d.ganzhi.day}
                   </div>
                   <div className="flex flex-wrap gap-1.5">
