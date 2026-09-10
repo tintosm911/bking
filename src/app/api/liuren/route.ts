@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { liurenDivination, liurenNow, SHICHEN_NAMES, PALACES } from "@/lib/liuren_engine";
+import { masterDeepReading } from "@/lib/llm";
 
 export async function POST(request: NextRequest) {
   try {
@@ -19,6 +20,32 @@ export async function POST(request: NextRequest) {
 
     const shichenName = SHICHEN_NAMES.find((s) => s.key === (result.shichen ?? 0));
     const pal = result.finalPalace;
+
+    // 拼装排盘文本（供展示/TTS/详批数据源）
+    const lines = [
+      "━".repeat(40),
+      "  小六壬 · 排盘",
+      "━".repeat(40),
+      "",
+      `起课法：${result.modeLabel || ""}`,
+      `月${result.month}日${result.day} 时辰：${shichenName?.name || ""}（${shichenName?.range || ""}）`,
+      "",
+      `落宫：${pal.name} ${pal.emoji}（${pal.position} · 五行${pal.element || ""}）`,
+      `掌诀释义：${pal.general || ""}`,
+      `吉凶：${pal.goodBad || ""} · 对应色：${pal.color || ""}`,
+      ...((result.steps || []).map((s: any) => `  ${s.label}：${s.text || ""}`)),
+      "",
+      `【掌诀细解】${pal.body || ""}`,
+    ];
+    const formatted = lines.join("\n");
+
+    // 真人大师式详批（有 key 时产出，无 key 静默降级）
+    const deepened = await masterDeepReading(
+      formatted,
+      "小六壬",
+      { year: 0, month: Number(result.month), day: Number(result.day), hour: 0 },
+      { 用事: "占问" }
+    );
 
     return NextResponse.json({
       success: true,
@@ -45,6 +72,8 @@ export async function POST(request: NextRequest) {
         color: pal.color,
       },
       allPalaces: PALACES,
+      formatted,
+      ...(deepened ? { _deepen: deepened } : {}),
     });
   } catch (err: any) {
     return NextResponse.json(

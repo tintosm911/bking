@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { meihuaDivination } from "@/lib/meihua_engine";
+import { masterDeepReading } from "@/lib/llm";
 
 // 天干对应数（甲1乙2丙3丁4戊5己6庚7辛8壬9癸10）与地支对应数（子1丑2…亥12）
 const GAN_NUM: Record<string, number> = {
@@ -65,8 +66,38 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "参数有误" }, { status: 400 });
     }
 
-    const result = meihuaDivination(upperNum, lowerNum, moveNum);
-    return NextResponse.json({ success: true, method, ...result });
+    const result = meihuaDivination(upperNum, lowerNum, moveNum) as any;
+
+    // 拼装排盘文本（供展示/TTS/详批数据源）
+    const lines = [
+      "━".repeat(40),
+      "  梅花易数 · 排盘",
+      "━".repeat(40),
+      "",
+      `起卦法：${method || ""}`,
+      "",
+      `本卦：${result.benName || ""}（${result.upperName || ""}上${result.lowerName || ""}下）`,
+      `互卦：${result.huName || ""}`,
+      `变卦：${result.bianName || ""}`,
+      `体用：体为${result.tiName || ""}（${result.tiWx || ""}），用为${result.yongName || ""}（${result.yongWx || ""}）`,
+      `体用关系：${result.relation || ""}`,
+      `动爻：第${result.moving || ""}爻动`,
+      `吉凶：${result.good || ""}（${result.score || ""}分）`,
+      "",
+      `【断卦】${result.verdict || ""}`,
+    ];
+    const formatted = lines.join("\n");
+
+    // 真人大师式详批
+    const deepened = await masterDeepReading(
+      formatted,
+      "梅花易数",
+      { year: 0, month: 0, day: 0, hour: 0 },
+      { 用事: "占问" }
+    );
+    if (deepened) Object.assign(result, { _deepen: deepened, formatted });
+
+    return NextResponse.json({ success: true, method, ...result, formatted });
   } catch (err: any) {
     return NextResponse.json(
       { error: `服务器错误: ${err.message}` },

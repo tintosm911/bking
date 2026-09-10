@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import TTSButton from "@/components/TTSButton";
 
 const LIUQIN_COLOR: Record<string, string> = {
   父母: "text-amber-300",
@@ -192,6 +193,25 @@ export default function LiuYaoPage() {
                 起卦日{result.date?.y}年{result.date?.m}月{result.date?.d}日 · 日干「{result.dayGan}」起六神
               </div>
             </div>
+
+            {/* 大师详批 */}
+            {(result._deepen || result.formatted) && (
+              <div className="glass rounded-2xl p-6 mb-6 border-gold/20">
+                <div className="flex items-center justify-center gap-3 mb-4">
+                  <h2 className="text-lg font-serif font-bold text-gold text-center">【大师详批】</h2>
+                  <TTSButton text={result._deepen || result.formatted} label="🔊 听解读" small />
+                </div>
+                {result._deepen && (
+                  <div className="rounded-xl border border-gold/20 bg-gold/5 p-4">
+                    <div className="text-xs text-gold/70 mb-2 tracking-wider">玄机大师 · 面对面详批</div>
+                    <div className="text-sm text-gray-100 leading-relaxed whitespace-pre-wrap">{result._deepen}</div>
+                  </div>
+                )}
+                {!result._deepen && result.formatted && (
+                  <div className="text-sm text-gray-100 leading-relaxed whitespace-pre-wrap">{result.formatted}</div>
+                )}
+              </div>
+            )}
 
             <div className="text-center">
               <button onClick={() => setResult(null)} className="btn-gold-outline px-6 py-3 rounded-xl text-sm">

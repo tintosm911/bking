@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import TTSButton from "@/components/TTSButton";
 
 interface TianjiMember {
   name: string;
@@ -418,6 +419,22 @@ export default function TianjiPage() {
                         </div>
                       )}
                     </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* 大师详批 */}
+            {(result._deepen || result.formatted) && (
+              <div className="glass rounded-2xl p-6 mb-6 border-gold/20">
+                <div className="flex items-center justify-center gap-3 mb-4">
+                  <h2 className="text-lg font-serif font-bold text-gold text-center">【大师详批】</h2>
+                  <TTSButton text={result._deepen || result.formatted} label="🔊 听解读" small />
+                </div>
+                {result._deepen && (
+                  <div className="rounded-xl border border-gold/20 bg-gold/5 p-4">
+                    <div className="text-xs text-gold/70 mb-2 tracking-wider">玄机大师 · 面对面详批</div>
+                    <div className="text-sm text-gray-100 leading-relaxed whitespace-pre-wrap">{result._deepen}</div>
                   </div>
                 )}
               </div>
