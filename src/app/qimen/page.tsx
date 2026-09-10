@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import DeepenReader from "@/components/DeepenReader";
 
 export default function QiMenPage() {
   const [form, setForm] = useState({ year: 2026, month: 8, day: 19, hour: 15 });
@@ -103,6 +104,16 @@ export default function QiMenPage() {
               <summary className="text-sm text-gold cursor-pointer font-bold">查看完整奇门盘</summary>
               <pre className="mt-4 text-xs text-gray-200 leading-relaxed whitespace-pre-wrap font-mono">{result.formatted}</pre>
             </details>
+
+            {/* 大师详批（免费摘要 + 付费完整） */}
+            {result._deepen && (
+              <div className="glass rounded-2xl p-6 mb-6 border-gold/20">
+                <div className="flex items-center justify-center mb-3">
+                  <h2 className="text-lg font-serif font-bold text-gold text-center">【大师详批】</h2>
+                </div>
+                <DeepenReader text={result._deepen} service="奇门详批" />
+              </div>
+            )}
 
             <div className="text-center">
               <button onClick={() => setResult(null)} className="btn-gold-outline px-6 py-3 rounded-xl text-sm">重新起局</button>

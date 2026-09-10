@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import DeepenReader from "@/components/DeepenReader";
 import TTSButton from "@/components/TTSButton";
 import { downloadReport } from "@/lib/downloadPdf";
 
@@ -262,9 +263,12 @@ export default function BaZiPage() {
                 <TTSButton text={result._deepen || result.formatted} label="🔊 听解读" small />
               </div>
               {result._deepen && (
-                <div className="mb-5 rounded-xl border border-gold/20 bg-gold/5 p-4">
-                  <div className="text-xs text-gold/70 mb-2 tracking-wider">玄机大师 · 深化解读</div>
-                  <div className="text-sm text-gray-100 leading-relaxed whitespace-pre-wrap">{result._deepen}</div>
+                <div className="mb-5">
+                  <DeepenReader
+                    text={result._deepen}
+                    service="八字详批"
+                    meta={{ 日主: result.日主, 四柱: result.四柱 }}
+                  />
                 </div>
               )}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">

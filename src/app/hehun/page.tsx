@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import DeepenReader from "@/components/DeepenReader";
 
 const DAYS = Array.from({ length: 31 }, (_, i) => i + 1);
 const HOURS = Array.from({ length: 24 }, (_, i) => i);
@@ -223,6 +224,16 @@ export default function HeHunPage() {
               <h3 className="text-gold font-serif font-bold text-center mb-3">大师总评</h3>
               <p className="text-gray-200 leading-relaxed text-center">{result.summary}</p>
             </div>
+
+            {/* 大师详批（免费摘要 + 付费完整） */}
+            {result._deepen && (
+              <div className="glass rounded-2xl p-6 mt-6 border-gold/20">
+                <div className="flex items-center justify-center mb-3">
+                  <h2 className="text-lg font-serif font-bold text-gold text-center">【大师详批】</h2>
+                </div>
+                <DeepenReader text={result._deepen} service="合婚详批" />
+              </div>
+            )}
 
             <div className="text-center">
               <button onClick={() => setResult(null)} className="btn-gold-outline px-6 py-3 rounded-xl text-sm">重新合婚</button>

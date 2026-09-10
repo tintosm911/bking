@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import DeepenReader from "@/components/DeepenReader";
 import TTSButton from "@/components/TTSButton";
 
 const LIUQIN_COLOR: Record<string, string> = {
@@ -202,10 +203,7 @@ export default function LiuYaoPage() {
                   <TTSButton text={result._deepen || result.formatted} label="🔊 听解读" small />
                 </div>
                 {result._deepen && (
-                  <div className="rounded-xl border border-gold/20 bg-gold/5 p-4">
-                    <div className="text-xs text-gold/70 mb-2 tracking-wider">玄机大师 · 面对面详批</div>
-                    <div className="text-sm text-gray-100 leading-relaxed whitespace-pre-wrap">{result._deepen}</div>
-                  </div>
+                  <DeepenReader text={result._deepen} service="详批" />
                 )}
                 {!result._deepen && result.formatted && (
                   <div className="text-sm text-gray-100 leading-relaxed whitespace-pre-wrap">{result.formatted}</div>

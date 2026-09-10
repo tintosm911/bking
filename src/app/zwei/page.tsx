@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { downloadReport } from "@/lib/downloadPdf";
 import { interpretZwei } from "@/lib/zwei_deep_engine";
+import DeepenReader from "@/components/DeepenReader";
 
 export default function ZWeiPage() {
   const [form, setForm] = useState({ year: 2000, month: 1, day: 1, hour: 12, gender: 1 });
@@ -289,6 +290,16 @@ export default function ZWeiPage() {
               <summary className="text-sm text-gold cursor-pointer font-bold">查看完整排盘明细</summary>
               <pre className="mt-4 text-xs text-gray-200 leading-relaxed whitespace-pre-wrap font-mono">{result.formatted}</pre>
             </details>
+
+            {/* 大师详批（免费摘要 + 付费完整） */}
+            {result._deepen && (
+              <div className="glass rounded-2xl p-6 mb-6 border-gold/20">
+                <div className="flex items-center justify-center mb-3">
+                  <h2 className="text-lg font-serif font-bold text-gold text-center">【大师详批】</h2>
+                </div>
+                <DeepenReader text={result._deepen} service="紫微详批" />
+              </div>
+            )}
 
             <div className="text-center">
               <button
