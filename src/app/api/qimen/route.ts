@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { qimenMasterPan } from '@/lib/qimen_engine';
+import { qimenMasterPan, formatQimenOutput } from '@/lib/qimen_engine';
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,6 +14,10 @@ export async function POST(request: NextRequest) {
     }
 
     const result = qimenMasterPan(dt);
+
+    // 生成排盘纯文本（供前端【基本信息】/【完整排盘】展示与 TTS 朗读）
+    Object.assign(result as any, { formatted: formatQimenOutput(result) });
+
     return NextResponse.json(result);
   } catch (err: any) {
     return NextResponse.json(
