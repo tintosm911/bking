@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { buildChart, formatChart } from '@/lib/zwei_engine';
+import { masterDeepReading } from '@/lib/llm';
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,6 +18,15 @@ export async function POST(request: NextRequest) {
 
     // 生成排盘纯文本（供前端【排盘】区展示与 TTS 朗读）
     Object.assign(result as any, { formatted: formatChart(result) });
+
+    // 真人大师式详批（有 key 时产出落地详批，无 key 静默降级）
+    const deepened = await masterDeepReading(
+      (result as any).formatted,
+      "紫微斗数",
+      { year: Number(year), month: Number(month), day: Number(day), hour: Number(hour) },
+      { gender: Number(gender) }
+    );
+    if (deepened) Object.assign(result as any, { _deepen: deepened });
 
     return NextResponse.json(result);
   } catch (err: any) {

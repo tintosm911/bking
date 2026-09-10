@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { hehunDivination } from "@/lib/hehun_engine";
+import { masterDeepReading } from "@/lib/llm";
 
 export async function POST(request: NextRequest) {
   try {
@@ -26,6 +27,43 @@ export async function POST(request: NextRequest) {
     const result = hehunDivination(m, w);
     if (manName) result.manName = String(manName);
     if (womanName) result.womanName = String(womanName);
+
+    // 拼装合婚排盘纯文本（供展示/TTS/详批数据源）
+    const r = result as any;
+    const manP = r.man?.["四柱"] ?? {};
+    const womanP = r.woman?.["四柱"] ?? {};
+    const lines = [
+      "━".repeat(40),
+      "  八字合婚 · 大师版排盘",
+      "━".repeat(40),
+      "",
+      `【男方】${r.manName || "男"}  四柱：${manP["年柱"]} / ${manP["月柱"]} / ${manP["日柱"]} / ${manP["时柱"]}`,
+      `【女方】${r.womanName || "女"}  四柱：${womanP["年柱"]} / ${womanP["月柱"]} / ${womanP["日柱"]} / ${womanP["时柱"]}`,
+      "",
+      `【合婚得分】${r.totalScore} 分 · ${r.grade} ${r.gradeIcon}`,
+      `【总评】${r.summary || ""}`,
+      "",
+      "【相合之处】",
+      ...((r.chiHe || []).map((x: string) => `  · ${x}`)),
+      "",
+      "【相冲相害】",
+      ...((r.chongHai || []).map((x: string) => `  · ${x}`)),
+      "",
+      "【分项评分】",
+      ...((r.items || []).map((x: any) => `  ${x.dim}：${x.score}分（${x.good}）${x.text ? "· " + x.text : ""}`)),
+    ];
+    const formatted = lines.join("\n");
+    Object.assign(r, { formatted });
+
+    // 真人大师式详批（有 key 时产出落地详批，无 key 静默降级）
+    const deepened = await masterDeepReading(
+      formatted,
+      "八字合婚",
+      { year: Number(w.year), month: Number(w.month), day: Number(w.day), hour: Number(w.hour) },
+      { 用事: "合婚配对" }
+    );
+    if (deepened) Object.assign(r, { _deepen: deepened });
+
     return NextResponse.json({ success: true, ...result });
   } catch (err: any) {
     return NextResponse.json(
